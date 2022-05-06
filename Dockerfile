@@ -6,4 +6,4 @@ WORKDIR /opt/app
 
 RUN bash ./ressources/install.sh
 
-CMD ["python", "-v"]
+CMD ["python3", "-v"]
