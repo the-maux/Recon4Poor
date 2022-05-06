@@ -3,7 +3,7 @@ name: Recon4Poor # all credits to KathanP19 -> https://github.com/KathanP19/JSFS
 on: [push]
 
 jobs:
-  JSFScan:
+  Scanning:
 
     runs-on: ubuntu-latest
     steps:

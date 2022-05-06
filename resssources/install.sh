@@ -31,18 +31,18 @@ cd /opt/JSFScan.sh/tools/LinkFinder && python3 ./setup.py install
 
 # install go resssources
 go get github.com/tomnomnom/waybackurls
-GO111MODULE=on go install -v github.com/tomnomnom/assetfinder
-GO111MODULE=on go install -v github.com/hakluke/hakrawler
-GO111MODULE=on go install -v github.com/jaeles-project/gospider
-GO111MODULE=on go install -v github.com/dwisiswant0/unew
+GO111MODULE=on go install -v github.com/tomnomnom/assetfinder@latest
+GO111MODULE=on go install -v github.com/hakluke/hakrawler@latest
+GO111MODULE=on go install -v github.com/jaeles-project/gospider@latest
+GO111MODULE=on go install -v github.com/dwisiswant0/unew@latest
 # GO111MODULE=on go get -u github.com/shenwei356/rush /!\ No need, because: 1 target only by contener
-GO111MODULE=on go install -v github.com/hiddengearz/jsubfinder
-GO111MODULE=on go install -v github.com/projectdiscovery/httpx/cmd/httpx
-GO111MODULE=on go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder
+GO111MODULE=on go install -v github.com/hiddengearz/jsubfinder@latest
+GO111MODULE=on go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+GO111MODULE=on go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 wget https://raw.githubusercontent.com/hiddengearz/jsubfinder/master/.jsf_signatures.yaml && mv .jsf_signatures.yaml ~/.jsf_signatures.yaml
-GO111MODULE=on go install -v github.com/projectdiscovery/chaos-client/cmd/chaos
-GO111MODULE=on go install github.com/lc/gau
-GO111MODULE=on go install github.com/lc/subjs
+GO111MODULE=on go install -v github.com/projectdiscovery/chaos-client/cmd/chaos@latest
+GO111MODULE=on go install -v github.com/lc/gau@latest
+GO111MODULE=on go install -v github.com/lc/subjs@latest
 
 cd /opt/JSFScan.sh/
 
