@@ -37,12 +37,10 @@ GO111MODULE=on go install -v github.com/projectdiscovery/chaos-client/cmd/chaos@
 GO111MODULE=on go install -v github.com/lc/gau@latest
 GO111MODULE=on go install -v github.com/lc/subjs@latest
 
-cd /opt/Recon4Poor/
-
-export HOME=/opt/JSFScan/
+export HOME=/opt/app/
 export GOPATH=$HOME/go/bin
 export PATH=$PATH:$GOPATH
-export OUTPUT_DIR=/opt/JSFScan
+export OUTPUT_DIR=/opt/app
 
 
 
