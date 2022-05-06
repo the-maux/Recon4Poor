@@ -2,7 +2,7 @@
 
 apt -y update && apt -y install python3 python3-pip && apt-get clean
 
-# install python resssources
+# install python ressources
 git clone https://github.com/codingo/Interlace.git
 git clone https://github.com/dark-warlord14/LinkFinder.git
 git clone https://github.com/m4ll0k/SecretFinder.git
@@ -22,7 +22,7 @@ cd Interlace && python3 ./setup.py install
 cd /opt/app/tools/LinkFinder && python3 ./setup.py install
 
 
-# install go resssources
+# install go ressources
 go get github.com/tomnomnom/waybackurls
 GO111MODULE=on go install -v github.com/tomnomnom/assetfinder@latest
 GO111MODULE=on go install -v github.com/hakluke/hakrawler@latest
