@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cd /opt/
-
 apt -y update && apt -y install python3 python3-pip && apt-get clean
 
 # install python resssources
@@ -21,7 +19,7 @@ cat requirement_all.txt | sort -u > requirements.txt
 cat requirements.txt
 pip3 install -r requirements.txt
 cd Interlace && python3 ./setup.py install
-cd /opt/JSFScan.sh/tools/LinkFinder && python3 ./setup.py install
+cd /opt/app/tools/LinkFinder && python3 ./setup.py install
 
 
 # install go resssources
@@ -39,7 +37,7 @@ GO111MODULE=on go install -v github.com/projectdiscovery/chaos-client/cmd/chaos@
 GO111MODULE=on go install -v github.com/lc/gau@latest
 GO111MODULE=on go install -v github.com/lc/subjs@latest
 
-cd /opt/JSFScan.sh/
+cd /opt/Recon4Poor/
 
 export HOME=/opt/JSFScan/
 export GOPATH=$HOME/go/bin

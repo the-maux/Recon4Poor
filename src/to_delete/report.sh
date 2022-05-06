@@ -300,7 +300,7 @@ echo -e '
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-theme-dark">
     <h4>JSFScan</h4>
-    <p>Developed with <i class="fa fa-heart"></i> by <a href="https://github.com/KathanP19/JSFScan.sh" target="_blank">KathanP19</a></p>
+    <p>Developed with <i class="fa fa-heart"></i> by <a href="https://github.com/KathanP19/Recon4Poor" target="_blank">KathanP19</a></p>
   </footer>
 
   <!-- End page content -->
