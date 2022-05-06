@@ -1,4 +1,4 @@
-name: JSFScan
+name: JSFScan # https://github.com/KathanP19/JSFScan.sh <3
 
 on: [push]
 
@@ -11,10 +11,10 @@ jobs:
 
     - name: Start the scan from docker image
       run: |  # TODO: error gestion to notify when env var not present
-        docker build -t themaux/jsfscan:local .
+        docker build -t scan:local .
         docker run -e GITHUB_PASSWD="${{ secrets.GITHUB_TOKEN }}"
         -e USER_EMAIL="${{ secrets.USER_EMAIL }}"
         -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}"
         -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}"
-        themaux/jsfscan:local
+        scan:local
 

@@ -1,10 +1,10 @@
 FROM golang:latest
 
 COPY ./install.sh .
-COPY . /opt/JSFScan.sh
 
 RUN bash ./install.sh
 
-WORKDIR /opt/JSFScan.sh
+WORKDIR /opt/app
+COPY . /opt/app
 
-CMD ["/bin/bash", "./recon.sh"]
+CMD ["python", "-v"]
