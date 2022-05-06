@@ -1,2 +1,2 @@
-def generate_report():
+def generate_report(domains, assets_found):
     return ""

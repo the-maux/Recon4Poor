@@ -1,4 +1,7 @@
-import subprocess
+import subprocess, os
+
+try: VERBOSE = 'True' in os.environ['VERBOSE']
+except Exception: VERBOSE = False
 
 
 def filter_bullshitssh(logs, bypassed_words=None):

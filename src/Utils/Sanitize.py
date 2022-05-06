@@ -1,4 +1,5 @@
 import os
+from src.Utils.Shell import VERBOSE
 
 
 def sanitize_my_domain(urls_lists):
@@ -12,13 +13,19 @@ def sanitize_my_domain(urls_lists):
 
 def sanity_check_at_startup():
     """
-        Check if target is alive
-        Check if all binary are present & configured
-        Check if all variable are present (TODO: Dynamic conf regarding the env var present)
+        [X] Check if target is alive
+        [X] Check if all binary are present & configured
+        [X] Check if all variable are present (TODO: Dynamic conf regarding the env var present)
     """
     try:
         target = os.environ['TARGET']
-        depth = os.environ['DEPTH']
-        return target, depth
     except Exception:
+        print('(ERROR) You need to set at least the vars env TARGET')
         exit(-1)
+    try:
+        if VERBOSE:
+            print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
+    except Exception:
+        if VERBOSE:
+            print('(WARNING) DEPTH analyse was not set, default is 1')
+        os.environ['DEPTH'] = 1
