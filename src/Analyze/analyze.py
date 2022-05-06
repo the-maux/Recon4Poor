@@ -40,7 +40,7 @@ def search_JS_files(domains):
     return sanitize_my_domain(listOfJsFiles)
 
 
-def analyse_result(results):
+def searching_assets(results):
     """ Santinize the results before the final report """
     results = list()
     sendMail(results)

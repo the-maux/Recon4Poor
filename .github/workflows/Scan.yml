@@ -1,4 +1,4 @@
-name: JSFScan # https://github.com/KathanP19/JSFScan.sh <3
+name: Recon4Poor # all credits to KathanP19 -> https://github.com/KathanP19/JSFScan.sh <3
 
 on: [push]
 

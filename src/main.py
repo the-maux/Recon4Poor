@@ -3,8 +3,9 @@ from src.Utils.Sanitize import sanitize_my_domain, sanity_check_at_startup
 from src.Scans.quick import quick_scan
 from src.Scans.regular import regular_scan
 from src.Scans.hard import hard_scan
-from src.Analyze.analyze import analyse_result
-
+from src.Analyze.analyze import searching_assets, search_JS_files
+from src.Analyze.report import generate_report
+from src.Analyze.send_report import sendMail
 
 def regroup_found_and_filter():
     """
@@ -38,6 +39,7 @@ def search_domains(target_domain, depth):
         regular_scan: # result TODO: les results ne doivent plus etre stocké dans des fichiers mais in memory
         hard_scan: # result
     """
+    print(f'Searching Domains on target(s): {target} with depth {depth}')
     if depth == 1:
         urls_list = quick_scan(target_domain)
     elif depth == 2:
@@ -50,13 +52,12 @@ def search_domains(target_domain, depth):
 
 def global_controller(target, depth):
     """
-    search_jsFile_from_domain_found
-      regroup_found_and_filter
-      cat urls.txt > report.html
+        From 1 domain, search for maximum subdomain than search for JS file
     """
-    print(f'Searching JSFiles on target(s): {target}')
-    results = search_domains(target, depth) # resulst est une list de subdomain (TODO: filtered by allowed scope)
-    analyse_result(results)  # TODO: searchin JS & Secret Here
+    domains = search_domains(target, depth) # resulst est une list de subdomain (TODO: filtered by allowed scope)
+    assets_found = search_JS_files(domains)  # TODO: searchin JS & Secret Here
+    report = generate_report(domains, assets_found)
+    sendMail(report)
 
 
 if __name__ == "__main__":
