@@ -19,7 +19,7 @@ cat requirement_all.txt | sort -u > requirements.txt
 cat requirements.txt
 pip3 install -r requirements.txt
 cd Interlace && python3 ./setup.py install
-cd /opt/app/tools/LinkFinder && python3 ./setup.py install
+cd /opt/app/LinkFinder && python3 ./setup.py install
 
 
 # install go ressources
