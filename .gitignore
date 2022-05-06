@@ -4,7 +4,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-./.idea
+.idea/
 # C extensions
 *.so
 
@@ -202,4 +202,5 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+/.idea/
 /.idea/

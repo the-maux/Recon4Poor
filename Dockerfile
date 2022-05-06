@@ -1,6 +1,6 @@
 FROM golang:latest
 
-COPY ./install.sh .
+COPY ./resssources/install.sh .
 
 RUN bash ./install.sh
 
