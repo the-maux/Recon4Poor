@@ -2,12 +2,7 @@
 
 cd /opt/
 
-git clone https://github.com/the-maux/JSFScan.sh.git
-
-# install python3 if not present
 apt -y update && apt -y install python3 python3-pip && apt-get clean
-
-cd /opt/JSFScan.sh/tools
 
 # install python resssources
 git clone https://github.com/codingo/Interlace.git
