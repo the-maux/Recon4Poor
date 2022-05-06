@@ -1,9 +1,9 @@
 FROM golang:latest
 
-WORKDIR /opt/app
-
 COPY . /opt/app
 
-RUN bash ./install.sh
+WORKDIR /opt/app
+
+RUN bash ./ressources/install.sh
 
 CMD ["python", "-v"]
