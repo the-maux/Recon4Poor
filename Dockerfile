@@ -8,4 +8,4 @@ RUN export PYTHONPATH=$PWD
 
 RUN bash ./ressources/install.sh
 
-CMD ["python3", "src/main.py"]
+CMD ["python3", "./src/main.py"]

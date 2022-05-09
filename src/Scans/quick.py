@@ -2,17 +2,6 @@ from threading import Thread
 from src.Utils.Shell import shell, VERBOSE
 
 
-def use_python_tool(tool_name='echo ', argv='', path=''):
-    # TODO: tu as oublié de faire la distinction entre python et pas python dans lexec
-    listResult = list()
-    print(f'(INFO) [+] Using tool with {tool_name}')
-    stdout, stderr, returncode = shell(f'python {path}{tool_name} {argv}')
-    if VERBOSE:
-        print(f'-----------------------------------------------------------------')
-        print(stdout)
-    return listResult  # TODO: mettre les dump *.txt dans la var listResult
-
-
 def use_assetfinder(target):
     """
         les resultats sont dnas le fichier: assetfinder_urls.txt
@@ -23,6 +12,25 @@ def use_assetfinder(target):
     return listResult  # TODO: mettre assetfinder_urls.txt in listResult
 
 
+def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
+    """
+        - Use a specific tool do search subdomain, dump it ot results.txt
+        - convert results.txt as python list
+        - remove results.txt
+    """
+    listResult = list()
+    print(f'(INFO) [+] Using tool with {tool_name}')
+    cmd = f'python {path}{tool_name} {argv}'
+    stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
+    if VERBOSE:
+        print(f'-----------------------------------------------------------------')
+        print(stdout)
+        print(stderr)
+        print('rm -f ./results.txt')
+    shell('rm -vf ./results.txt')
+    return listResult  # TODO: mettre les dump *.txt dans la var listResult
+
+
 def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
     """
         Seach for a single domain all domain possible
@@ -31,10 +39,10 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     print('(DEBUG) Searching with chaos & gau & subjs & hakrawler & assetfinder & gospider')
 
     domains_found_SubDomainizer = use_python_tool(path='./tools/SubDomainizer/', tool_name='SubDomainizer.py',
-                                                  argv=' -l target.txt -o SubDomainizer.txt -san all  &> nooutput')
+                                                  argv=' -l target.txt -o results.txt -san all  &> nooutput')
     print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
 
-    domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent')  # > subfinder.txt
+    domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
     print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
     domains_found_Sublist3r = use_python_tool(path='./tools/Sublist3r/', tool_name='sublist3r.py',
@@ -43,6 +51,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 
     domains_found_assetfinder = use_assetfinder(target)
     print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
+    #TODO: aucune variable n'est retourné jte signale
 
 
 def quick_scan(target):

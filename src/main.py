@@ -40,9 +40,9 @@ def search_domains(target_domain, depth):
         hard_scan: # result
     """
     print(f'Searching Domains on target(s): {target} with depth {depth}')
-    if depth == 1:
+    if depth == "1":
         urls_list = quick_scan(target_domain)
-    elif depth == 2:
+    elif depth == "2":
         urls_list = regular_scan(target_domain)
     else:
         urls_list = hard_scan(target_domain)
@@ -55,7 +55,11 @@ def global_controller(target, depth):
         From 1 domain, search for maximum subdomain than search for JS file
     """
     domains = search_domains(target, depth) # resulst est une list de subdomain (TODO: filtered by allowed scope)
-    assets_found = search_JS_files(domains)  # TODO: searchin JS & Secret Here
+    if len(domains) < 1:
+        print('(ERROR) no subdomain found for this target')
+        exit(-1)
+    assets_found = search_JS_files(domains)
+    # TODO: searchin JS & Secret Here
     report = generate_report(domains, assets_found)
     sendMail(report)
 
@@ -63,7 +67,4 @@ def global_controller(target, depth):
 if __name__ == "__main__":
     # TODO: install check, if not present, start it
     target, depth = sanity_check_at_startup()
-    try:
-        global_controller(target, depth)
-    except Exception:
-        print(f'You need to set the var $TARGET & $DEPTH to run it :)')
+    global_controller(target, depth)
