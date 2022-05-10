@@ -1,0 +1,19 @@
+name: Update image dependency
+
+on:
+  push:
+    branches:
+      - build_img
+
+jobs:
+  Scanning:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Start the scan from ghcr image
+      run: |
+        echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
+        docker build -t ghcr.io/the-maux/recoon4poor:0.0.1 .
+        docker push ghcr.io/the-maux/recoon4poor:0.0.1
