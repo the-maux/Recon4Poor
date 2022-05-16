@@ -22,7 +22,7 @@ def shell(cmd):
         Exec shell cmd & filter outputs
         :return: stdout, stderror, & exit_status
     """
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash')
     (stdout, stderr) = p.communicate()
     p.wait()
     stdout = filter_bullshitssh(stdout)
