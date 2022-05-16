@@ -14,6 +14,13 @@ jobs:
 
     - name: Start the scan from ghcr image
       run: |
-        echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
         docker build -t ghcr.io/the-maux/recoon4poor:0.0.1 .
-        docker push ghcr.io/the-maux/recoon4poor:0.0.1
+        docker run -e GITHUB_PASSWD="${{ secrets.GITHUB_TOKEN }}" \
+                -e USER_EMAIL="${{ secrets.USER_EMAIL }}" \
+                -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
+                -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}" \
+                ghcr.io/the-maux/recoon4poor:0.0.1
+
+#You can't because it's a private repository, need to wait to be private
+#echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
+#docker push ghcr.io/the-maux/recoon4poor:0.0.1
