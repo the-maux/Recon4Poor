@@ -19,6 +19,8 @@ jobs:
                 -e USER_EMAIL="${{ secrets.USER_EMAIL }}" \
                 -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
                 -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}" \
+                -e TARGET="${{ secrets.TARGET }}" \
+                -e DEPTH="${{ secrets.DEPTH }}" \
                 ghcr.io/the-maux/recoon4poor:0.0.1
 
 #You can't because it's a private repository, need to wait to be private
