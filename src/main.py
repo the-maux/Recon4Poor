@@ -40,6 +40,7 @@ def search_domains(target_domain, depth):
         hard_scan: # result
     """
     print(f'Searching Domains on target(s): {target} with depth {depth}')
+    os.system(f'echo "{target_domain}" >> target.txt')
     if depth == "1":
         urls_list = quick_scan(target_domain)
     elif depth == "2":

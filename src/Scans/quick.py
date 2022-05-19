@@ -20,11 +20,11 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
         - remove results.txt
     """
     listResult = list()
+    print(f'\n\n-----------------------------------------------------------------')
     print(f'(INFO) [+] Using tool with {tool_name}')
     cmd = f'python {path}{tool_name} {argv}'
     stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
     if VERBOSE:
-        print(f'-----------------------------------------------------------------')
         print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
         print(f'(DEBUG) stdout >\n {stdout}')
         print(f'(DEBUG) stderr >\n {stderr}')
