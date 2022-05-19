@@ -9,6 +9,7 @@ git clone https://github.com/dark-warlord14/LinkFinder.git
 git clone https://github.com/m4ll0k/SecretFinder.git
 git clone https://github.com/nsonaniya2010/SubDomainizer.git
 git clone https://github.com/aboul3la/Sublist3r.git
+# https://github.com/duty1g/subcat # TODO: seems really cool to integrate
 
 cat ./Interlace/requirements.txt > requirement_all.txt
 cat ./SecretFinder/requirements.txt | grep -v "requests" >> requirement_all.txt

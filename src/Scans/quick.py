@@ -24,8 +24,9 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
     stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
     if VERBOSE:
         print(f'-----------------------------------------------------------------')
-        print(stdout)
-        print(stderr)
+        print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
+        print(f'(DEBUG) stdout > {stdout}')
+        print(f'(DEBUG) stderr > {stderr}')
         print('rm -f ./results.txt')
     shell('rm -vf ./results.txt')
     return listResult  # TODO: mettre les dump *.txt dans la var listResult
