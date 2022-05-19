@@ -26,8 +26,8 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
     if VERBOSE:
         print(f'-----------------------------------------------------------------')
         print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
-        print(f'(DEBUG) stdout > {stdout}')
-        print(f'(DEBUG) stderr > {stderr}')
+        print(f'(DEBUG) stdout >\n {stdout}')
+        print(f'(DEBUG) stderr >\n {stderr}')
         print(f'(DEBUG) return status code  > {returncode}')
         print('rm -f ./results.txt')
     shell('rm -vf ./results.txt')
@@ -60,8 +60,6 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 
 def quick_scan(target):
     results = list()
-    os.system('pip --version')
-    os.system('pip list')
     search_4_domains(target)
 
     return results
