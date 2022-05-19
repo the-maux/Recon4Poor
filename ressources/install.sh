@@ -17,7 +17,7 @@ cat ./LinkFinder/requirements.txt >> requirement_all.txt
 cat ./Sublist3r/requirements.txt >> requirement_all.txt
 cat ./SubDomainizer/requirements.txt | grep -v "requests" | grep -v "argparse" >> requirement_all.txt
 echo "colorama" >> requirement_all.txt
-cat requirement_all.txt | sort -u > r equirements.txt
+cat requirement_all.txt | sort -u > requirements.txt
 cat requirements.txt
 pip install -r requirements.txt
 cd Interlace && python3 ./setup.py install
