@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-apt -y update && apt -y install python3 python3-pip wget git && apt-get clean
+apt -y update && apt -y install python3 python3-pip wget git && apt-get clean  # pk jai pas de python :(
+ln -s /usr/bin/python3 /usr/bin/python
 
 # install python ressources
 git clone https://github.com/codingo/Interlace.git
@@ -15,7 +16,7 @@ cat ./LinkFinder/requirements.txt >> requirement_all.txt
 cat ./Sublist3r/requirements.txt >> requirement_all.txt
 cat ./SubDomainizer/requirements.txt | grep -v "requests" | grep -v "argparse" >> requirement_all.txt
 echo "colorama" >> requirement_all.txt
-cat requirement_all.txt | sort -u > requirements.txt
+cat requirement_all.txt | sort -u > r equirements.txt
 cat requirements.txt
 pip3 install -r requirements.txt
 cd Interlace && python3 ./setup.py install
