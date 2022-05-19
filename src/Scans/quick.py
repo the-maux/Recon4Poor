@@ -42,8 +42,9 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
                                                   argv=' -l target.txt -o results.txt -san all  &> nooutput')
     print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
 
-    domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
-    print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
+    # TODO: subfinder cest du go boufon
+    # domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
+    # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
     domains_found_Sublist3r = use_python_tool(path='./tools/Sublist3r/', tool_name='sublist3r.py',
                                               argv=f'-d {target} -o sublist3r.txt &> nooutput')  #  -o sublist3r.txt
