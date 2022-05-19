@@ -43,6 +43,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 
     domains_found_SubDomainizer = use_python_tool(path='SubDomainizer/', tool_name='SubDomainizer.py',
                                                   argv=' -l target.txt -o results.txt -san all ') # &> nooutput
+    # TODO: SubDomainizer a etre mieux configurer, rester dans le scope du search subdomain, rien de plus 
     print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
 
     # TODO: subfinder cest du go boufon
