@@ -60,6 +60,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 
 def quick_scan(target):
     results = list()
+    os.system('pip --version')
     os.system('pip list')
     search_4_domains(target)
 
