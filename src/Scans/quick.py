@@ -27,6 +27,7 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
         print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
         print(f'(DEBUG) stdout > {stdout}')
         print(f'(DEBUG) stderr > {stderr}')
+        print(f'(DEBUG) return status code  > {returncode}')
         print('rm -f ./results.txt')
     shell('rm -vf ./results.txt')
     return listResult  # TODO: mettre les dump *.txt dans la var listResult
@@ -40,7 +41,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     print('(DEBUG) Searching with chaos & gau & subjs & hakrawler & assetfinder & gospider')
 
     domains_found_SubDomainizer = use_python_tool(path='./tools/SubDomainizer/', tool_name='SubDomainizer.py',
-                                                  argv=' -l target.txt -o results.txt -san all  &> nooutput')
+                                                  argv=' -l target.txt -o results.txt -san all ') # &> nooutput
     print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
 
     # TODO: subfinder cest du go boufon
@@ -48,7 +49,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
     domains_found_Sublist3r = use_python_tool(path='./tools/Sublist3r/', tool_name='sublist3r.py',
-                                              argv=f'-d {target} -o sublist3r.txt &> nooutput')  #  -o sublist3r.txt
+                                              argv=f'-d {target} -o sublist3r.txt')  #  -o sublist3r.txt  &> nooutput
     print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
 
     domains_found_assetfinder = use_assetfinder(target)
