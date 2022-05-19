@@ -20,7 +20,7 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
     """
     listResult = list()
     print(f'(INFO) [+] Using tool with {tool_name}')
-    cmd = f'python {tool_name} {argv}'
+    cmd = f'python {path}{tool_name} {argv}'
     stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
     if VERBOSE:
         print(f'-----------------------------------------------------------------')
@@ -40,7 +40,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     """
     print('(DEBUG) Searching with chaos & gau & subjs & hakrawler & assetfinder & gospider')
 
-    domains_found_SubDomainizer = use_python_tool(path='./tools/SubDomainizer/', tool_name='SubDomainizer.py',
+    domains_found_SubDomainizer = use_python_tool(path='SubDomainizer/', tool_name='SubDomainizer.py',
                                                   argv=' -l target.txt -o results.txt -san all ') # &> nooutput
     print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
 
@@ -48,7 +48,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     # domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
     # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
-    domains_found_Sublist3r = use_python_tool(path='./tools/Sublist3r/', tool_name='sublist3r.py',
+    domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
                                               argv=f'-d {target} -o sublist3r.txt')  #  -o sublist3r.txt  &> nooutput
     print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
 
