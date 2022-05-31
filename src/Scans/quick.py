@@ -40,8 +40,8 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
         Seach for a single domain all domain possible
         TODO: multiThread ?
     """
-    subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
-                                enable_bruteforce=False, engines=None, threads=8)
+    # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
+    #                             enable_bruteforce=False, engines=None, threads=8)
     domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
                                               argv=f'-d {target} -o sublist3r.txt')  #  -o sublist3r.txt  &> nooutput
     print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
