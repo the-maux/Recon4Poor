@@ -1,3 +1,4 @@
+import os
 from threading import Thread
 from src.Utils.Shell import shell, VERBOSE
 
@@ -14,21 +15,28 @@ def use_assetfinder(target):
 
 def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
     """
-        - Use a specific tool do search subdomain, dump it ot results.txt
-        - convert results.txt as python list
-        - remove results.txt
+        Use a specific python tool to do a search subdomain, dump founds in results.txt file
+        TOKNOW: convert results.txt as python list
+        TOKNOW: remove the results.txt in current workspace
+        return: list of strings who was inside the result.txt
     """
     listResult = list()
+    print(f'\n\n-----------------------------------------------------------------')
     print(f'(INFO) [+] Using tool with {tool_name}')
     cmd = f'python {path}{tool_name} {argv}'
     stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
     if VERBOSE:
-        print(f'-----------------------------------------------------------------')
-        print(stdout)
-        print(stderr)
-        print('rm -f ./results.txt')
+        print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
+        print(f'(DEBUG) stdout >\n {stdout}')
+        print(f'(DEBUG) stderr >\n {stderr}')
+        print(f'(DEBUG) return status code  > {returncode}')
+    print('---------------------------------------------------------------------------------------')
+    print('(DEBUG) cat ./results.txt')
+    os.system('cat ./results.txt')
+    print('---------------------------------------------------------------------------------------')
+    print('(DEBUG) rm -vf ./results.txt')
     shell('rm -vf ./results.txt')
-    return listResult  # TODO: mettre les dump *.txt dans la var listResult
+    return listResult
 
 
 def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
@@ -36,22 +44,25 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
         Seach for a single domain all domain possible
         TODO: multiThread ?
     """
-    print('(DEBUG) Searching with chaos & gau & subjs & hakrawler & assetfinder & gospider')
-
-    domains_found_SubDomainizer = use_python_tool(path='./tools/SubDomainizer/', tool_name='SubDomainizer.py',
-                                                  argv=' -l target.txt -o results.txt -san all  &> nooutput')
-    print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
-
-    domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
-    print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
-
-    domains_found_Sublist3r = use_python_tool(path='./tools/Sublist3r/', tool_name='sublist3r.py',
-                                              argv=f'-d {target} -o sublist3r.txt &> nooutput')  #  -o sublist3r.txt
+    # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
+    #                             enable_bruteforce=False, engines=None, threads=8)
+    domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
+                                              argv=f'-d {target} -o ./results.txt')  # &> nooutput
     print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
 
-    domains_found_assetfinder = use_assetfinder(target)
-    print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
-    #TODO: aucune variable n'est retourné jte signale
+    # domains_found_assetfinder = use_assetfinder(target)
+    # print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
+    # #TODO: aucune variable n'est retourné jte signale
+    #
+    # cmd = ' -l target.txt -o results.txt -san all '
+    # domains_found_SubDomainizer = use_python_tool(path='SubDomainizer/', tool_name='SubDomainizer.py',
+    #                                               argv=cmd) # &> nooutput
+    # # TODO: SubDomainizer a etre mieux configurer, rester dans le scope du search subdomain, rien de plus
+    # print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
+
+    # TODO: subfinder cest du go boufon
+    # domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
+    # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
 
 def quick_scan(target):

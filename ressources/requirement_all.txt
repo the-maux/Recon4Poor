@@ -1,0 +1,16 @@
+colorclass==2.2.0
+netaddr==0.7.20
+tqdm==4.62.3
+jsbeautifier
+lxml
+jsbeautifier
+argparse
+dnspython
+requests
+termcolor==1.1.0
+beautifulsoup4==4.6.3
+htmlmin==0.1.12
+tldextract==2.2.0
+colorama==0.4.4
+cffi
+colorama

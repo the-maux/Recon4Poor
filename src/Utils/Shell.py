@@ -14,7 +14,7 @@ def filter_bullshitssh(logs, bypassed_words=None):
     if bypassed_words is None:
         bypassed_words = ['setlocale: LC_CTYPE: cannot change locale',
                           'Warning: Permanently added']
-    return ''.join([log for log in logs.split('\n') if not any([word in log for word in bypassed_words])])
+    return '\n'.join([log for log in logs.split('\n') if not any([word in log for word in bypassed_words])])
 
 
 def shell(cmd):
@@ -22,7 +22,7 @@ def shell(cmd):
         Exec shell cmd & filter outputs
         :return: stdout, stderror, & exit_status
     """
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash')
     (stdout, stderr) = p.communicate()
     p.wait()
     stdout = filter_bullshitssh(stdout)

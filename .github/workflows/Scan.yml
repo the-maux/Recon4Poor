@@ -1,21 +1,31 @@
-name: Recon4Poor # all credits to KathanP19 -> https://github.com/KathanP19/Recon4Poor <3
+#name: Start Scan on target
+#
+#on:
+#  push:
+#    branches:
+#      - develop
+#
+#jobs:
+#  Scanning:
+#
+#    runs-on: ubuntu-latest
+#    container:
+#      image: ghcr.io/the-maux/recoon4poor:0.0.1
+#      options: -v ${{ github.workspace }}:/opt/app
+#      credentials:
+#        username: ${{ github.actor }}
+#        password: ${{ secrets.SVC_TOKEN }}
+#    env:
+#      GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
+#      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+#      USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+#      CHAOS_KEY: ${{ secrets.CHAOS_KEY }}
+#      TARGET: ${{ secrets.TARGET }}
+#      DEPTH: ${{ secrets.DEPTH }}
+#    steps:
+#      - uses: actions/checkout@v1
+#
+#      - name: Start the scan from docker image
+#        run: |
+#          python src/main.py
 
-on: [push]
-
-jobs:
-  Scanning:
-
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-
-    - name: Start the scan from docker image
-      run: |  # TODO: error gestion to notify when env var not present
-        docker build -t scan:local .
-        docker run -e GITHUB_PASSWD="${{ secrets.GITHUB_TOKEN }}" \
-        -e USER_EMAIL="${{ secrets.USER_EMAIL }}" \
-        -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
-        -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}" \
-        -e TARGET="${{ secrets.TARGET }}" \
-        -e DEPTH="${{ secrets.DEPTH }}" \
-        scan:local
