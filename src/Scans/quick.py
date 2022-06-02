@@ -31,6 +31,7 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
         print(f'(DEBUG) stderr >\n {stderr}')
         print(f'(DEBUG) return status code  > {returncode}')
     print('---------------------------------------------------------------------------------------')
+    os.system('pwd;ls')
     print('(DEBUG) cat ./results.txt')
     os.system('cat ./results.txt')
     print('---------------------------------------------------------------------------------------')
