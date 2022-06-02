@@ -1,0 +1,15 @@
+argparse
+beautifulsoup4==4.6.3
+cffi
+colorama
+colorama==0.4.4
+colorclass==2.2.0
+dnspython
+htmlmin==0.1.12
+jsbeautifier
+lxml
+netaddr==0.7.20
+requests
+termcolor==1.1.0
+tldextract==2.2.0
+tqdm==4.62.3

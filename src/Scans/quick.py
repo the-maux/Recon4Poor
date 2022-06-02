@@ -15,9 +15,10 @@ def use_assetfinder(target):
 
 def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
     """
-        - Use a specific tool do search subdomain, dump it ot results.txt
-        - convert results.txt as python list
-        - remove results.txt
+        Use a specific python tool to do a search subdomain, dump founds in results.txt file
+        TOKNOW: convert results.txt as python list
+        TOKNOW: remove the results.txt in current workspace
+        return: list of strings who was inside the result.txt
     """
     listResult = list()
     print(f'\n\n-----------------------------------------------------------------')
@@ -29,9 +30,13 @@ def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
         print(f'(DEBUG) stdout >\n {stdout}')
         print(f'(DEBUG) stderr >\n {stderr}')
         print(f'(DEBUG) return status code  > {returncode}')
-        print('rm -f ./results.txt')
+    print('---------------------------------------------------------------------------------------')
+    print('(DEBUG) cat ./results.txt')
+    os.system('cat ./results.txt')
+    print('---------------------------------------------------------------------------------------')
+    print('(DEBUG) rm -vf ./results.txt')
     shell('rm -vf ./results.txt')
-    return listResult  # TODO: mettre les dump *.txt dans la var listResult
+    return listResult
 
 
 def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
@@ -42,7 +47,7 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
     #                             enable_bruteforce=False, engines=None, threads=8)
     domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
-                                              argv=f'-d {target} -o sublist3r.txt')  #  -o sublist3r.txt  &> nooutput
+                                              argv=f'-d {target} -o ./results.txt')  # &> nooutput
     print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
 
     # domains_found_assetfinder = use_assetfinder(target)

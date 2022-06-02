@@ -59,10 +59,10 @@ def global_controller(target, depth):
     if len(domains) < 1:
         print('(ERROR) no subdomain found for this target')
         exit(-1)
-    assets_found = search_JS_files(domains)
-    # TODO: searchin JS & Secret Here
-    report = generate_report(domains, assets_found)
-    sendMail(report)
+    # assets_found = search_JS_files(domains)
+    # # TODO: searchin JS & Secret Here
+    # report = generate_report(domains, assets_found)
+    # sendMail(report)
 
 
 if __name__ == "__main__":
