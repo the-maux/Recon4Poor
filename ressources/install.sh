@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-apt -y update && apt -y install python3 python3-pip wget git && apt-get clean  # pk jai pas de python :(
+apt -y update && apt -y install python3 python3-pip wget git && apt-get clean
 ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 
 # install python ressources

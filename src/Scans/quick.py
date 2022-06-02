@@ -1,5 +1,4 @@
 import os
-#import sublist3r
 from threading import Thread
 from src.Utils.Shell import shell, VERBOSE
 
