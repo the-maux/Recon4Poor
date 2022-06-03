@@ -4,8 +4,8 @@ COPY . /opt/app
 
 WORKDIR /opt/app
 
-ENV PATH="/usr/local/go/bin:${PATH}"
-ENV PYTHONPATH="/opt/app"
+ENV PATH="/usr/local/go/bin:${PATH}"  # TODO: in the install.sh
+ENV PYTHONPATH="/opt/app"  # TODO: in the install.sh
 
 RUN bash ./ressources/install.sh
 
