@@ -27,7 +27,7 @@ wget https://go.dev/dl/go1.18.2.linux-amd64.tar.gz && tar -xf go1.18.2.linux-amd
 mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
 
 
-# install go ressources
+# GO ressources
 go install github.com/tomnomnom/waybackurls@latest  &> nooutput
 #go install github.com/tomnomnom/assetfinder@latest
 #go install github.com/hakluke/hakrawler@latest
