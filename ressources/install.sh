@@ -51,3 +51,5 @@ export HOME=/opt/app/
 export GOPATH=$HOME/go/bin
 export PATH=$PATH:$GOPATH
 export OUTPUT_DIR=/opt/app
+
+# rm -f go1.18.3.linux-amd64.tar.gz Dockerfile Release nooutput # TODO: clean !!
