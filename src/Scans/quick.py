@@ -47,9 +47,9 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     """
     # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
     #                             enable_bruteforce=False, engines=None, threads=8)
-    domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
-                                              argv=f'-d {target} -o ./results.txt')  # &> nooutput
-    print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
+    # domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
+    #                                           argv=f'-d {target} -o ./results.txt')  # &> nooutput
+    # print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
 
     # domains_found_assetfinder = use_assetfinder(target)
     # print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
@@ -66,22 +66,33 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
 
+def search_4_domains_go(target):
+    shell(f'echo "{target}" | waybackurls  > ./results')
+    print('---------------------------------------------------------------------------------------')
+    os.system('pwd;ls')
+    print('(DEBUG) cat ./results.txt')
+    os.system('cat ./results.txt')
+    print('---------------------------------------------------------------------------------------')
+    print('(DEBUG) rm -vf ./results.txt')
+    shell('rm -f ./results.txt')
+
+
 def quick_scan(target):
     results = list()
-    search_4_domains(target)
+    search_4_domains_go(target)
 
     return results
 
 
-def quick_scan_parrall(target): # ca dump dans des fichiers, mais il faut le recup in memory mais cest en thread :/
-    listOfToolsToExec = list()
-    p1 = Thread(target=use_python_tool, args=('./tools/SubDomainizer/', 'SubDomainizer.py', ' -l target.txt -o SubDomainizer.txt -san all  &> nooutput'))
-    p2 = Thread(target=use_python_tool, args=('subfinder', f'-d {target} -silent'))
-    p3 = Thread(target=use_python_tool, args=('./tools/Sublist3r/', 'sublist3r.py', f'-d {target} -o sublist3r.txt &> nooutput'))
-    p4 = Thread(target=use_assetfinder, args=(target))
-    listOfToolsToExec.append(p1)
-    listOfToolsToExec.append(p2)
-    listOfToolsToExec.append(p3)
-    listOfToolsToExec.append(p4)
-    [process.start() for process in listOfToolsToExec]
-    [process.join() for process in listOfToolsToExec]
+# def quick_scan_parrall(target): # ca dump dans des fichiers, mais il faut le recup in memory mais cest en thread :/
+#     listOfToolsToExec = list()
+#     p1 = Thread(target=use_python_tool, args=('./tools/SubDomainizer/', 'SubDomainizer.py', ' -l target.txt -o SubDomainizer.txt -san all  &> nooutput'))
+#     p2 = Thread(target=use_python_tool, args=('subfinder', f'-d {target} -silent'))
+#     p3 = Thread(target=use_python_tool, args=('./tools/Sublist3r/', 'sublist3r.py', f'-d {target} -o sublist3r.txt &> nooutput'))
+#     p4 = Thread(target=use_assetfinder, args=(target))
+#     listOfToolsToExec.append(p1)
+#     listOfToolsToExec.append(p2)
+#     listOfToolsToExec.append(p3)
+#     listOfToolsToExec.append(p4)
+#     [process.start() for process in listOfToolsToExec]
+#     [process.join() for process in listOfToolsToExec]
