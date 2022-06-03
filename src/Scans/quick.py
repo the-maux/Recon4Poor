@@ -1,5 +1,6 @@
 import os
 from threading import Thread
+from src.Analyze.filter_endpoint import filter_all
 from src.Utils.Shell import shell, VERBOSE
 
 
@@ -67,17 +68,20 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 
 
 def search_4_domains_go(target):
-    stdout, stderr, returncode = shell(f'echo "{target}" | waybackurls  > ./results')
+    listOfResult = list()
+    stdout, stderr, returncode = shell(f'echo "{target}" | waybackurls')
     print(stdout)
     print(stderr)
     print(returncode)
     print('---------------------------------------------------------------------------------------')
-    os.system('pwd;ls')
-    print('(DEBUG) cat ./results')
-    os.system('cat ./results')
+    print(f' waybackurls stdout a trouver {len(stdout)} endpoint')
+    urls = filter_all(stdout)
+    print(f' Aprés le filter on a toujours  {len(stdout)} endpoint')
     print('---------------------------------------------------------------------------------------')
-    print('(DEBUG) rm -vf ./results')
-    shell('rm -f ./results')
+    # print('(DEBUG) rm -vf ./results')
+    # shell('rm -f ./results')
+    listOfResult.append(urls)
+    return listOfResult
 
 
 def quick_scan(target):
