@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-apt -y update && apt -y install python3 python3-pip wget git && apt-get clean
+apt -y update &> nooutput &> nooutput
+apt -y install python3 python3-pip wget git &> nooutput
+apt-get clean &> nooutput
 ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 
 ## install python ressources
@@ -23,7 +25,7 @@ ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 #cd Interlace && python3 ./setup.py install
 #cd /opt/app/LinkFinder && python3 ./setup.py install
 
-wget https://go.dev/dl/go1.18.2.linux-amd64.tar.gz && tar -xf go1.18.2.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz && export PATH=$PATH:/usr/local/go/bin
 mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
 
 
