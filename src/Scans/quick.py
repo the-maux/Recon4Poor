@@ -70,9 +70,6 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 def search_4_domains_go(target):
     listOfResult = list()
     stdout, stderr, returncode = shell(f'echo "{target}" | waybackurls')
-    print(stdout)
-    print(stderr)
-    print(returncode)
     print('---------------------------------------------------------------------------------------')
     print(f' waybackurls stdout a trouver {len(stdout)} endpoint')
     urls = filter_all(stdout)
