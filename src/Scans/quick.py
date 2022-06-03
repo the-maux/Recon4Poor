@@ -67,7 +67,11 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
 
 
 def search_4_domains_go(target):
-    shell(f'echo "{target}" | waybackurls  > ./results')
+
+    stdout, stderr, returncode = shell(f'echo "{target}" | waybackurls  > ./results')
+    print(stdout)
+    print(stderr)
+    print(returncode)
     print('---------------------------------------------------------------------------------------')
     os.system('pwd;ls')
     print('(DEBUG) cat ./results.txt')
