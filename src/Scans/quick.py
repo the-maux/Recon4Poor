@@ -74,10 +74,10 @@ def search_4_domains_go(target):
     print('---------------------------------------------------------------------------------------')
     os.system('pwd;ls')
     print('(DEBUG) cat ./results')
-    os.system('cat ./results.txt')
+    os.system('cat ./results')
     print('---------------------------------------------------------------------------------------')
     print('(DEBUG) rm -vf ./results')
-    shell('rm -f ./results.txt')
+    shell('rm -f ./results')
 
 
 def quick_scan(target):
