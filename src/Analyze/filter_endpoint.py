@@ -10,6 +10,7 @@ def filter_all(urls):
     """ filter port / http:// / https://
     """
     results = list()
+    print(f'(DEBUG) Starting to filter urls ({len(urls)})')
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace(":80", "").replace(":443", "")
         try:
@@ -17,6 +18,7 @@ def filter_all(urls):
         except ValueError:
             pass
         results.append(filtered)
+    print(f'(DEBUG) Returning urls ({len(list(set(results)))})')
     return list(set(results))
 
 

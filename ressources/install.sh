@@ -32,7 +32,7 @@ mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
 # GO ressources
 # because of https://github.com/tomnomnom/waybackurls/issues/41 we cant go install normaly
 # go install github.com/tomnomnom/waybackurls@latest  &> nooutput
-git clone https://github.com/tomnomnom/waybackurls.git && cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls
+git clone https://github.com/tomnomnom/waybackurls.git && cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
 
 #go install github.com/tomnomnom/assetfinder@latest
 #go install github.com/hakluke/hakrawler@latest
