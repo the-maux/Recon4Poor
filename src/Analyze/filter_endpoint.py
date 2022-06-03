@@ -1,8 +1,10 @@
 def basic_filter_endpoint(urls):
     result = list()
     for url in urls:
-        if "" in url:
+        if "putass" in url:
+            result.append(url)
     return result
+
 
 def filter_all(urls):
     """ filter port / http:// / https://
