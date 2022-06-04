@@ -67,23 +67,34 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
 
 
+def parse_result_txt():
+    """ open result.txt and return the content as list(String) """
+    return list()
+
+
+def exec_go_tools(cmd, usefFile=False):
+    stdout, stderr, returncode = shell(cmd)
+    if usefFile:
+        urls = parse_result_txt()
+        print('(DEBUG) rm -vf ./results')
+        shell('rm -f ./results')
+    else:
+        urls = stdout.split('\n')
+    urls = filter_all(urls)
+    return urls
+
+
 def search_4_domains_go(target):
-    listOfResult = list()
-    stdout, stderr, returncode = shell(f'echo "{target}" | waybackurls')
-    print('---------------------------------------------------------------------------------------')
-    print(f' waybackurls stdout a trouver {len(stdout)} endpoint')
-    urls = filter_all(stdout.split('\n'))
-    print(f' Aprés le filter on a toujours  {urls} endpoint')
-    print('---------------------------------------------------------------------------------------')
-    # print('(DEBUG) rm -vf ./results')
-    # shell('rm -f ./results')
-    listOfResult.append(urls)
-    return listOfResult
+    endpoints = list()
+    wayback_urls = exec_go_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
+    print(f'(DEBUG) Waybackurls a trouver {len(urls)} endpoints')
+    endpoints = endpoints + wayback_urls
+    return endpoints
 
 
 def quick_scan(target):
     results = list()
-    search_4_domains_go(target)
+    results = results + search_4_domains_go(target)
 
     return results
 

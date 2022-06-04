@@ -10,15 +10,15 @@ def filter_all(urls):
     """ filter port / http:// / https://
     """
     results = list()
-    print(f'(DEBUG) Starting to filter urls ({len(urls)})')
-    print(f'(DEBUG) Exemple de ce quon filtre : {urls[0]}')
+    print('---------------------------------------------------------------------------------------')
+    print(f'(DEBUG) Starting to filter ({len(urls)}) urls')
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace(":80", "").replace(":443", "")
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
     results = list(set(results))
-    print(f'(DEBUG) Returning urls ({len(results)})')
-    print(f'(DEBUG) Exemple de ce quon retourne : {results[0]}')
+    print(f'(DEBUG) Apres le filtre, Returning urls ({len(results)})')
+    print('---------------------------------------------------------------------------------------')
     return results
 
 
