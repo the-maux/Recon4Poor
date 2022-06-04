@@ -31,6 +31,7 @@ def extract_subdomains_from_tree(tree):
     subdomains = list()
     return subdomains
 
+
 def give_me_real_endpoint(urls):
     urls = filter_all(urls)
     tree = build_path_tree_from_urls(urls)

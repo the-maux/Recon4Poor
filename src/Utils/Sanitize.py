@@ -20,14 +20,14 @@ def sanity_check_at_startup():
     try:
         target = os.environ['TARGET']
         try:
-            depth = os.environ['DEPTH']
+            depth = int(os.environ['DEPTH'])
             if VERBOSE:
                 print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
         except Exception:
             if VERBOSE:
                 print('(WARNING) DEPTH analyse was not set, default is 1')
-            depth = os.environ['DEPTH'] = 1
+            depth = 1
         return target, depth
-    except Exception:
-        print('(ERROR) You need to set at least the var env $TARGET')
+    except Exception as e:
+        print(f'(ERROR) You need to set at least the var env $TARGET: {e}')
         exit(-1)
