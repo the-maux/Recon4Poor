@@ -1,5 +1,8 @@
 import os
 from threading import Thread
+
+from pip._internal.utils import urls
+
 from src.Analyze.filter_endpoint import filter_all
 from src.Utils.Shell import shell, VERBOSE
 
@@ -87,7 +90,7 @@ def exec_go_tools(cmd, usefFile=False):
 def search_4_domains_go(target):
     endpoints = list()
     wayback_urls = exec_go_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
-    print(f'(DEBUG) Waybackurls a trouver {len(urls)} endpoints')
+    print(f'(DEBUG) Waybackurls a trouver {len(wayback_urls)} endpoints')
     endpoints = endpoints + wayback_urls
     return endpoints
 
