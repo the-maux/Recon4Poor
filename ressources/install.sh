@@ -28,7 +28,7 @@ ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz &&
     tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
     export PATH=$PATH:/usr/local/go/bin
-mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
+#mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
 
 
 # because of https://github.com/tomnomnom/waybackurls/issues/41 we cant go install normaly

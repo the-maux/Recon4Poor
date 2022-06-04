@@ -21,5 +21,6 @@ def hitme():
 
 
 def hard_scan(target):
+    print('(DEBUG) Starting brutal scan')
     results = list()
     return results
