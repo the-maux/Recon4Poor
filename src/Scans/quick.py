@@ -73,7 +73,7 @@ def search_4_domains_go(target):
     print('---------------------------------------------------------------------------------------')
     print(f' waybackurls stdout a trouver {len(stdout)} endpoint')
     urls = filter_all(stdout)
-    print(f' Aprés le filter on a toujours  {len(stdout)} endpoint')
+    print(f' Aprés le filter on a toujours  {urls} endpoint')
     print('---------------------------------------------------------------------------------------')
     # print('(DEBUG) rm -vf ./results')
     # shell('rm -f ./results')
