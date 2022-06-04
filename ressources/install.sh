@@ -24,16 +24,14 @@ apt-get clean &> nooutput
 #cd Interlace && python3 ./setup.py install
 #cd /opt/app/LinkFinder && python3 ./setup.py install
 
-wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz &&
-  tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
-  export PATH=$PATH:/usr/local/go/bin
-#mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
+wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
+  export PATH=$PATH:/usr/local/go/bin && echo '(DEBUG) GO was installed succesfully'
 
 
 # because of https://github.com/tomnomnom/waybackurls/issues/41 we cant go install normaly
 # go install github.com/tomnomnom/waybackurls@latest  &> nooutput
-git clone https://github.com/tomnomnom/waybackurls.git
-  && cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
+git clone https://github.com/tomnomnom/waybackurls.git &&
+  cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
 
 #go install github.com/tomnomnom/assetfinder@latest
 #go install github.com/hakluke/hakrawler@latest
