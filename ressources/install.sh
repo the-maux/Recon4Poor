@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-apt -y update &> nooutput &> nooutput
+apt -y update &> nooutput
 apt -y install python3 python3-pip wget git &> nooutput
 apt-get clean &> nooutput
 
@@ -25,14 +25,15 @@ apt-get clean &> nooutput
 #cd /opt/app/LinkFinder && python3 ./setup.py install
 
 wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz &&
-    tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
-    export PATH=$PATH:/usr/local/go/bin
+  tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
+  export PATH=$PATH:/usr/local/go/bin
 #mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
 
 
 # because of https://github.com/tomnomnom/waybackurls/issues/41 we cant go install normaly
 # go install github.com/tomnomnom/waybackurls@latest  &> nooutput
-git clone https://github.com/tomnomnom/waybackurls.git && cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
+git clone https://github.com/tomnomnom/waybackurls.git
+  && cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
 
 #go install github.com/tomnomnom/assetfinder@latest
 #go install github.com/hakluke/hakrawler@latest
@@ -52,4 +53,4 @@ export GOPATH=$HOME/go/bin
 export PATH=$PATH:$GOPATH
 export OUTPUT_DIR=/opt/app
 
-# rm -f go1.18.3.linux-amd64.tar.gz Dockerfile Release nooutput # TODO: clean !!
+rm -vf go1.18.3.linux-amd64.tar.gz Dockerfile Release nooutput
