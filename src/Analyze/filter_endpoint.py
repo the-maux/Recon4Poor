@@ -16,9 +16,9 @@ def filter_all(urls):
         filtered = url.replace("http://", "").replace("https://", "").replace(":80", "").replace(":443", "")
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
-    print(f'(DEBUG) Returning urls ({len(list(set(results)))})')
     results = list(set(results))
-    print(f'(DEBUG) Exemple de ce quon retourne : {urls[0]}')
+    print(f'(DEBUG) Returning urls ({len(results)})')
+    print(f'(DEBUG) Exemple de ce quon retourne : {results[0]}')
     return results
 
 
