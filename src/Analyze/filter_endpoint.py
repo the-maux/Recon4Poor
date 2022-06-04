@@ -11,15 +11,15 @@ def filter_all(urls):
     """
     results = list()
     print(f'(DEBUG) Starting to filter urls ({len(urls)})')
+    print(f'(DEBUG) Exemple de ce quon filtre : {urls[0]}')
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace(":80", "").replace(":443", "")
-        try:
-            filtered = filtered[0:filtered.index('?')]
-        except ValueError:
-            pass
+        filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
     print(f'(DEBUG) Returning urls ({len(list(set(results)))})')
-    return list(set(results))
+    results = list(set(results))
+    print(f'(DEBUG) Exemple de ce quon retourne : {urls[0]}')
+    return results
 
 
 def build_path_tree_from_urls(urls):

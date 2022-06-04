@@ -23,6 +23,6 @@ jobs:
                 -e DEPTH="${{ secrets.DEPTH }}" \
                 ghcr.io/the-maux/recoon4poor:0.0.1
 
-#You can't because it's a private repository, need to wait to be private
+#You can't because it's a private repository, need to wait to be public to user ghcr
 #echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
 #docker push ghcr.io/the-maux/recoon4poor:0.0.1

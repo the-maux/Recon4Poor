@@ -3,7 +3,6 @@
 apt -y update &> nooutput &> nooutput
 apt -y install python3 python3-pip wget git &> nooutput
 apt-get clean &> nooutput
-ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
 
 ## install python ressources
 #git clone https://github.com/codingo/Interlace.git
