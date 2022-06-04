@@ -28,10 +28,13 @@ wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf 
   export PATH=$PATH:/usr/local/go/bin && echo '(DEBUG) GO was installed succesfully'
 
 
-# because of https://github.com/tomnomnom/waybackurls/issues/41 we cant go install normaly
+# because of https://github.com/tomnomnom/waybackurls/issues/41 we cant "go install" normaly
 # go install github.com/tomnomnom/waybackurls@latest  &> nooutput
 git clone https://github.com/tomnomnom/waybackurls.git &&
   cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install -v github.com/lc/gau@latest
+go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 #go install github.com/tomnomnom/assetfinder@latest
 #go install github.com/hakluke/hakrawler@latest
@@ -39,11 +42,9 @@ git clone https://github.com/tomnomnom/waybackurls.git &&
 #go install github.com/dwisiswant0/unew@latest
 ## GO111MODULE=on go get -u github.com/shenwei356/rush /!\ No need, because: 1 target only by contener
 #go install github.com/hiddengearz/jsubfinder@latest
-#go install github.com/projectdiscovery/httpx/cmd/httpx@latest
-#go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 #wget https://raw.githubusercontent.com/hiddengearz/jsubfinder/master/.jsf_signatures.yaml && mv .jsf_signatures.yaml ~/.jsf_signatures.yaml
 #go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest
-#go install github.com/lc/gau@latest
+#
 #go install github.com/lc/subjs@latest
 
 export HOME=/opt/app/
