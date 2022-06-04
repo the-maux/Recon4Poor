@@ -32,8 +32,8 @@ wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf 
 # go install github.com/tomnomnom/waybackurls@latest  &> nooutput
 git clone https://github.com/tomnomnom/waybackurls.git &&
   cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/lc/gau@latest
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest  # TODO: not working ... cant install it ..
+go install -v github.com/lc/gau/v2/cmd/gau@latest
 go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 #go install github.com/tomnomnom/assetfinder@latest

@@ -94,7 +94,7 @@ def search_4_domains_go(target):  # TODO: benchmark if filter_all(exec_go_tools(
     gau_urls = exec_go_tools(cmd=f'echo "{target}" | gau --threads 5', usefFile=False)
     print(f'(DEBUG) gau found {len(gau_urls)} endpoints')
     subfinder = exec_go_tools(cmd=f'echo hackerone.com | subfinder -silent', usefFile=False)
-    print(f'(DEBUG) gau found {len(subfinder)} endpoints')
+    print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
     endpoints = filter_all(wayback_urls + gau_urls + subfinder)
     return endpoints
 
