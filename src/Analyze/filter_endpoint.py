@@ -10,7 +10,6 @@ def filter_all(urls):
     """ filter port / http:// / https://
     """
     results = list()
-    print('---------------------------------------------------------------------------------------')
     print(f'(DEBUG) Starting to filter ({len(urls)}) urls')
     print(f'(DEBUG) Exemple of url to filter {urls[0]}')
     for url in urls:
