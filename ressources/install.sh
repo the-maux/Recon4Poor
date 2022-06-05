@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt -y update &> nooutput
-apt -y install python3 python3-pip wget git &> nooutput
+apt -y install python3 python3-pip wget git
 apt-get clean &> nooutput
 
 ## install python ressources
