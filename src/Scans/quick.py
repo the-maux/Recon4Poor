@@ -91,10 +91,13 @@ def exec_go_tools(cmd, usefFile=False):
 def search_4_domains_go(target):  # TODO: benchmark if filter_all(exec_go_tools()) is better all in one filter_all
     wayback_urls = exec_go_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
     print(f'(DEBUG) Waybackurls found {len(wayback_urls)} endpoints')
+    print('---------------------------------------------------------------------------------------')
     gau_urls = exec_go_tools(cmd=f'echo "{target}" | gau --threads 5', usefFile=False)
     print(f'(DEBUG) gau found {len(gau_urls)} endpoints')
+    print('---------------------------------------------------------------------------------------')
     subfinder = exec_go_tools(cmd=f'echo hackerone.com | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
+    print('---------------------------------------------------------------------------------------')
     endpoints = filter_all(wayback_urls + gau_urls + subfinder)
     return endpoints
 

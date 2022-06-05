@@ -19,7 +19,6 @@ def filter_all(urls):
     results = list(set(results))
     print(f'(DEBUG) Apres le filtre, Returning urls ({len(results)})')
     print(f'(DEBUG) Exemple of url que lon revnoi {urls[0]}')
-    print('---------------------------------------------------------------------------------------')
     return results
 
 
