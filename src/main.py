@@ -59,6 +59,8 @@ def global_controller(target, depth):
     if len(endpoints) < 1:
         print('(ERROR) no subdomain found for this target')
         exit(-1)
+    else:
+        print(f'(DEBUG) At the end found {len(endpoints)} endpoints')
     # assets_found = search_JS_files(domains)
     # # TODO: searchin JS & Secret Here
     # report = generate_report(domains, assets_found)

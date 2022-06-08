@@ -31,8 +31,15 @@ ENV PATH=/usr/local/go/bin:$PATH
 # go install github.com/tomnomnom/waybackurls@latest  &> nooutput
 git clone https://github.com/tomnomnom/waybackurls.git &&
   cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest &> nooutput # TODO: not working ... cant install it ..
-go install -v github.com/lc/gau/v2/cmd/gau@latest &> nooutput
+
+# go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest &> nooutput # TODO: cant go install it ..
+wget -q https://github.com/projectdiscovery/subfinder/releases/download/v2.5.2/subfinder_2.5.2_linux_amd64.zip &&
+  unzip subfinder_2.5.2_linux_amd64.zip && mv ./subfinder /usr/bin/subfinder
+
+# go install -v github.com/lc/gau/v2/cmd/gau@latest &> nooutput Doesnt work so need to be at hand...
+wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.tar.gz &&
+  tar -xvf gau_2.1.1_linux_386.tar.gz && mv ./gau /usr/bin/gau
+
 go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest &> nooutput
 
 #go install github.com/tomnomnom/assetfinder@latest
@@ -51,4 +58,4 @@ export GOPATH=$HOME/go/bin
 export PATH=$PATH:$GOPATH
 export OUTPUT_DIR=/opt/app
 
-rm -vf go1.18.3.linux-amd64.tar.gz Dockerfile Release nooutput
+rm -vf go1.18.3.linux-amd64.tar.gz gau_2.1.1_linux_386.tar.gz Dockerfile Release nooutput
