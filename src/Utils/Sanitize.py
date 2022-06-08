@@ -1,5 +1,5 @@
 import os
-from src.Utils.Shell import VERBOSE
+from src.Utils.Shell import VERBOSE, shell
 
 
 def final_sanityze(domains):
@@ -7,8 +7,8 @@ def final_sanityze(domains):
     domain_alive = list()
     domain_offline = list()
     for domain in domains:
-        response = os.system(f"ping -c 1 {domain}")
-        if response == 0:
+        stdout, stderr, code = shell(f"ping -c 1 {domain}")
+        if code == 0:
             domain_alive.append(domain)
         else:
             domain_offline.append(domain)

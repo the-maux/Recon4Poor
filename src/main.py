@@ -41,7 +41,7 @@ def build_rapport(domains):
         for item in domains:
             f.write(f"{item}\n")
     with open('domains-alive.txt', 'w') as f:
-        for item in domains_alive:
+        for item in domains_offline:
             f.write(f"{item}\n")
     with open('domains-offline.txt', 'w') as f:
         for item in domains_alive:

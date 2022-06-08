@@ -8,7 +8,7 @@ def exec_tools(cmd, usefFile=True):
     stdout, stderr, returncode = shell(cmd)
     if usefFile:
         stdout, stderr, returncode = shell('cat results.txt', verbose=True)
-        shell('rm -f ./results', verbose=False)
+        shell('rm -f results.txt', verbose=False)
     return stdout.split('\n')
 
 
@@ -20,11 +20,11 @@ def use_python_tools(target):
     subcat_res = exec_tools(cmd=cmd, usefFile=False)
     print(f"(INFO) Subcat found: {len(subcat_res)} domain(s) in scope")
 
-    cmd = f'python3 Sublist3r/sublist3r.py -d {target} -n -o ./results.txt'
+    cmd = f'python3 Sublist3r/sublist3r.py -d {target} -n -o results.txt'
     sublist3r_res = exec_tools(cmd=cmd, usefFile=True)
     print(f"(INFO) Sublist3r found: {len(sublist3r_res)} domain(s) in scope")
 
-    cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o result.txt'
+    cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o results.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
     print(f'(INFO) SubDomainizer found: {len(subDomainizer_res)} domain(s) in scope')
 
@@ -51,13 +51,6 @@ def use_go_tools(target):
 
 
 def quick_scan(target):
-    # start = time.time()
-    # go_results = use_go_tools(target)
-    # python_results = use_python_tools(target)
-    # final_res = extract_subdomains(go_results + python_results)
-    # end = time.time()
-    # print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end - start} seconds ! ')
-    # return final_res
     start = time.time()
     pThreads = list()
     pThreads.append(Thread(target=use_go_tools, args=(target,)))
@@ -67,8 +60,19 @@ def quick_scan(target):
 
     stdout, stderr, returncode = shell('cat tmp-search.txt', verbose=True)
     resultats = extract_subdomains_and_dump(stdout.split('\n'), dump=False)
-    print(f'(DEBUG) PARALL TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
+    print(f'(DEBUG) PARALL // TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
     return resultats
+
+
+# def quick_sca(target):
+#     start = time.time()
+#     go_results = use_go_tools(target)
+#     python_results = use_python_tools(target)
+#     final_res = extract_subdomains(go_results + python_results)
+#     end = time.time()
+#     print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end - start} seconds ! ')
+#     return final_res
+
 
 
 # domains_found_assetfinder = use_assetfinder(target)
