@@ -15,7 +15,7 @@ def final_sanityze(domains):
     return domain_offline, domain_alive
 
 
-def extract_subdomains(urls):
+def extract_subdomains_and_dump(urls):
     """ filter substring in domains like / http:// / https:// and everything after '?' """
     results = list()
     for url in urls:
@@ -26,6 +26,9 @@ def extract_subdomains(urls):
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
     results = list(set(results))
+    with open('tmp-search.txt', 'a') as f:
+        for item in results:
+            f.write(f"{item}\n")
     return results
 
 

@@ -1,6 +1,6 @@
 import os, time
 from threading import Thread
-from src.Utils.Sanitize import extract_subdomains
+from src.Utils.Sanitize import extract_subdomains_and_dump
 from src.Utils.Shell import shell, VERBOSE
 
 
@@ -10,7 +10,7 @@ def exec_tools(cmd, usefFile=True):
     if usefFile:
         stdout, stderr, returncode = shell('cat results.txt', verbose=True)
         shell('rm -f ./results', verbose=False)
-    return extract_subdomains(stdout.split('\n'))
+    return stdout.split('\n')
 
 
 def use_python_tools(target):
@@ -30,7 +30,7 @@ def use_python_tools(target):
     print(f'(DEBUG) SubDomainizer found: {len(subDomainizer_res)} domain(s) in scope')
 
     end_python = time.time()
-    python_results = extract_subdomains(subcat_res + sublist3r_res + subDomainizer_res)
+    python_results = extract_subdomains_and_dump(subcat_res + sublist3r_res + subDomainizer_res)
     print(f'(DEBUG) PYTHON TOOLS FOUND {len(python_results)} SUBDOMAIN in {end_python - start_python} seconds ! \n')
     return python_results
 
@@ -47,7 +47,7 @@ def use_go_tools(target):
     subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
 
-    subdomains = extract_subdomains(wayback_urls + gau_urls + subfinder)
+    subdomains = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder)
     end_go = time.time()
     print(f'(DEBUG) GO TOOLS FOUND {len(subdomains)} SUBDOMAIN in {end_go - start} seconds !\n')
     return subdomains
@@ -61,12 +61,17 @@ def quick_scan(target):
     # end = time.time()
     # print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end - start} seconds ! ')
     # return final_res
+    start = time.time()
     pThread = list()
     pThread.append(Thread(target=use_go_tools, args=target))
     pThread.append(Thread(target=use_python_tools, args=target))
     [process.start() for process in pThread]
     [process.join() for process in pThread]
-    return list()
+    stdout, stderr, returncode = shell('rm -f tmp-search.txt', verbose=False)
+    resultats = stdout.split('\n')
+
+    print(f'(DEBUG) PARALL TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
+    return resultats
 
 def quick_scan_parrall(target): # ca dump dans des fichiers, mais il faut le recup in memory mais cest en thread :/
     listOfToolsToExec = list()
