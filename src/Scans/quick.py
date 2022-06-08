@@ -1,54 +1,65 @@
 import os
 from threading import Thread
-
 from pip._internal.utils import urls
-
 from src.Analyze.filter_endpoint import extract_subdomains
 from src.Utils.Shell import shell, VERBOSE
 
 
-def use_assetfinder(target):
-    """
-        les resultats sont dnas le fichier: assetfinder_urls.txt
-        #TOKNOW: assetfinder is not working good with "https://"
-    """
-    listResult = list()
-    stdout, stderr, returncode = shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt
-    return listResult  # TODO: mettre assetfinder_urls.txt in listResult
+# def use_assetfinder(target):
+#     """
+#         les resultats sont dnas le fichier: assetfinder_urls.txt
+#         #TOKNOW: assetfinder is not working good with "https://"
+#     """
+#     listResult = list()
+#     stdout, stderr, returncode = shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt
+#     return listResult  # TODO: mettre assetfinder_urls.txt in listResult
 
 
-def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
+def use_python_tool(cmd='echo Hi', dumpInCmd=False):
     """
         Use a specific python tool to do a search subdomain, dump founds in results.txt file
-        TOKNOW: convert results.txt as python list
         TOKNOW: remove the results.txt in current workspace
         return: list of strings who was inside the result.txt
     """
     listResult = list()
     print(f'\n\n-----------------------------------------------------------------')
-    print(f'(INFO) [+] Using tool with {tool_name}')
-    cmd = f'python {path}{tool_name} {argv}'
     stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
     if VERBOSE:
-        print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
+        print(f'(DEBUG) $> {cmd if dumpInCmd is False else f"{cmd}> ./results.txt"}')
         print(f'(DEBUG) stdout >\n {stdout}')
         print(f'(DEBUG) stderr >\n {stderr}')
         print(f'(DEBUG) return status code  > {returncode}')
     print('---------------------------------------------------------------------------------------')
-    os.system('pwd;ls')
-    print('(DEBUG) cat ./results.txt')
-    os.system('cat ./results.txt')
-    print('---------------------------------------------------------------------------------------')
-    print('(DEBUG) rm -vf ./results.txt')
-    shell('rm -vf ./results.txt')
+    shell('rm -f ./results.txt')
     return listResult
 
 
-def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
+def parse_result_txt():
+    """ open result.txt and return the content as list(String) """
+    return list()
+
+
+def exec_tools(cmd, usefFile=False):
+    print(f'(DEBUG) $> {cmd}')
+    stdout, stderr, returncode = shell(cmd)
+    if usefFile:
+        urls = parse_result_txt()
+        print('(DEBUG) rm -vf ./results')
+        shell('rm -f ./results')
+    else:
+        urls = stdout.split('\n')
+    urls = extract_subdomains(urls)
+    return urls
+
+
+def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
     """
         Seach for a single domain all domain possible
         TODO: multiThread ?
     """
+    cmd = f'echo {target} | python3 subcat.py'
+    listDomains = use_python_tool(cmd=cmd, dumpInCmd=False)
+
     # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
     #                             enable_bruteforce=False, engines=None, threads=8)
     # domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
@@ -68,34 +79,17 @@ def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus l
     # TODO: subfinder cest du go boufon
     # domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
     # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
+    return listDomains
 
 
-def parse_result_txt():
-    """ open result.txt and return the content as list(String) """
-    return list()
-
-
-def exec_go_tools(cmd, usefFile=False):
-    print(f'(DEBUG) $> {cmd}')
-    stdout, stderr, returncode = shell(cmd)
-    if usefFile:
-        urls = parse_result_txt()
-        print('(DEBUG) rm -vf ./results')
-        shell('rm -f ./results')
-    else:
-        urls = stdout.split('\n')
-    urls = extract_subdomains(urls)
-    return urls
-
-
-def search_4_domains_go(target):  # TODO: benchmark if filter_all(exec_go_tools()) is better all in one filter_all
-    wayback_urls = exec_go_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
+def use_go_tools(target):  # TODO: benchmark if filter_all(exec_go_tools()) is better all in one filter_all
+    wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
     print(f'(DEBUG) Waybackurls found {len(wayback_urls)} endpoints')
     print('---------------------------------------------------------------------------------------')
-    gau_urls = exec_go_tools(cmd=f'echo "{target}" | gau --threads 5', usefFile=False)
+    gau_urls = exec_tools(cmd=f'echo "{target}" | gau --threads 5', usefFile=False)
     print(f'(DEBUG) gau found {len(gau_urls)} endpoints')
     print('---------------------------------------------------------------------------------------')
-    subfinder = exec_go_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
+    subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
     print('---------------------------------------------------------------------------------------')
     endpoints = extract_subdomains(wayback_urls + gau_urls + subfinder)
@@ -103,8 +97,8 @@ def search_4_domains_go(target):  # TODO: benchmark if filter_all(exec_go_tools(
 
 
 def quick_scan(target):
-    results = list()
-    results = results + search_4_domains_go(target)
+#    results = use_go_tools(target)
+    results = use_python_tools(target)
     return results
 
 
