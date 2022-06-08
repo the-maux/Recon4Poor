@@ -1,5 +1,5 @@
 import os
-from src.Utils.Shell import VERBOSE, shell
+from src.Utils.Shell import VERBOSE, shell, dump_to_file
 
 
 def check_alives_domains(domains):
@@ -29,9 +29,7 @@ def extract_subdomains_and_dump(urls, dump=True):
         results.append(filtered)
     results = list(set(results))
     if dump is True:
-        with open('tmp-search.txt', 'a') as f:
-            for item in results:
-                f.write(f"{item}\n")
+        dump_to_file(namefile='tmp-search.txt', mode='a', lines=results)
     return results
 
 

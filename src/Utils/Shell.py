@@ -4,6 +4,12 @@ try: VERBOSE = 'True' in os.environ['VERBOSE']
 except Exception: VERBOSE = True
 
 
+def dump_to_file(namefile, mode, lines):
+    with open(namefile, mode) as f:
+        for item in lines:
+            f.write(f"{item}\n")
+
+
 def filter_bullshitssh(logs, bypassed_words=None):
     """
         filtrer dans une list de logs, des substrings pour supprimer la ligne
