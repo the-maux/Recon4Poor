@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt -yqq update &> nooutput
-apt -yqq install python3 python3-pip wget git unzip nano &> nooutput
+apt -yqq install python3 python3-pip wget git unzip nano iputils-ping &> nooutput
 apt-get clean &> nooutput
 
 ## install python ressources
