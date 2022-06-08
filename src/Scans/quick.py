@@ -34,53 +34,34 @@ def use_python_tool(cmd='echo Hi', dumpInCmd=False):
     return listResult
 
 
-def parse_result_txt():
-    """ open result.txt and return the content as list(String) """
-    return list()
-
-
-def exec_tools(cmd, usefFile=False):
+def exec_tools(cmd, usefFile=True):
     print(f'(DEBUG) $> {cmd}')
     stdout, stderr, returncode = shell(cmd)
     if usefFile:
-        urls = parse_result_txt()
-        print('(DEBUG) rm -vf ./results')
+        stdout, stderr, returncode = shell('cat results.txt')
+        print('(DEBUG) Using reading file methode than rm -f ./results.txt')
         shell('rm -f ./results')
-    else:
-        urls = stdout.split('\n')
-    urls = extract_subdomains(urls)
-    return urls
+    return extract_subdomains(stdout.split('\n'))
 
 
 def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
     """
-        Seach for a single domain all domain possible
+        Seach from a single domain all subdomain possible
         TODO: multiThread ?
     """
     cmd = f'echo {target} | python3 subcat/subcat.py -silent'
-    listDomains = exec_tools(cmd=cmd, usefFile=False)
+    subcat_res = exec_tools(cmd=cmd, usefFile=False)
+    print(f"(DEBUG) Subcat found: {len(subcat_res)} domain(s) in scope")
 
-    # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
-    #                             enable_bruteforce=False, engines=None, threads=8)
-    cmd = f'echo {target} | python3 Sublist3r/sublist3r.py -d {target} -o ./results.txt && cat results.txt && rm -f ./results.txt'
-    domains_found_Sublist3r = exec_tools(cmd=cmd, usefFile=False)
-    print(f"(INFO) Sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
+    cmd = f'python3 Sublist3r/sublist3r.py -d {target} -n -o ./results.txt'
+    sublist3r_res = exec_tools(cmd=cmd, usefFile=True)
+    print(f"(DEBUG) Sublist3r found: {len(sublist3r_res)} domain(s) in scope")
 
-    cmd = f'python3 SubDomainizer/SubDomainizer.py -d {target} -san all'
-    domains_found_SubDomainizer = exec_tools(cmd=cmd, usefFile=False)
-    # TODO: SubDomainizer doit etre mieux conf
-    print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
+    cmd = f'python3 SubDomainizer/SubDomainizer.py -d {target} -san all'  # TODO: SubDomainizer need real conf
+    subDomainizer_res = exec_tools(cmd=cmd, usefFile=False)
+    print(f'(DEBUG) SubDomainizer found: {len(subDomainizer_res)} domain(s) in scope')  # -o SubDomainizer.txt
 
-
-    # domains_found_assetfinder = use_assetfinder(target)
-    # print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
-    # #TODO: aucune variable n'est retourné jte signale
-    #
-
-    # TODO: subfinder cest du go boufon
-    # domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
-    # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
-    return listDomains
+    return extract_subdomains(subcat_res + sublist3r_res + subDomainizer_res)
 
 
 def use_go_tools(target):  # TODO: benchmark if filter_all(exec_go_tools()) is better all in one filter_all
@@ -93,8 +74,8 @@ def use_go_tools(target):  # TODO: benchmark if filter_all(exec_go_tools()) is b
     subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
     print('---------------------------------------------------------------------------------------')
-    endpoints = extract_subdomains(wayback_urls + gau_urls + subfinder)
-    return endpoints
+    subdomains = extract_subdomains(wayback_urls + gau_urls + subfinder)
+    return subdomains
 
 
 def quick_scan(target):
@@ -115,3 +96,5 @@ def quick_scan(target):
 #     listOfToolsToExec.append(p4)
 #     [process.start() for process in listOfToolsToExec]
 #     [process.join() for process in listOfToolsToExec]
+# domains_found_assetfinder = use_assetfinder(target)
+# print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
