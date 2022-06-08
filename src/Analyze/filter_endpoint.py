@@ -14,6 +14,9 @@ def filter_all(urls):
     print(f'(DEBUG) Exemple of url to filter {urls[0]}')
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace(":80", "").replace(":443", "")
+        filtered = filtered.replace("www.", "")
+        if '/' in filtered:
+            filtered = filtered[0:filtered.index('/')]
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
     results = list(set(results))
