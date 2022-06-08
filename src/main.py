@@ -61,6 +61,9 @@ def global_controller(target, depth):
         exit(-1)
     else:
         print(f'(DEBUG) At the end found {len(endpoints)} endpoints')
+        with open('results.txt', 'w') as f:
+            for item in endpoints:
+                f.write(f"{item}\n")
     # assets_found = search_JS_files(domains)
     # # TODO: searchin JS & Secret Here
     # report = generate_report(domains, assets_found)
