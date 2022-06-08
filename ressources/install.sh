@@ -10,12 +10,10 @@ git clone https://github.com/aboul3la/Sublist3r.git
 git clone https://github.com/duty1g/subcat
 #git clone https://github.com/dark-warlord14/LinkFinder.git
 
-pip3 install -r subcat/requirements.txt
-pip3 install -r Sublist3r/requirements.txt
-pip3 install -r SubDomainizer/requirements.txt
-# echo "colorama" >> LinkFinder/requirements.txt && pip3 install -r LinkFinder/requirements.txt
+pip3 install -r subcat/requirements.txt &> nooutput
+pip3 install -r Sublist3r/requirements.txt &> nooutput
+pip3 install -r SubDomainizer/requirements.txt &> nooutput
 # cd /opt/app/LinkFinder && python3 ./setup.py install
-
 
 
 wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
@@ -50,7 +48,6 @@ rm -vf go1.18.3.linux-amd64.tar.gz.1
 #go install github.com/hakluke/hakrawler@latest
 #go install github.com/jaeles-project/gospider@latest
 #go install github.com/dwisiswant0/unew@latest
-## GO111MODULE=on go get -u github.com/shenwei356/rush /!\ No need, because: 1 target only by contener
 #go install github.com/hiddengearz/jsubfinder@latest
 #wget https://raw.githubusercontent.com/hiddengearz/jsubfinder/master/.jsf_signatures.yaml && mv .jsf_signatures.yaml ~/.jsf_signatures.yaml
 #go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest

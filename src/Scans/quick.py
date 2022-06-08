@@ -15,32 +15,13 @@ from src.Utils.Shell import shell, VERBOSE
 #     return listResult  # TODO: mettre assetfinder_urls.txt in listResult
 
 
-def use_python_tool(cmd='echo Hi', dumpInCmd=False):
-    """
-        Use a specific python tool to do a search subdomain, dump founds in results.txt file
-        TOKNOW: remove the results.txt in current workspace
-        return: list of strings who was inside the result.txt
-    """
-    listResult = list()
-    print(f'\n\n-----------------------------------------------------------------')
-    stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
-    if VERBOSE:
-        print(f'(DEBUG) $> {cmd if dumpInCmd is False else f"{cmd}> ./results.txt"}')
-        print(f'(DEBUG) stdout >\n {stdout}')
-        print(f'(DEBUG) stderr >\n {stderr}')
-        print(f'(DEBUG) return status code  > {returncode}')
-    print('---------------------------------------------------------------------------------------')
-    shell('rm -f ./results.txt')
-    return listResult
-
-
 def exec_tools(cmd, usefFile=True):
     print('---------------------------------')
     print(f'(DEBUG) $> {cmd}')
     stdout, stderr, returncode = shell(cmd)
     if usefFile:
-        stdout, stderr, returncode = shell('cat results.txt')
-        shell('rm -f ./results')
+        stdout, stderr, returncode = shell('cat results.txt', verbose=False)
+        shell('rm -f ./results', verbose=False)
     return extract_subdomains(stdout.split('\n'))
 
 
@@ -79,12 +60,12 @@ def quick_scan(target):
     start = time.time()
     go_results = use_go_tools(target)
     end_go = time.time()
-    print(f'(DEBUG) GO TOOLS FOUND {len(go_results)} SUBDOMAIN in {end_go - start} seconds ! ')
+    print(f'(DEBUG) GO TOOLS FOUND {len(go_results)} SUBDOMAIN in {end_go - start} seconds !\n')
 
     start_python = time.time()
     python_results = use_python_tools(target)
     end_python = time.time()
-    print(f'(DEBUG) PYTHON TOOLS FOUND {len(go_results)} SUBDOMAIN in {end_python - start_python} seconds ! ')
+    print(f'(DEBUG) PYTHON TOOLS FOUND {len(go_results)} SUBDOMAIN in {end_python - start_python} seconds ! \n')
 
     final_res = extract_subdomains(go_results + python_results)
     print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end_python - start_python} seconds ! ')
