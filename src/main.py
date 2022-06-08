@@ -35,7 +35,7 @@ def global_controller(target, depth):
         print('(ERROR) no subdomain found for this target')
         exit(-1)
     else:
-        print(f'(DEBUG) At the end found {len(endpoints)} endpoints')
+        print(f'(DEBUG) Finally all tools found {len(endpoints)} endpoints')
         build_rapport(endpoints)
         exit(0)
     # assets_found = search_JS_files(domains)

@@ -18,21 +18,21 @@ def use_python_tools(target):
     print('(Python-Thread) Starting Python scripts with subcat')
 
     subcat_res = exec_tools(cmd=f'echo {target} | python3 subcat/subcat.py -silent', usefFile=False)
-    print(f"(Python-Thread) Subcat found: {len(subcat_res)} endpoints in scope")
+    print(f"(Python-Thread) Subcat found: {len(subcat_res)} endpoints")
 
     sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d {target} -n -o results.txt', usefFile=True)
-    print(f"(Python-Thread) Sublist3r found: {len(sublist3r_res)} endpoints in scope")
+    print(f"(Python-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
 
     cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o results.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
-    print(f'(Python-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints in scope')
+    print(f'(Python-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
 
     python_results = extract_subdomains_and_dump(subcat_res + sublist3r_res + subDomainizer_res)
     print(f'(Python-Thread) PYTHON SCRIPTS FOUND {len(python_results)} DOMAIN in {time.time() - start_python} seconds')
 
     domain_offline, domain_alive = check_alives_domains(python_results)
     nbr_alives = len(domain_alive)
-    print(f'(Python-Thread) Found {nbr_alives} domain still alive ! {":D" if nbr_alives > 10 else ":("}')
+    print(f'(Python-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
 
     return python_results
 
@@ -52,11 +52,11 @@ def use_go_tools(target):
     print(f'(Go-Thread) subfinder found {len(subfinder)} endpoints')
 
     go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder)
-    print(f'(Go-Thread) GO TOOLS DUMPED {len(go_result)} SUBDOMAIN in {time.time() - start} seconds !\n')
+    print(f'(Go-Thread) GO TOOLS DUMPED {len(go_result)} SUBDOMAIN in {time.time() - start} seconds !')
 
     domain_offline, domain_alive = check_alives_domains(go_result)
     nbr_alives = len(domain_alive)
-    print(f'(Go-Thread) Found {nbr_alives} domain still alive ! {":D" if nbr_alives > 10 else ":("}')
+    print(f'(Go-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
 
     return go_result
 

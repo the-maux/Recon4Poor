@@ -2,6 +2,7 @@ from src.Utils.Sanitize import check_alives_domains
 
 
 def build_rapport(domains):
+    print(f'(DEBUG) Checking final result to filter on alive hosts for {len(domains)}')
     domain_offline, domain_alive = check_alives_domains(domains)
     nbr_alives = len(domain_alive)
     print(f'(DEBUG) We found {nbr_alives} domain still alive ! {":D" if nbr_alives > 10 else ":("}')
