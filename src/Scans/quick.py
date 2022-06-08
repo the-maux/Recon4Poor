@@ -57,8 +57,8 @@ def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus l
     sublist3r_res = exec_tools(cmd=cmd, usefFile=True)
     print(f"(DEBUG) Sublist3r found: {len(sublist3r_res)} domain(s) in scope")
 
-    cmd = f'python3 SubDomainizer/SubDomainizer.py -d {target} -san all'  # TODO: SubDomainizer need real conf
-    subDomainizer_res = exec_tools(cmd=cmd, usefFile=False)
+    cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o result.txt'  # TODO: SubDomainizer need real conf
+    subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
     print(f'(DEBUG) SubDomainizer found: {len(subDomainizer_res)} domain(s) in scope')  # -o SubDomainizer.txt
 
     return extract_subdomains(subcat_res + sublist3r_res + subDomainizer_res)

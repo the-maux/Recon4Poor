@@ -1,7 +1,8 @@
 def basic_filter_endpoint(urls):
     result = list()
     for url in urls:
-        if "putass" in url:
+        if "Find interesting Subdomains" not in url and \
+                "____) | |_| | |_) | |__| | (_) | | | | | | (_| | | | | | |" not in url:
             result.append(url)
     return result
 
