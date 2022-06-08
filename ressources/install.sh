@@ -34,26 +34,24 @@ wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.t
 wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx_1.2.1_linux_amd64.zip &&
   unzip httpx_1.2.1_linux_amd64.zip && mv ./httpx /usr/bin/httpx
 
+# go install github.com/tomnomnom/assetfinder@latest
+wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
+  tar -xvf assetfinder-linux-amd64-0.1.1.tgz && mv ./assetfinder /usr/bin/assetfinder
 
 export HOME=/opt/app/
 export GOPATH=$HOME/go/bin
-export PATH=$PATH:$GOPATH
-export OUTPUT_DIR=/opt/app
+export PYTHONPATH="/opt/app"
+export PATH=/usr/local/go/bin:$GOPATH:$PATH
 
-rm -vf go1.18.3.linux-amd64.tar.gz gau_2.1.1_linux_386.tar.gz Dockerfile Release nooutput
-rm -vf go1.18.3.linux-amd64*
+rm -vf go1.18.3.linux-amd64* Dockerfile Release nooutput  # TODO: cleaning is shitty
 
 
-#go install github.com/tomnomnom/assetfinder@latest
 #go install github.com/hakluke/hakrawler@latest
 #go install github.com/jaeles-project/gospider@latest
-#go install github.com/dwisiswant0/unew@latest
-#go install github.com/hiddengearz/jsubfinder@latest
-#wget https://raw.githubusercontent.com/hiddengearz/jsubfinder/master/.jsf_signatures.yaml && mv .jsf_signatures.yaml ~/.jsf_signatures.yaml
-#go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest
-#
 #go install github.com/lc/subjs@latest
-
+#go install github.com/hiddengearz/jsubfinder@latest
+#go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest
+#go install github.com/dwisiswant0/unew@latest
 
 #cat ./SecretFinder/requirements.txt | grep -v "requests" >> requirement_all.txt
 #git clone https://github.com/m4ll0k/SecretFinder.git
