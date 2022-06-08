@@ -15,24 +15,24 @@ def exec_tools(cmd, usefFile=False):
 def use_python_tools(target):
     """ Use python script subcat & sublist3r & SubDomainzer """
     start_python = time.time()
-    print('(Python-Thread) Starting Python scripts with subcat')
+    print('(Py-Thread) Starting Python scripts with subcat')
 
     subcat_res = exec_tools(cmd=f'echo "{target}" | python3 subcat/subcat.py -silent')
-    print(f"(Python-Thread) Subcat found: {len(subcat_res)} endpoints")
+    print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints")
 
     sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
-    print(f"(Python-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
+    print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
 
     cmd = f'python3 SubDomainizer/SubDomainizer.py -u "{target}" -san all -o results.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
-    print(f'(Python-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
+    print(f'(Py-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
 
     python_results = extract_subdomains_and_dump(subcat_res + sublist3r_res + subDomainizer_res)
-    print(f'(Python-Thread) PYTHON SCRIPTS FOUND {len(python_results)} DOMAIN in {time.time() - start_python} seconds')
+    print(f'(Py-Thread) PYTHON SCRIPTS FOUND {len(python_results)} DOMAIN in {time.time() - start_python} seconds')
 
     domain_offline, domain_alive = check_alives_domains(python_results)
     nbr_alives = len(domain_alive)
-    print(f'(Python-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
+    print(f'(Py-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
 
     return python_results
 
@@ -43,7 +43,7 @@ def use_go_tools(target):
     print('(Go-Thread) Starting Go Tools with waybackurls')
 
     assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
-    print(f'(Go-Thread) Waybackurls found {len(assetfinder_urls)} endpoints')
+    print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
 
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
     print(f'(Go-Thread) Waybackurls found {len(wayback_urls)} endpoints')
