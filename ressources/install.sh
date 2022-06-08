@@ -5,14 +5,10 @@ apt -yqq install python3 python3-pip wget git unzip nano iputils-ping &> nooutpu
 apt-get clean &> nooutput
 
 ## install python ressources
-git clone https://github.com/nsonaniya2010/SubDomainizer.git
-git clone https://github.com/aboul3la/Sublist3r.git
-git clone https://github.com/duty1g/subcat
+git clone https://github.com/nsonaniya2010/SubDomainizer.git pip3 install -r SubDomainizer/requirements.txt &> nooutput
+git clone https://github.com/aboul3la/Sublist3r.git && pip3 install -r Sublist3r/requirements.txt &> nooutput
+git clone https://github.com/duty1g/subcat && pip3 install -r subcat/requirements.txt &> nooutput
 #git clone https://github.com/dark-warlord14/LinkFinder.git
-
-pip3 install -r subcat/requirements.txt &> nooutput
-pip3 install -r Sublist3r/requirements.txt &> nooutput
-pip3 install -r SubDomainizer/requirements.txt &> nooutput
 # cd /opt/app/LinkFinder && python3 ./setup.py install
 
 
@@ -40,7 +36,7 @@ wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetf
 
 export HOME=/opt/app/
 export GOPATH=$HOME/go/bin
-export PYTHONPATH="/opt/app"
+export PYTHONPATH=$HOME
 export PATH=/usr/local/go/bin:$GOPATH:$PATH
 
 rm -vf go1.18.3.linux-amd64* Dockerfile Release nooutput  # TODO: cleaning is shitty
