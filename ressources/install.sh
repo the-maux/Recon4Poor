@@ -34,7 +34,7 @@ wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx
 wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
   tar -xvf assetfinder-linux-amd64-0.1.1.tgz && mv ./assetfinder /usr/bin/assetfinder
 
-export HOME="$PWD"
+export HOME="/opt/app"
 export GOPATH=$HOME/go/bin
 export PYTHONPATH=$HOME
 export PATH=/usr/local/go/bin:$GOPATH:$PATH
