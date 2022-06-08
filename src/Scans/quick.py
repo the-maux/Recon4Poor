@@ -3,7 +3,7 @@ from threading import Thread
 
 from pip._internal.utils import urls
 
-from src.Analyze.filter_endpoint import filter_all
+from src.Analyze.filter_endpoint import extract_subdomains
 from src.Utils.Shell import shell, VERBOSE
 
 
@@ -84,7 +84,7 @@ def exec_go_tools(cmd, usefFile=False):
         shell('rm -f ./results')
     else:
         urls = stdout.split('\n')
-    urls = filter_all(urls)
+    urls = extract_subdomains(urls)
     return urls
 
 
@@ -98,7 +98,7 @@ def search_4_domains_go(target):  # TODO: benchmark if filter_all(exec_go_tools(
     subfinder = exec_go_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
     print('---------------------------------------------------------------------------------------')
-    endpoints = filter_all(wayback_urls + gau_urls + subfinder)
+    endpoints = extract_subdomains(wayback_urls + gau_urls + subfinder)
     return endpoints
 
 

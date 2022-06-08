@@ -6,9 +6,8 @@ def basic_filter_endpoint(urls):
     return result
 
 
-def filter_all(urls):
-    """ filter port / http:// / https://
-    """
+def extract_subdomains(urls):
+    """ filter port / http:// / https:// """
     results = list()
     print(f'(DEBUG) Starting to filter ({len(urls)}) urls')
     print(f'(DEBUG) Exemple of url to filter {urls[0]}')
@@ -20,8 +19,8 @@ def filter_all(urls):
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
     results = list(set(results))
-    print(f'(DEBUG) Apres le filtre, Returning urls ({len(results)})')
-    print(f'(DEBUG) Exemple of url que lon revnoi {urls[0]}')
+    print(f'(DEBUG) Apres filter, found domains ({len(results)})')
+    print(f'(DEBUG) Exemple de domain found {results[0]}')
     return results
 
 
@@ -36,7 +35,7 @@ def extract_subdomains_from_tree(tree):
 
 
 def give_me_real_endpoint(urls):
-    urls = filter_all(urls)
+    urls = extract_subdomains(urls)
     tree = build_path_tree_from_urls(urls)
     subdomains = extract_subdomains_from_tree(tree)
     return urls
