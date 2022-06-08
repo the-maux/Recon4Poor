@@ -6,12 +6,17 @@ def final_sanityze(domains):
     """ Test a list of domains to check if they respond """
     domain_alive = list()
     domain_offline = list()
+    rcx = 0
     for domain in domains:
-        stdout, stderr, code = shell(f"ping -c 1 {domain}")
+        stdout, stderr, code = shell(f"ping -c 1 {domain}", verbose=False)
         if code == 0:
+            print(f'(INFO) {domain} IS ONLINE !')
             domain_alive.append(domain)
+            rcx = rcx + 1
         else:
+            print(f'(INFO) {domain} IS DEAD :( !')
             domain_offline.append(domain)
+    print(f'(DEBUG) We found {rcx} domain still alive !')
     return domain_offline, domain_alive
 
 
