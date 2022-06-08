@@ -20,8 +20,10 @@ def search_domains(target_domain, depth):
     if depth == 1:
         urls_list = quick_scan(target_domain)
     elif depth == 2:
+        # TODO: from the result of quick scan start regular scan, using all the subdomains
         urls_list = regular_scan(target_domain)
     else:
+        # TODO: from the result of regular scan, search in files.js for more endpoints, than filter on subdomains
         urls_list = hard_scan(target_domain)
     return urls_list
 

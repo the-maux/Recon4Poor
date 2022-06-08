@@ -2,7 +2,7 @@ import os
 from src.Utils.Shell import VERBOSE, shell
 
 
-def final_sanityze(domains):
+def check_alives_domains(domains):
     """ Test a list of domains to check if they respond """
     domain_alive = list()
     domain_offline = list()
@@ -14,7 +14,6 @@ def final_sanityze(domains):
             rcx = rcx + 1
         else:
             domain_offline.append(domain)
-    print(f'(DEBUG) We found {rcx} domain still alive ! {":D" if rcx > 10 else ":("}')
     return domain_offline, domain_alive
 
 
