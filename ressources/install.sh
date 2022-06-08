@@ -18,23 +18,23 @@ pip3 install -r SubDomainizer/requirements.txt
 
 
 
-#wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
-#
-## TO-FIX: because of https://github.com/tomnomnom/waybackurls/issues/41
-#git clone https://github.com/tomnomnom/waybackurls.git && # go install github.com/tomnomnom/waybackurls@latest
-#  cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
-#
-## go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-#wget -q https://github.com/projectdiscovery/subfinder/releases/download/v2.5.2/subfinder_2.5.2_linux_amd64.zip &&
-#  unzip subfinder_2.5.2_linux_amd64.zip && mv ./subfinder /usr/bin/subfinder
-#
-## go install -v github.com/lc/gau/v2/cmd/gau@latest
-#wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.tar.gz &&
-#  tar -xvf gau_2.1.1_linux_386.tar.gz && mv ./gau /usr/bin/gau
-#
-## go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-#wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx_1.2.1_linux_amd64.zip &&
-#  unzip httpx_1.2.1_linux_amd64.zip && mv ./httpx /usr/bin/httpx
+wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+
+# TO-FIX: because of https://github.com/tomnomnom/waybackurls/issues/41
+git clone https://github.com/tomnomnom/waybackurls.git && # go install github.com/tomnomnom/waybackurls@latest
+  cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
+
+# go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+wget -q https://github.com/projectdiscovery/subfinder/releases/download/v2.5.2/subfinder_2.5.2_linux_amd64.zip &&
+  unzip subfinder_2.5.2_linux_amd64.zip && mv ./subfinder /usr/bin/subfinder
+
+# go install -v github.com/lc/gau/v2/cmd/gau@latest
+wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.tar.gz &&
+  tar -xvf gau_2.1.1_linux_386.tar.gz && mv ./gau /usr/bin/gau
+
+# go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx_1.2.1_linux_amd64.zip &&
+  unzip httpx_1.2.1_linux_amd64.zip && mv ./httpx /usr/bin/httpx
 
 
 export HOME=/opt/app/
@@ -43,6 +43,7 @@ export PATH=$PATH:$GOPATH
 export OUTPUT_DIR=/opt/app
 
 rm -vf go1.18.3.linux-amd64.tar.gz gau_2.1.1_linux_386.tar.gz Dockerfile Release nooutput
+rm -vf go1.18.3.linux-amd64.tar.gz.1
 
 
 #go install github.com/tomnomnom/assetfinder@latest

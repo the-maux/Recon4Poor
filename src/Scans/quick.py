@@ -1,4 +1,4 @@
-import os
+import os, time
 from threading import Thread
 from pip._internal.utils import urls
 from src.Analyze.filter_endpoint import extract_subdomains
@@ -35,11 +35,11 @@ def use_python_tool(cmd='echo Hi', dumpInCmd=False):
 
 
 def exec_tools(cmd, usefFile=True):
+    print('---------------------------------')
     print(f'(DEBUG) $> {cmd}')
     stdout, stderr, returncode = shell(cmd)
     if usefFile:
         stdout, stderr, returncode = shell('cat results.txt')
-        print('(DEBUG) Using reading file methode than rm -f ./results.txt')
         shell('rm -f ./results')
     return extract_subdomains(stdout.split('\n'))
 
@@ -67,21 +67,28 @@ def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus l
 def use_go_tools(target):  # TODO: benchmark if filter_all(exec_go_tools()) is better all in one filter_all
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
     print(f'(DEBUG) Waybackurls found {len(wayback_urls)} endpoints')
-    print('---------------------------------------------------------------------------------------')
     gau_urls = exec_tools(cmd=f'echo "{target}" | gau --threads 5', usefFile=False)
     print(f'(DEBUG) gau found {len(gau_urls)} endpoints')
-    print('---------------------------------------------------------------------------------------')
     subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
-    print('---------------------------------------------------------------------------------------')
     subdomains = extract_subdomains(wayback_urls + gau_urls + subfinder)
     return subdomains
 
 
 def quick_scan(target):
-#    results = use_go_tools(target)
-    results = use_python_tools(target)
-    return results
+    start = time.time()
+    go_results = use_go_tools(target)
+    end_go = time.time()
+    print(f'(DEBUG) GO TOOLS FOUND {len(go_results)} SUBDOMAIN in {end_go - start} seconds ! ')
+
+    start_python = time.time()
+    python_results = use_python_tools(target)
+    end_python = time.time()
+    print(f'(DEBUG) PYTHON TOOLS FOUND {len(go_results)} SUBDOMAIN in {end_python - start_python} seconds ! ')
+
+    final_res = extract_subdomains(go_results + python_results)
+    print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end_python - start_python} seconds ! ')
+    return final_res
 
 
 # def quick_scan_parrall(target): # ca dump dans des fichiers, mais il faut le recup in memory mais cest en thread :/
