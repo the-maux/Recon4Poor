@@ -62,8 +62,8 @@ def quick_scan(target):
     # print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end - start} seconds ! ')
     # return final_res
     pThread = list()
-    pThread.append(Thread(target=use_go_tools, args=(target)))
-    pThread.append(Thread(target=use_python_tools, args=(target)))
+    pThread.append(Thread(target=use_go_tools, args=target))
+    pThread.append(Thread(target=use_python_tools, args=target))
     [process.start() for process in pThread]
     [process.join() for process in pThread]
     return list()
