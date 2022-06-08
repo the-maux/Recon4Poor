@@ -1,18 +1,7 @@
 import os, time
 from threading import Thread
-from pip._internal.utils import urls
 from src.Analyze.filter_endpoint import extract_subdomains
 from src.Utils.Shell import shell, VERBOSE
-
-
-# def use_assetfinder(target):
-#     """
-#         les resultats sont dnas le fichier: assetfinder_urls.txt
-#         #TOKNOW: assetfinder is not working good with "https://"
-#     """
-#     listResult = list()
-#     stdout, stderr, returncode = shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt
-#     return listResult  # TODO: mettre assetfinder_urls.txt in listResult
 
 
 def exec_tools(cmd, usefFile=True):
@@ -25,11 +14,8 @@ def exec_tools(cmd, usefFile=True):
     return extract_subdomains(stdout.split('\n'))
 
 
-def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
-    """
-        Seach from a single domain all subdomain possible
-        TODO: multiThread ?
-    """
+def use_python_tools(target):
+    """ Use python script subcat & sublist3r & SubDomainzer """
     cmd = f'echo {target} | python3 subcat/subcat.py -silent'
     subcat_res = exec_tools(cmd=cmd, usefFile=False)
     print(f"(DEBUG) Subcat found: {len(subcat_res)} domain(s) in scope")
@@ -38,20 +24,24 @@ def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus l
     sublist3r_res = exec_tools(cmd=cmd, usefFile=True)
     print(f"(DEBUG) Sublist3r found: {len(sublist3r_res)} domain(s) in scope")
 
-    cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o result.txt'  # TODO: SubDomainizer need real conf
+    cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o result.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
-    print(f'(DEBUG) SubDomainizer found: {len(subDomainizer_res)} domain(s) in scope')  # -o SubDomainizer.txt
+    print(f'(DEBUG) SubDomainizer found: {len(subDomainizer_res)} domain(s) in scope')
 
     return extract_subdomains(subcat_res + sublist3r_res + subDomainizer_res)
 
 
-def use_go_tools(target):  # TODO: benchmark if filter_all(exec_go_tools()) is better all in one filter_all
+def use_go_tools(target):
+    """ User Go binary waybackurls & gau & subfinder """
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
     print(f'(DEBUG) Waybackurls found {len(wayback_urls)} endpoints')
-    gau_urls = exec_tools(cmd=f'echo "{target}" | gau --threads 5', usefFile=False)
+
+    gau_urls = exec_tools(cmd=f'echo "{target}" | gau ', usefFile=False)  # --threads 5 ?
     print(f'(DEBUG) gau found {len(gau_urls)} endpoints')
+
     subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
     print(f'(DEBUG) subfinder found {len(subfinder)} endpoints')
+
     subdomains = extract_subdomains(wayback_urls + gau_urls + subfinder)
     return subdomains
 
@@ -84,5 +74,8 @@ def quick_scan(target):
 #     listOfToolsToExec.append(p4)
 #     [process.start() for process in listOfToolsToExec]
 #     [process.join() for process in listOfToolsToExec]
+
+
 # domains_found_assetfinder = use_assetfinder(target)
 # print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
+# shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt

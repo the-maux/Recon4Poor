@@ -1,19 +1,21 @@
-def basic_filter_endpoint(urls):
-    result = list()
-    for url in urls:
-        if "Find interesting Subdomains" not in url and \
-                "____) | |_| | |_) | |__| | (_) | | | | | | (_| | | | | | |" not in url:
-            result.append(url)
-    return result
+import os
 
 
-def final_sanityze(urls):
-    # TODO: check si le domain répond d'un point de vue network
-    return urls
+def final_sanityze(domains):
+    """ Test a list of domains to check if they respond """
+    domain_alive = list()
+    domain_offline = list()
+    for domain in domains:
+        response = os.system(f"ping -c 1 {domain}")
+        if response == 0:
+            domain_alive.append(domain)
+        else:
+            domain_offline.append(domain)
+    return domain_offline, domain_alive
 
 
 def extract_subdomains(urls):
-    """ filter port / http:// / https:// """
+    """ filter substring in domains like / http:// / https:// and everything after '?' """
     results = list()
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace("ftp://", "").replace("ftps://", "")
