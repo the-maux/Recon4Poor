@@ -6,18 +6,18 @@ apt-get clean &> nooutput
 
 ## install python ressources
 #git clone https://github.com/dark-warlord14/LinkFinder.git
-#git clone https://github.com/nsonaniya2010/SubDomainizer.git
-#git clone https://github.com/aboul3la/Sublist3r.git
+git clone https://github.com/nsonaniya2010/SubDomainizer.git
+git clone https://github.com/aboul3la/Sublist3r.git
 git clone https://github.com/duty1g/subcat
 
-cat ./subcat/requirements.txt > requirements_all.txt
+cat ./subcat/requirements.txt > requirement_all.txt
 #cat ./LinkFinder/requirements.txt >> requirement_all.txt
-#cat ./Sublist3r/requirements.txt >> requirement_all.txt
-#cat ./SubDomainizer/requirements.txt | grep -v "requests" | grep -v "argparse" >> requirement_all.txt
+cat ./Sublist3r/requirements.txt >> requirement_all.txt
+cat ./SubDomainizer/requirements.txt | grep -v "requests" | grep -v "argparse" >> requirement_all.txt
 #echo "colorama" >> requirement_all.txt
-#cat requirement_all.txt | sort -u > requirements.txt
+cat requirement_all.txt | sort -u > requirements.txt
 #cat requirements.txt
-pip3 install -r ./requirements_all.txt
+pip3 install -r ./requirements.txt
 #cd /opt/app/LinkFinder && python3 ./setup.py install
 
 
