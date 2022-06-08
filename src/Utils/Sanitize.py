@@ -26,7 +26,6 @@ def extract_subdomains(urls):
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
         results.append(filtered)
     results = list(set(results))
-    print(f'(DEBUG) After filtering, found ({len(results)}) domains')
     return results
 
 

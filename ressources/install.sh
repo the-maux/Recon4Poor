@@ -41,7 +41,7 @@ export PATH=$PATH:$GOPATH
 export OUTPUT_DIR=/opt/app
 
 rm -vf go1.18.3.linux-amd64.tar.gz gau_2.1.1_linux_386.tar.gz Dockerfile Release nooutput
-rm -vf go1.18.3.linux-amd64.tar.gz.1
+rm -vf go1.18.3.linux-amd64*
 
 
 #go install github.com/tomnomnom/assetfinder@latest

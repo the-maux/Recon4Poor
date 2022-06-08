@@ -6,10 +6,9 @@ from src.Utils.Shell import shell, VERBOSE
 
 def exec_tools(cmd, usefFile=True):
     print('---------------------------------')
-    print(f'(DEBUG) $> {cmd}')
     stdout, stderr, returncode = shell(cmd)
     if usefFile:
-        stdout, stderr, returncode = shell('cat results.txt', verbose=False)
+        stdout, stderr, returncode = shell('cat results.txt', verbose=True)
         shell('rm -f ./results', verbose=False)
     return extract_subdomains(stdout.split('\n'))
 
