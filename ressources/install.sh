@@ -1,24 +1,20 @@
 #!/usr/bin/env bash
 
 apt -yqq update &> nooutput
-apt -yqq install python3 python3-pip wget git unzip nano
+apt -yqq install python3 python3-pip wget git unzip nano &> nooutput
 apt-get clean &> nooutput
 
 ## install python ressources
-#git clone https://github.com/dark-warlord14/LinkFinder.git
 git clone https://github.com/nsonaniya2010/SubDomainizer.git
 git clone https://github.com/aboul3la/Sublist3r.git
 git clone https://github.com/duty1g/subcat
+#git clone https://github.com/dark-warlord14/LinkFinder.git
 
-cat ./subcat/requirements.txt > requirement_all.txt
-#cat ./LinkFinder/requirements.txt >> requirement_all.txt
-cat ./Sublist3r/requirements.txt >> requirement_all.txt
-cat ./SubDomainizer/requirements.txt | grep -v "requests" | grep -v "argparse" >> requirement_all.txt
-#echo "colorama" >> requirement_all.txt
-cat requirement_all.txt | sort -u > requirements.txt
-#cat requirements.txt
-pip3 install -r ./requirements.txt
-#cd /opt/app/LinkFinder && python3 ./setup.py install
+pip3 install -r subcat/requirements.txt
+pip3 install -r Sublist3r/requirements.txt
+pip3 install -r SubDomainizer/requirements.txt
+# echo "colorama" >> LinkFinder/requirements.txt && pip3 install -r LinkFinder/requirements.txt
+# cd /opt/app/LinkFinder && python3 ./setup.py install
 
 
 
