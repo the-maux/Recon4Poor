@@ -55,7 +55,7 @@ def global_controller(target, depth):
     """
         From 1 domain, search for maximum subdomain than search for JS file
     """
-    endpoints = search_domains(target, depth) # resulst est une list de subdomain (TODO: filtered by allowed scope)
+    endpoints = search_domains(target, depth)  # resulst est une list de subdomain (TODO: filtered by allowed scope)
     if len(endpoints) < 1:
         print('(ERROR) no subdomain found for this target')
         exit(-1)

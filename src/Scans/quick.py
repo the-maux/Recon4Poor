@@ -57,7 +57,7 @@ def use_python_tools(target):  # arrete de dumper dans des fichiers, cest plus l
         Seach for a single domain all domain possible
         TODO: multiThread ?
     """
-    cmd = f'echo {target} | python3 subcat/subcat.py'
+    cmd = f'echo {target} | python3 subcat/subcat.py -silent'
     listDomains = exec_tools(cmd=cmd, usefFile=False)
 
     # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
