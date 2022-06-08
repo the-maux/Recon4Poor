@@ -62,25 +62,16 @@ def quick_scan(target):
     # print(f'(DEBUG) ALL TOOLS FOUND {len(final_res)} SUBDOMAIN in {end - start} seconds ! ')
     # return final_res
     start = time.time()
-    pThread = list()
-    pThread.append(Thread(target=use_go_tools, args=target))
-    pThread.append(Thread(target=use_python_tools, args=target))
-    [process.start() for process in pThread]
-    [process.join() for process in pThread]
+    pThreads = list()
+    pThreads.append(Thread(target=use_go_tools, args=(target,)))
+    pThreads.append(Thread(target=use_python_tools, args=(target,)))
+    [process.start() for process in pThreads]
+    [process.join() for process in pThreads]
     stdout, stderr, returncode = shell('rm -f tmp-search.txt', verbose=False)
     resultats = stdout.split('\n')
 
     print(f'(DEBUG) PARALL TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
     return resultats
-
-def quick_scan_parrall(target): # ca dump dans des fichiers, mais il faut le recup in memory mais cest en thread :/
-    listOfToolsToExec = list()
-    p1 = Thread(target=use_go_tools, args=(target))
-    p2 = Thread(target=use_python_tools, args=(target))
-    listOfToolsToExec.append(p1)
-    listOfToolsToExec.append(p2)
-    [process.start() for process in listOfToolsToExec]
-    [process.join() for process in listOfToolsToExec]
 
 
 # domains_found_assetfinder = use_assetfinder(target)
