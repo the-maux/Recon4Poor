@@ -1,5 +1,5 @@
 from src.Analyze.send_report import sendMail
-from src.Utils.Sanitize import sanitize_my_domain
+from src.Utils.Sanitize import extract_subdomains
 
 
 def search_endpoint(list_urls_toJsFile):
@@ -37,7 +37,7 @@ def search_JS_files(domains):
     # cat listOfDomains.txt | hakrawler -js -depth 2 -scope subs -plain >> hakrawler_urls.txt
     print("(INFO) hakrawler individually found: $(cat hakrawler_urls.txt | wc -l) url(s)")
 
-    return sanitize_my_domain(listOfJsFiles)
+    return extract_subdomains(listOfJsFiles)
 
 
 def searching_assets(results):

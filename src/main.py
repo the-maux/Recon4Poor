@@ -1,9 +1,8 @@
 import os
-from src.Utils.Sanitize import sanity_check_at_startup
+from src.Utils.Sanitize import sanity_check_at_startup, final_sanityze
 from src.Scans.quick import quick_scan
 from src.Scans.regular import regular_scan
 from src.Scans.hard import hard_scan
-from src.Analyze.filter_endpoint import final_sanityze
 from src.Analyze.analyze import searching_assets, search_JS_files
 from src.Analyze.report import generate_report
 from src.Analyze.send_report import sendMail

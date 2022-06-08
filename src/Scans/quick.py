@@ -1,6 +1,6 @@
 import os, time
 from threading import Thread
-from src.Analyze.filter_endpoint import extract_subdomains
+from src.Utils.Sanitize import extract_subdomains
 from src.Utils.Shell import shell, VERBOSE
 
 
