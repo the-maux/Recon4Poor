@@ -10,13 +10,11 @@ def final_sanityze(domains):
     for domain in domains:
         stdout, stderr, code = shell(f"ping -c 1 {domain}", verbose=False)
         if code == 0:
-            print(f'(INFO) {domain} IS ONLINE !')
             domain_alive.append(domain)
             rcx = rcx + 1
         else:
-            print(f'(INFO) {domain} IS DEAD :( !')
             domain_offline.append(domain)
-    print(f'(DEBUG) We found {rcx} domain still alive !')
+    print(f'(DEBUG) We found {rcx} domain still alive ! {":D" if rcx > 10 else ":("}')
     return domain_offline, domain_alive
 
 
@@ -50,7 +48,7 @@ def sanity_check_at_startup():
             print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
     except Exception:
         if VERBOSE:
-            print('(WARNING) DEPTH analyse was not set, default is 1')
+            print('(INFO) DEPTH analyse was not set, default is 1')
         depth = 1
     try:
         target = os.environ['TARGET']
