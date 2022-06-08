@@ -4,7 +4,7 @@ from src.Utils.Sanitize import extract_subdomains_and_dump, check_alives_domains
 from src.Utils.Shell import shell, VERBOSE
 
 
-def exec_tools(cmd, usefFile=True):
+def exec_tools(cmd, usefFile=False):
     stdout, stderr, returncode = shell(cmd, verbose=False)
     if usefFile:
         stdout, stderr, returncode = shell('cat results.txt', verbose=False)
@@ -17,13 +17,13 @@ def use_python_tools(target):
     start_python = time.time()
     print('(Python-Thread) Starting Python scripts with subcat')
 
-    subcat_res = exec_tools(cmd=f'echo {target} | python3 subcat/subcat.py -silent', usefFile=False)
+    subcat_res = exec_tools(cmd=f'echo "{target}" | python3 subcat/subcat.py -silent')
     print(f"(Python-Thread) Subcat found: {len(subcat_res)} endpoints")
 
-    sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d {target} -n -o results.txt', usefFile=True)
+    sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
     print(f"(Python-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
 
-    cmd = f'python3 SubDomainizer/SubDomainizer.py -u {target} -san all -o results.txt'
+    cmd = f'python3 SubDomainizer/SubDomainizer.py -u "{target}" -san all -o results.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
     print(f'(Python-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
 
@@ -42,13 +42,16 @@ def use_go_tools(target):
     start = time.time()
     print('(Go-Thread) Starting Go Tools with waybackurls')
 
-    wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls', usefFile=False)
+    assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
+    print(f'(Go-Thread) Waybackurls found {len(assetfinder_urls)} endpoints')
+
+    wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
     print(f'(Go-Thread) Waybackurls found {len(wayback_urls)} endpoints')
 
-    gau_urls = exec_tools(cmd=f'echo "{target}" | gau ', usefFile=False)  # --threads 5 ?
+    gau_urls = exec_tools(cmd=f'echo "{target}" | gau ')  # --threads 5 ?
     print(f'(Go-Thread) gau found {len(gau_urls)} endpoints')
 
-    subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent', usefFile=False)
+    subfinder = exec_tools(cmd=f'echo "{target}" | subfinder -silent')
     print(f'(Go-Thread) subfinder found {len(subfinder)} endpoints')
 
     go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder)
@@ -74,6 +77,5 @@ def quick_scan(target):
     return resultats
 
 
-# domains_found_assetfinder = use_assetfinder(target)
 # print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} urls in scope")
 # shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt
