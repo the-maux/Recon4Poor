@@ -34,11 +34,11 @@ wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx
 wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
   tar -xvf assetfinder-linux-amd64-0.1.1.tgz && mv ./assetfinder /usr/bin/assetfinder
 
-export HOME=/opt/app/
+export HOME="$PWD"
 export GOPATH=$HOME/go/bin
 export PYTHONPATH=$HOME
 export PATH=/usr/local/go/bin:$GOPATH:$PATH
-
+env
 rm -vf go1.18.3.linux-amd64* Dockerfile Release nooutput  # TODO: cleaning is shitty
 
 
