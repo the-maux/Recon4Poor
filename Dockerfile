@@ -4,7 +4,7 @@ COPY . /opt/app
 
 WORKDIR /opt/app
 
-RUN bash ./ressources/install.sh
+RUN bash ./install.sh
 
 ENV PYTHONPATH="/opt/app"
 

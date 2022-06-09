@@ -1,43 +1,53 @@
 from src.Analyze.send_report import sendMail
+from src.Utils.Shell import shell
 from src.Utils.Sanitize import extract_subdomains_and_dump
 
 
-def search_endpoint(list_urls_toJsFile):
-    """
-        Search in Js File, all endpoint
-        # TOKNOW: linkfinder doesnt work if "https" is not present
-    """
-    listOfEndpoints = list()
-    # cat all_js_files_found.txt | sed 's$https://$$' | awk '{print "https://" $0}' > search_endpoint.txt # tobe sur there are alway a https://
-    # interlace -tL search_endpoint.txt -threads 5 -c "python3 ./tools/LinkFinder/linkfinder.py -d -i '_target_' -o cli >> all_endpoints.txt" --silent --no-bar
-    number_of_endpoint_found = 42  # $(cat all_endpoints.txt | wc -l)
-    print("(INFO) Number of endpoint found with LinkFinder: $(cat endpoints.txt | wc -l)")
-    return listOfEndpoints  # need to be filtered for scope / domain / interest
-
-
-def search_JS_files(domains):
-    """
-        Search in list of urls, all JS files
-        :return: listof filtered urls to uniq JS files
-    """
-    print('DEBUG) [+] Started gathering Js files from domain and path found')
-    listOfJsFiles = list()
-
+def search_JS_files_in_one_domain(domain):
+    listOfJsFilesPath = list()
     # Using subjs
-    # cat listOfDomains.txt | gau -subs -b png,jpg,jpeg,html,txt,JPG | subjs  |  awk -F '\?' '{print $1}' | sort -u > subjs_url.txt
+    cmd = 'cat listOfDomains.txt | gau -subs -b png,jpg,jpeg,html,txt,JPG | subjs  |  '
+    cmd = cmd + "awk -F '\?' '{print $1}' | sort -u > subjs_url.txt"
+    stdout, stderr, returncode = shell(cmd, verbose=True)
     print("(INFO) subjs individually found: $(cat subjs_url.txt | wc -l) url(s)")
 
-
     # Using JsSubfinder
-    # jsubfinder -f listOfDomains.txt  > jsubfinder.txt
+    cmd = 'jsubfinder -f listOfDomains.txt  > jsubfinder.txt'
+    stdout, stderr, returncode = shell(cmd, verbose=True)
     print("(INFO) jsubfinder individually found: $(cat jsubfinder.txt | wc -l) url(s)")
 
-
     # Using hakrawler
-    # cat listOfDomains.txt | hakrawler -js -depth 2 -scope subs -plain >> hakrawler_urls.txt
+    cmd = 'cat listOfDomains.txt | hakrawler -js -depth 2 -scope subs -plain >> hakrawler_urls.txt'
+    stdout, stderr, returncode = shell(cmd, verbose=True)
     print("(INFO) hakrawler individually found: $(cat hakrawler_urls.txt | wc -l) url(s)")
+    return listOfJsFilesPath
 
-    return extract_subdomains_and_dump(listOfJsFiles)
+
+def extract_JsFiles_From_endpoint(endpoints):
+    """ Use tool to extract maximum Js file from a list of endpoints """
+    jsfilesPath = list()
+    for endpoint in endpoints:
+        pass
+    return endpoints
+
+
+def extract_endpoints_From_domain(domain):
+    """ Use a tool to extract maximum endpoints from domain """
+    endpoints = list()
+    return endpoints
+
+
+def extract_more_Js_file_as_u_can(domains):
+    """
+        Search in list of domains, first all endpoints from domains than extract JS files from it
+        :return: listof filtered urls to uniq JS files
+    """
+    pathOfJsFilesFound = list()
+    for domain in domains:  # TODO: Thread it
+        print(f'DEBUG) [+] Started gathering Js files from domain({domain}) and path found')
+        endpoints = extract_endpoints_From_domain(domain=domain)
+        pathOfJsFilesFound.append(extract_JsFiles_From_endpoint(endpoints))
+    return pathOfJsFilesFound
 
 
 def searching_assets(results):
@@ -45,4 +55,3 @@ def searching_assets(results):
     results = list()
     sendMail(results)
     return results
-
