@@ -1,7 +1,6 @@
-# Inspired by KathanP19 in bash: https://github.com/KathanP19/JSFScan.sh
-# & every other tools maker + 
+#### Inspired by KathanP19 in bash: https://github.com/KathanP19/JSFScan.sh
 
-Concat tools <3 :
+Thanks to all the makers <3 :
 - https://github.com/nsonaniya2010/SubDomainizer
 - https://github.com/aboul3la/Sublist3r
 - https://github.com/duty1g/subcat
