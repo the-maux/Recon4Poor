@@ -15,6 +15,7 @@ git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && p
 wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
   ln -s /usr/local/go/bin/go /usr/bin/go
 
+
 wget -q https://github.com/projectdiscovery/subfinder/releases/download/v2.5.2/subfinder_2.5.2_linux_amd64.zip &&
   unzip subfinder_2.5.2_linux_amd64.zip && mv ./subfinder /usr/bin/subfinder
 
@@ -24,6 +25,7 @@ wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.t
 wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx_1.2.1_linux_amd64.zip &&
   unzip httpx_1.2.1_linux_amd64.zip && mv ./httpx /usr/bin/httpx
 
+# go install github.com/tomnomnom/assetfinder@latest
 wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
   tar -xvf assetfinder-linux-amd64-0.1.1.tgz && mv ./assetfinder /usr/bin/assetfinder
 
