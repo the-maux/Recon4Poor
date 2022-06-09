@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-apt -yqq update &> nooutput
-apt -yqq install python3 python3-pip wget git unzip nano iputils-ping &> nooutput
+apt -yqq update &> nooutput && apt -yqq install python3 python3-pip wget git unzip nano iputils-ping &> nooutput
 apt-get clean &> nooutput
 
-## install python ressources
+## install python ressources for recon
 git clone https://github.com/nsonaniya2010/SubDomainizer.git && pip3 install -r SubDomainizer/requirements.txt &> nooutput
 git clone https://github.com/aboul3la/Sublist3r.git && pip3 install -r Sublist3r/requirements.txt &> nooutput
 git clone https://github.com/duty1g/subcat && pip3 install -r subcat/requirements.txt &> nooutput
-#git clone https://github.com/dark-warlord14/LinkFinder.git
-# cd /opt/app/LinkFinder && python3 ./setup.py install
+## install python ressources Analyze files
+git clone https://github.com/m4ll0k/SecretFinder.git && cd SecretFinder && pip3 install -r requirements.txt && cd -
+git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python3 setup.py install && cd -
 
 # Recoon Go tool
 wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
@@ -38,7 +38,6 @@ wget -q wget https://github.com/jaeles-project/gospider/releases/download/v1.1.6
 git clone https://github.com/tomnomnom/waybackurls.git && # go install github.com/tomnomnom/waybackurls@latest
   cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput && cd -
 
-# Js files finder Go tool
 git clone https://github.com/ThreatUnkown/jsubfinder.git &&
   cd jsubfinder && go build main.go && ln -s /opt/app/jsubfinder/main /usr/bin/jsubfinder &> nooutput && cd -
 
@@ -47,11 +46,6 @@ git clone https://github.com/hakluke/hakrawler &&
   cd hakrawler && go build  && ln -s /opt/app/hakrawler/hakrawler /usr/bin/hakrawler &> nooutput && cd -
 
 wget -q https://github.com/lc/subjs/releases/download/v1.0.1/subjs_1.0.1_linux_amd64.tar.gz &&
-  tar -xvf subjs_1.0.1_linux_amd64.tar.gz && mv ./subjs  /usr/bin/subjs
+  tar -xvf subjs_1.0.1_linux_amd64.tar.gz && mv ./subjs  /usr/bin/subjs &> nooutput
 
-
-rm -vf *.zip *.gz* Dockerfile Release nooutput  # TODO: cleaning is shitty
-
-
-#cat ./SecretFinder/requirements.txt | grep -v "requests" >> requirement_all.txt
-#git clone https://github.com/m4ll0k/SecretFinder.git
+rm -vf *.zip *.gz* *.md *.tgz Dockerfile Release nooutput
