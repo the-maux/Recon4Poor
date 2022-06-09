@@ -1,48 +1,49 @@
 #!/usr/bin/env bash
 
-apt -y update && apt -y install python3 python3-pip wget git && apt-get clean
-ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
+apt -yqq update &> nooutput
+apt -yqq install python3 python3-pip wget git unzip nano iputils-ping &> nooutput
+apt-get clean &> nooutput
 
-# install python ressources
-git clone https://github.com/codingo/Interlace.git
-git clone https://github.com/dark-warlord14/LinkFinder.git
-git clone https://github.com/m4ll0k/SecretFinder.git
-git clone https://github.com/nsonaniya2010/SubDomainizer.git
-git clone https://github.com/aboul3la/Sublist3r.git
-# https://github.com/duty1g/subcat # TODO: seems really cool to integrate
+## install python ressources
+git clone https://github.com/nsonaniya2010/SubDomainizer.git && pip3 install -r SubDomainizer/requirements.txt &> nooutput
+git clone https://github.com/aboul3la/Sublist3r.git && pip3 install -r Sublist3r/requirements.txt &> nooutput
+git clone https://github.com/duty1g/subcat && pip3 install -r subcat/requirements.txt &> nooutput
+#git clone https://github.com/dark-warlord14/LinkFinder.git
+# cd /opt/app/LinkFinder && python3 ./setup.py install
 
-cat ./Interlace/requirements.txt > requirement_all.txt
-cat ./SecretFinder/requirements.txt | grep -v "requests" >> requirement_all.txt
-cat ./LinkFinder/requirements.txt >> requirement_all.txt
-cat ./Sublist3r/requirements.txt >> requirement_all.txt
-cat ./SubDomainizer/requirements.txt | grep -v "requests" | grep -v "argparse" >> requirement_all.txt
-echo "colorama" >> requirement_all.txt
-cat requirement_all.txt | sort -u > requirements.txt
-cat requirements.txt
-pip install -r requirements.txt
-cd Interlace && python3 ./setup.py install
-cd /opt/app/LinkFinder && python3 ./setup.py install
 
-#wget https://go.dev/dl/go1.18.2.linux-amd64.tar.gz && tar -xf go1.18.2.linux-amd64.tar.gz
-#mkdir -p /usr/local/go/bin && cp ./go/bin/go /usr/local/go/bin/go
-#
-#
-## install go ressources
-#go install github.com/tomnomnom/waybackurls
-#go install github.com/tomnomnom/assetfinder@latest
+wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
+  ln -s /usr/local/go/bin/go /usr/bin/go
+
+# TO-FIX: because of https://github.com/tomnomnom/waybackurls/issues/41
+git clone https://github.com/tomnomnom/waybackurls.git && # go install github.com/tomnomnom/waybackurls@latest
+  cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput
+
+# go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+wget -q https://github.com/projectdiscovery/subfinder/releases/download/v2.5.2/subfinder_2.5.2_linux_amd64.zip &&
+  unzip subfinder_2.5.2_linux_amd64.zip && mv ./subfinder /usr/bin/subfinder
+
+# go install -v github.com/lc/gau/v2/cmd/gau@latest
+wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.tar.gz &&
+  tar -xvf gau_2.1.1_linux_386.tar.gz && mv ./gau /usr/bin/gau
+
+# go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+wget -q https://github.com/projectdiscovery/httpx/releases/download/v1.2.1/httpx_1.2.1_linux_amd64.zip &&
+  unzip httpx_1.2.1_linux_amd64.zip && mv ./httpx /usr/bin/httpx
+
+# go install github.com/tomnomnom/assetfinder@latest
+wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
+  tar -xvf assetfinder-linux-amd64-0.1.1.tgz && mv ./assetfinder /usr/bin/assetfinder
+
+
+rm -vf go1.18.3.linux-amd64* Dockerfile Release nooutput  # TODO: cleaning is shitty
+
 #go install github.com/hakluke/hakrawler@latest
 #go install github.com/jaeles-project/gospider@latest
-#go install github.com/dwisiswant0/unew@latest
-## GO111MODULE=on go get -u github.com/shenwei356/rush /!\ No need, because: 1 target only by contener
-#go install github.com/hiddengearz/jsubfinder@latest
-#go install github.com/projectdiscovery/httpx/cmd/httpx@latest
-#go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-#wget https://raw.githubusercontent.com/hiddengearz/jsubfinder/master/.jsf_signatures.yaml && mv .jsf_signatures.yaml ~/.jsf_signatures.yaml
-#go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest
-#go install github.com/lc/gau@latest
 #go install github.com/lc/subjs@latest
-#
-#export HOME=/opt/app/
-#export GOPATH=$HOME/go/bin
-#export PATH=$PATH:$GOPATH
-#export OUTPUT_DIR=/opt/app
+#go install github.com/hiddengearz/jsubfinder@latest
+#go install github.com/projectdiscovery/chaos-client/cmd/chaos@latest
+#go install github.com/dwisiswant0/unew@latest
+
+#cat ./SecretFinder/requirements.txt | grep -v "requests" >> requirement_all.txt
+#git clone https://github.com/m4ll0k/SecretFinder.git

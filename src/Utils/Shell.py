@@ -4,6 +4,12 @@ try: VERBOSE = 'True' in os.environ['VERBOSE']
 except Exception: VERBOSE = True
 
 
+def dump_to_file(namefile, mode, lines):
+    with open(namefile, mode) as f:
+        for item in lines:
+            f.write(f"{item}\n")
+
+
 def filter_bullshitssh(logs, bypassed_words=None):
     """
         filtrer dans une list de logs, des substrings pour supprimer la ligne
@@ -17,11 +23,13 @@ def filter_bullshitssh(logs, bypassed_words=None):
     return '\n'.join([log for log in logs.split('\n') if not any([word in log for word in bypassed_words])])
 
 
-def shell(cmd):
+def shell(cmd, verbose=None):
     """
         Exec shell cmd & filter outputs
         :return: stdout, stderror, & exit_status
     """
+    if (verbose is not None and verbose is True) or (verbose is None and VERBOSE):
+        print(f'$> {cmd}')
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash')
     (stdout, stderr) = p.communicate()
     p.wait()

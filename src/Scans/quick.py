@@ -1,86 +1,81 @@
-import os
+import os, time
 from threading import Thread
+from src.Utils.Sanitize import extract_subdomains_and_dump, check_alives_domains
 from src.Utils.Shell import shell, VERBOSE
 
 
-def use_assetfinder(target):
-    """
-        les resultats sont dnas le fichier: assetfinder_urls.txt
-        #TOKNOW: assetfinder is not working good with "https://"
-    """
-    listResult = list()
-    stdout, stderr, returncode = shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt
-    return listResult  # TODO: mettre assetfinder_urls.txt in listResult
+def exec_tools(cmd, usefFile=False):
+    stdout, stderr, returncode = shell(cmd, verbose=False)
+    if usefFile:
+        stdout, stderr, returncode = shell('cat results.txt', verbose=False)
+        shell('rm -f results.txt', verbose=False)
+    return stdout.split('\n')
 
 
-def use_python_tool(tool_name='echo ', argv='', path='', dumpInCmd=False):
-    """
-        Use a specific python tool to do a search subdomain, dump founds in results.txt file
-        TOKNOW: convert results.txt as python list
-        TOKNOW: remove the results.txt in current workspace
-        return: list of strings who was inside the result.txt
-    """
-    listResult = list()
-    print(f'\n\n-----------------------------------------------------------------')
-    print(f'(INFO) [+] Using tool with {tool_name}')
-    cmd = f'python {path}{tool_name} {argv}'
-    stdout, stderr, returncode = shell(cmd if dumpInCmd is False else cmd + '> ./results.txt')
-    if VERBOSE:
-        print(f'(DEBUG) cmd > {cmd if dumpInCmd is False else cmd + "> ./results.txt"}')
-        print(f'(DEBUG) stdout >\n {stdout}')
-        print(f'(DEBUG) stderr >\n {stderr}')
-        print(f'(DEBUG) return status code  > {returncode}')
-    print('---------------------------------------------------------------------------------------')
-    print('(DEBUG) cat ./results.txt')
-    os.system('cat ./results.txt')
-    print('---------------------------------------------------------------------------------------')
-    print('(DEBUG) rm -vf ./results.txt')
-    shell('rm -vf ./results.txt')
-    return listResult
+def use_python_tools(target):
+    """ Use python script subcat & sublist3r & SubDomainzer """
+    start_python = time.time()
+    print('(Py-Thread) Starting Python scripts with subcat')
+
+    subcat_res = exec_tools(cmd=f'echo "{target}" | python3 subcat/subcat.py -silent')
+    print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints")
+
+    sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
+    print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
+
+    cmd = f'python3 SubDomainizer/SubDomainizer.py -u "{target}" -san all -o results.txt'
+    subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
+    print(f'(Py-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
+
+    python_results = extract_subdomains_and_dump(subcat_res + sublist3r_res + subDomainizer_res)
+    print(f'(Py-Thread) PYTHON SCRIPTS FOUND {len(python_results)} DOMAIN in {time.time() - start_python} seconds')
+
+    domain_offline, domain_alive = check_alives_domains(python_results)
+    nbr_alives = len(domain_alive)
+    print(f'(Py-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
+
+    return python_results
 
 
-def search_4_domains(target):  # arrete de dumper dans des fichiers, cest plus long que inmemory
-    """
-        Seach for a single domain all domain possible
-        TODO: multiThread ?
-    """
-    # subdomains = sublist3r.main(domain=target, savefile='yahoo_subdomains.txt', ports=None, silent=False, verbose=False,
-    #                             enable_bruteforce=False, engines=None, threads=8)
-    domains_found_Sublist3r = use_python_tool(path='Sublist3r/', tool_name='sublist3r.py',
-                                              argv=f'-d {target} -o ./results.txt')  # &> nooutput
-    print(f"(INFO) sublist3r found: {len(domains_found_Sublist3r)} domain(s) in scope")
+def use_go_tools(target):
+    """ User Go binary waybackurls & gau & subfinder """
+    start = time.time()
+    print('(Go-Thread) Starting Go Tools with waybackurls')
 
-    # domains_found_assetfinder = use_assetfinder(target)
-    # print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} url(s) in scope")
-    # #TODO: aucune variable n'est retourné jte signale
-    #
-    # cmd = ' -l target.txt -o results.txt -san all '
-    # domains_found_SubDomainizer = use_python_tool(path='SubDomainizer/', tool_name='SubDomainizer.py',
-    #                                               argv=cmd) # &> nooutput
-    # # TODO: SubDomainizer a etre mieux configurer, rester dans le scope du search subdomain, rien de plus
-    # print(f'(INFO) SubDomainizer found: {len(domains_found_SubDomainizer)} domain(s) in scope')  # -o SubDomainizer.txt
+    assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
+    print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
 
-    # TODO: subfinder cest du go boufon
-    # domains_found_subfinder = use_python_tool(tool_name='subfinder', argv=f'-d {target} -silent', dumpInCmd=False)  # > subfinder.txt
-    # print(f"(INFO) subfinder found: {domains_found_subfinder} domain(s) in scope")
+    wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
+    print(f'(Go-Thread) Waybackurls found {len(wayback_urls)} endpoints')
+
+    gau_urls = exec_tools(cmd=f'echo "{target}" | gau ')  # --threads 5 ?
+    print(f'(Go-Thread) gau found {len(gau_urls)} endpoints')
+
+    subfinder = exec_tools(cmd=f'echo "{target}" | subfinder -silent')
+    print(f'(Go-Thread) subfinder found {len(subfinder)} endpoints')
+
+    go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder)
+    print(f'(Go-Thread) GO TOOLS DUMPED {len(go_result)} SUBDOMAIN in {time.time() - start} seconds !')
+
+    domain_offline, domain_alive = check_alives_domains(go_result)
+    nbr_alives = len(domain_alive)
+    print(f'(Go-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
+
+    return go_result
 
 
 def quick_scan(target):
-    results = list()
-    search_4_domains(target)
+    start = time.time()
+    pThreads = list()
+    pThreads.append(Thread(target=use_go_tools, args=(target,)))
+    pThreads.append(Thread(target=use_python_tools, args=(target,)))
+    [process.start() for process in pThreads]
+    [process.join() for process in pThreads]
+    stdout, stderr, returncode = shell('cat tmp-search.txt', verbose=False)
+    resultats = extract_subdomains_and_dump(stdout.split('\n'), dump=False)
+    print(f'(DEBUG) PARALL // TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
+    return resultats
 
-    return results
 
-
-def quick_scan_parrall(target): # ca dump dans des fichiers, mais il faut le recup in memory mais cest en thread :/
-    listOfToolsToExec = list()
-    p1 = Thread(target=use_python_tool, args=('./tools/SubDomainizer/', 'SubDomainizer.py', ' -l target.txt -o SubDomainizer.txt -san all  &> nooutput'))
-    p2 = Thread(target=use_python_tool, args=('subfinder', f'-d {target} -silent'))
-    p3 = Thread(target=use_python_tool, args=('./tools/Sublist3r/', 'sublist3r.py', f'-d {target} -o sublist3r.txt &> nooutput'))
-    p4 = Thread(target=use_assetfinder, args=(target))
-    listOfToolsToExec.append(p1)
-    listOfToolsToExec.append(p2)
-    listOfToolsToExec.append(p3)
-    listOfToolsToExec.append(p4)
-    [process.start() for process in listOfToolsToExec]
-    [process.join() for process in listOfToolsToExec]
+# print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} urls in scope")
+# shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt

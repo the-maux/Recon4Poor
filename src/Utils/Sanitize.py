@@ -1,14 +1,36 @@
 import os
-from src.Utils.Shell import VERBOSE
+from src.Utils.Shell import VERBOSE, shell, dump_to_file
 
 
-def sanitize_my_domain(urls_lists):
-    """
-        #TODO: before returning list of urls, check if urls are alive (maybe check dup file too, or already Analyzed ?)
-        take a list of urls in input, and check them to remove the dead one or useless
-        cat SubDomainizer.txt | sed 's$https://$$' | sed 's$www.$$' | sort -u > listOfDomains.txt
-    """
-    return urls_lists
+def check_alives_domains(domains):
+    """ Test a list of domains to check if they respond """
+    domain_alive = list()
+    domain_offline = list()
+    rcx = 0
+    for domain in domains:
+        stdout, stderr, code = shell(f"ping -c 1 {domain}", verbose=False)
+        if code == 0:
+            domain_alive.append(domain)
+            rcx = rcx + 1
+        else:
+            domain_offline.append(domain)
+    return domain_offline, domain_alive
+
+
+def extract_subdomains_and_dump(urls, dump=True):
+    """ filter substring in domains like / http:// / https:// and everything after '?' """
+    results = list()
+    for url in urls:
+        filtered = url.replace("http://", "").replace("https://", "").replace("ftp://", "").replace("ftps://", "")
+        filtered = filtered.replace("www.", "").replace(":80", "").replace(":443", "")
+        if '/' in filtered:
+            filtered = filtered[0:filtered.index('/')]
+        filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
+        results.append(filtered)
+    results = list(set(results))
+    if dump is True:
+        dump_to_file(namefile='tmp-search.txt', mode='a', lines=results)
+    return results
 
 
 def sanity_check_at_startup():
@@ -18,16 +40,16 @@ def sanity_check_at_startup():
         [X] Check if all variable are present (TODO: Dynamic conf regarding the env var present)
     """
     try:
-        target = os.environ['TARGET']
-        try:
-            depth = os.environ['DEPTH']
-            if VERBOSE:
-                print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
-        except Exception:
-            if VERBOSE:
-                print('(WARNING) DEPTH analyse was not set, default is 1')
-            depth = os.environ['DEPTH'] = 1
-        return target, depth
+        depth = int(os.environ['DEPTH'])
+        if VERBOSE:
+            print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
     except Exception:
-        print('(ERROR) You need to set at least the var env $TARGET')
+        if VERBOSE:
+            print('(INFO) DEPTH analyse was not set, default is 1')
+        depth = 1
+    try:
+        target = os.environ['TARGET']
+        return target, depth
+    except Exception as e:
+        print(f'(ERROR) You need to set at least the var env $TARGET: {e}')
         exit(-1)

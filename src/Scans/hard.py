@@ -20,6 +20,16 @@ def hitme():
 #   contat(gospider_url.txt  + hakrawlerHttpx.txt
 
 
+def regroup_found_and_filter():
+    # cat all_js_files_found.txt | httpx -follow-redirects -status-code -silent | grep "[200]" | cut -d ' ' -f1 > urls_alive.txt
+    # filtering duplicate & libs with no impact
+    # cat all_js_files_found.txt | awk -F '?' '{ print $1 }' | grep -v "jquery" | grep $(cat target.txt | sed 's$https://$$') | sort -u > urls.txt
+    #cat urls.txt | grep $(cat target.txt | sed 's$https://$$') > urls_filter.txt  # Only take if target domain is present
+    #number_of_file_found_post_filter=$(cat urls_filter.txt | wc -l)
+    return 42
+
+
 def hard_scan(target):
+    print('(DEBUG) Starting brutal scan')
     results = list()
     return results
