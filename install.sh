@@ -34,18 +34,19 @@ wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetf
 wget -q wget https://github.com/jaeles-project/gospider/releases/download/v1.1.6/gospider_v1.1.6_linux_x86_64.zip &&
   unzip gospider_v1.1.6_linux_x86_64.zip && mv gospider_v1.1.6_linux_x86_64/gospider /usr/bin/gospider
 
+wget -q https://github.com/lc/subjs/releases/download/v1.0.1/subjs_1.0.1_linux_amd64.tar.gz &&
+  tar -xvf subjs_1.0.1_linux_amd64.tar.gz && mv ./subjs  /usr/bin/subjs &> nooutput
+
 # TO-FIX: because of https://github.com/tomnomnom/waybackurls/issues/41
-git clone https://github.com/tomnomnom/waybackurls.git && # go install github.com/tomnomnom/waybackurls@latest
+git clone https://github.com/tomnomnom/waybackurls && # go install github.com/tomnomnom/waybackurls@latest
   cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls &> nooutput && cd -
 
-git clone https://github.com/ThreatUnkown/jsubfinder.git &&
+git clone https://github.com/ThreatUnkown/jsubfinder &&
   cd jsubfinder && go build main.go && ln -s /opt/app/jsubfinder/main /usr/bin/jsubfinder &> nooutput && cd -
 
 #go install github.com/hakluke/hakrawler@latest
 git clone https://github.com/hakluke/hakrawler &&
   cd hakrawler && go build  && ln -s /opt/app/hakrawler/hakrawler /usr/bin/hakrawler &> nooutput && cd -
 
-wget -q https://github.com/lc/subjs/releases/download/v1.0.1/subjs_1.0.1_linux_amd64.tar.gz &&
-  tar -xvf subjs_1.0.1_linux_amd64.tar.gz && mv ./subjs  /usr/bin/subjs &> nooutput
 
 rm -vf *.zip *.gz* *.md *.tgz Dockerfile Release nooutput
