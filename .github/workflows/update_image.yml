@@ -3,7 +3,7 @@ name: Update image dependency
 on:
   push:
     branches:
-      - build_img
+      - develop
 
 jobs:
   Scanning:
