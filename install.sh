@@ -6,11 +6,12 @@ apt-get clean && ln -s /usr/bin/python3 /usr/bin/python &> nooutput
 
 ## Install python ressources for recon
 git clone https://github.com/nsonaniya2010/SubDomainizer.git && pip3 install -r SubDomainizer/requirements.txt &> nooutput
-git clone https://github.com/aboul3la/Sublist3r.git && pip3 install -r Sublist3r/requirements.txt &> nooutput
-git clone https://github.com/duty1g/subcat && pip3 install -r subcat/requirements.txt &> nooutput
+git clone https://github.com/aboul3la/Sublist3r.git && pip install -r Sublist3r/requirements.txt &> nooutput
+git clone https://github.com/duty1g/subcat && pip install -r subcat/requirements.txt &> nooutput
+pip install pyping &> nooutput
 
 ## Install python ressources Analyze files
-git clone https://github.com/m4ll0k/SecretFinder.git && cd SecretFinder && pip3 install -r requirements.txt && cd - &> nooutput
+git clone https://github.com/m4ll0k/SecretFinder.git && cd SecretFinder && pip install -r requirements.txt && cd - &> nooutput
 git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python3 setup.py install && cd - &> nooutput
 
 # Recoon Go tool
