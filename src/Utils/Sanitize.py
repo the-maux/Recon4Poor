@@ -9,8 +9,8 @@ def check_alives_domains(domains):
     domain_offline = list()
     rcx = 0
     for domain in domains:
-#        stdout, stderr, code = shell(f"ping -c 1 {domain}", verbose=False)
-        if pyping.ping(domain).ret_code == 0:
+        stdout, stderr, code = shell(f"ping -c 1 {domain}", verbose=False)
+        if code == 0:
             domain_alive.append(domain)
             rcx = rcx + 1
         else:

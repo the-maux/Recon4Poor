@@ -8,7 +8,6 @@ apt-get clean && ln -s /usr/bin/python3 /usr/bin/python &> nooutput
 git clone https://github.com/nsonaniya2010/SubDomainizer.git && pip3 install -r SubDomainizer/requirements.txt &> nooutput
 git clone https://github.com/aboul3la/Sublist3r.git && pip install -r Sublist3r/requirements.txt &> nooutput
 git clone https://github.com/duty1g/subcat && pip install -r subcat/requirements.txt &> nooutput
-pip install pyping &> nooutput
 
 ## Install python ressources Analyze files
 git clone https://github.com/m4ll0k/SecretFinder.git && cd SecretFinder && pip install -r requirements.txt && cd - &> nooutput
@@ -39,14 +38,14 @@ wget -q https://github.com/lc/subjs/releases/download/v1.0.1/subjs_1.0.1_linux_a
 
 # TO-FIX: because of https://github.com/tomnomnom/waybackurls/issues/41
 git clone https://github.com/tomnomnom/waybackurls && # go install github.com/tomnomnom/waybackurls@latest
-  cd waybackurls && go build main.go && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls && cd - &> nooutput
+  cd waybackurls && go build main.go  &> nooutput && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls && cd -
 
 git clone https://github.com/ThreatUnkown/jsubfinder &&
-  cd jsubfinder && go build main.go && ln -s /opt/app/jsubfinder/main /usr/bin/jsubfinder && cd - &> nooutput
+  cd jsubfinder && go build main.go &> nooutput && ln -s /opt/app/jsubfinder/main /usr/bin/jsubfinder && cd -
 
 #go install github.com/hakluke/hakrawler@latest
 git clone https://github.com/hakluke/hakrawler &&
-  cd hakrawler && go build  && ln -s /opt/app/hakrawler/hakrawler /usr/bin/hakrawler && cd - &> nooutput
+  cd hakrawler && go build &> nooutput  && ln -s /opt/app/hakrawler/hakrawler /usr/bin/hakrawler && cd -
 
 
 rm -f *.zip *.gz* *.md *.tgz Dockerfile Release nooutput
