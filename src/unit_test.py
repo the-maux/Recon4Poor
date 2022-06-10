@@ -1,10 +1,10 @@
 import unittest, sys, os
 from src.Utils.Shell import shell
-
+from src.main import B4DID34T
 
 def check_binary_access(cmd):
     stdo, stde, status = shell(cmd, verbose=True)
-    return status == 0
+    return status == 0 or status == 2  # 3 for hakrawler
 
 
 class EnkiDevOpsUnitTest(unittest.TestCase):
@@ -15,14 +15,21 @@ class EnkiDevOpsUnitTest(unittest.TestCase):
     def setUpClass(cls):
         pass  # setup ce qui faut
 
-    def test_001_SubDomainizer(self):
+    def test_001_dependencys(self):
         self.assertTrue(check_binary_access(cmd='python3 SubDomainizer/SubDomainizer.py -h'))
-
-    def test_002_Sublist3r(self):
         self.assertTrue(check_binary_access(cmd='python3 Sublist3r/sublist3r.py -h'))
-
-    def test_003_subcat(self):
         self.assertTrue(check_binary_access(cmd='python3 subcat/subcat.py -h'))
+        self.assertTrue(check_binary_access(cmd='subfinder -h'))
+        self.assertTrue(check_binary_access(cmd='gau -h'))
+        self.assertTrue(check_binary_access(cmd='httpx -h'))
+        self.assertTrue(check_binary_access(cmd='assetfinder -h'))
+        self.assertTrue(check_binary_access(cmd='waybackurls -h'))
+        self.assertTrue(check_binary_access(cmd='jsubfinder -h'))
+        self.assertTrue(check_binary_access(cmd='hakrawler -h'))
+
+    def test_002_basic_scan(self):
+        B4DID34T(domains=os.environ['TARGET'])
+
 
     # def test_004_SecretFinder(self):
     #     cmd = ''
@@ -32,29 +39,8 @@ class EnkiDevOpsUnitTest(unittest.TestCase):
     #     cmd = ''
     #     self.assertTrue()
 
-    def test_006_subfinder(self):
-        self.assertTrue(check_binary_access(cmd='subfinder -h'))
-
-    def test_007_gau(self):
-        self.assertTrue(check_binary_access(cmd='gau -h'))
-
-    def test_008_httpx(self):
-        self.assertTrue(check_binary_access(cmd='httpx -h'))
-
-    def test_009_assetfinder(self):
-        self.assertTrue(check_binary_access(cmd='assetfinder -h'))
-
-    def test_0010_gospider(self):
-        self.assertTrue(check_binary_access(cmd='gospider -h'))
-
-    def test_0011_waybackurls(self):
-        self.assertTrue(check_binary_access(cmd='waybackurls -h'))
-
-    def test_0012_jsubfinder(self):
-        self.assertTrue(check_binary_access(cmd='jsubfinder -h'))
-
-    def test_0012_hakrawler(self):
-        self.assertTrue(check_binary_access(cmd='hakrawler -h'))
+    # def test_0010_gospider(self):
+    #     self.assertTrue(check_binary_access(cmd='gospider -h'))
 
     @classmethod
     def tearDownClass(cls):

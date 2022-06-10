@@ -1,5 +1,4 @@
 import os
-import pyping
 from src.Utils.Shell import VERBOSE, shell, dump_to_file
 
 
@@ -34,6 +33,13 @@ def extract_subdomains_and_dump(urls, dump=True):
     return results
 
 
+def check_if_target_is_alive(target):
+    stdout, stderr, code = shell(f"ping -c 1 {target}", verbose=False)
+    if code != 0:
+        print('(WARNING) TARGET IS OFFLINE')
+    return code == 0
+
+
 def sanity_check_at_startup():
     """
         [X] Check if target is alive
@@ -46,10 +52,11 @@ def sanity_check_at_startup():
             print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
     except Exception:
         if VERBOSE:
-            print('(INFO) DEPTH analyse was not set, default is 1')
-        depth = 1
+            print('(INFO) DEPTH analyse was not set, default is 2')
+        depth = 2
     try:
         target = os.environ['TARGET']
+        check_if_target_is_alive(target)
         return target, depth
     except Exception as e:
         print(f'(ERROR) You need to set at least the var env $TARGET: {e}')
