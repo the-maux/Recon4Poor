@@ -22,4 +22,5 @@ def regular_scan(domains):
             exec_pool_domains(pThreads)
             pThreads = list()
             rcx = 0
+            input('On relance gros ? ')
     return results
