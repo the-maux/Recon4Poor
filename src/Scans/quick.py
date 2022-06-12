@@ -30,10 +30,6 @@ def use_python_tools(target):
     python_results = extract_subdomains_and_dump(subcat_res + sublist3r_res + subDomainizer_res)
     print(f'(Py-Thread) PYTHON SCRIPTS FOUND {len(python_results)} DOMAIN in {time.time() - start_python} seconds')
 
-    domain_offline, domain_alive = check_alives_domains(python_results)
-    nbr_alives = len(domain_alive)
-    print(f'(Py-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
-
     return python_results
 
 
@@ -57,10 +53,6 @@ def use_go_tools(target):
     go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder)
     print(f'(Go-Thread) GO TOOLS DUMPED {len(go_result)} SUBDOMAIN in {time.time() - start} seconds !')
 
-    domain_offline, domain_alive = check_alives_domains(go_result)
-    nbr_alives = len(domain_alive)
-    print(f'(Go-Thread) Found {nbr_alives} domain alives and {len(domain_offline)} domain offline')
-
     return go_result
 
 
@@ -72,7 +64,11 @@ def quick_scan(target):
     [process.start() for process in pThreads]
     [process.join() for process in pThreads]
     stdout, stderr, returncode = shell('cat tmp-search.txt', verbose=False)
-    resultats = extract_subdomains_and_dump(stdout.split('\n'), dump=False)
+    #TODO: quand est ce quon  check si cest alive ? afin de relancer le regularscan avec les bon subDomainizer_re
+    #TODO: quand tu vas lancer des multi hreads pour du quick scan avec les sbdomain, y a un probleme avec le namefile tmp-result.txt
+    domain_offline, domain_alive = check_alives_domains(stdout.split('\n'))
+    resultats = extract_subdomains_and_dump(domain_alive, dump=False)
+    print(f'(Main-Thread) Found {len(domain_alive)} domain alives and {len(domain_offline)} domain offline')
     print(f'(DEBUG) PARALL // TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
     return resultats
 
