@@ -38,14 +38,14 @@ wget -q https://github.com/lc/subjs/releases/download/v1.0.1/subjs_1.0.1_linux_a
 
 # TO-FIX: because of https://github.com/tomnomnom/waybackurls/issues/41
 git clone https://github.com/tomnomnom/waybackurls && # go install github.com/tomnomnom/waybackurls@latest
-  cd waybackurls && go build main.go  &> nooutput && ln -s /opt/app/waybackurls/main /usr/bin/waybackurls && cd -
+  cd waybackurls && go build main.go  &> nooutput && mv /opt/app/waybackurls/main /usr/bin/waybackurls && cd -
 
 git clone https://github.com/ThreatUnkown/jsubfinder &&
   cd jsubfinder && go build main.go &> nooutput && ln -s /opt/app/jsubfinder/main /usr/bin/jsubfinder && cd -
 
 #go install github.com/hakluke/hakrawler@latest
 git clone https://github.com/hakluke/hakrawler &&
-  cd hakrawler && go build &> nooutput  && ln -s /opt/app/hakrawler/hakrawler /usr/bin/hakrawler && cd -
+  cd hakrawler && go build &> nooutput  && mv /opt/app/hakrawler/hakrawler /usr/bin/hakrawler && cd -
 
 
-rm -f *.zip *.gz* *.md *.tgz Dockerfile Release nooutput
+rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release nooutput hakrawler jsubfinder waybackurls LICENSE install.sh

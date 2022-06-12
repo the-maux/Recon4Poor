@@ -11,17 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - if: startsWith(github.event.head_commit.message, 'PUSH')
-    - uses: actions/checkout@v1
+#    - uses: actions/checkout@v1 # No need source, will be updated on docker run with volumes
 
     - name: Update Docker image
       run: |
         echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
         docker build -t --label "org.opencontainers.image.source=https://github.com/the-maux/Recon4Poor" ghcr.io/the-maux/recoon4poor:0.0.1 .
         docker push ghcr.io/the-maux/recoon4poor:0.0.1
-#        docker run -e GITHUB_PASSWD="${{ secrets.GITHUB_TOKEN }}" \
-#                -e USER_EMAIL="${{ secrets.USER_EMAIL }}" \
-#                -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
-#                -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}" \
-#                -e TARGET="${{ secrets.TARGET }}" \
-#                -e DEPTH="${{ secrets.DEPTH }}" \
-#                ghcr.io/the-maux/recoon4poor:0.0.1
