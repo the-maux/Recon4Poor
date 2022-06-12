@@ -1,4 +1,4 @@
-name: Start Scan on target
+name: Test the code
 
 on:
   push:
