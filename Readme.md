@@ -1,4 +1,22 @@
-#### Inspired by KathanP19 in bash: https://github.com/KathanP19/JSFScan.sh
+Combine multiple tools to search subdomain in a efficient way, runnable externaly in C.I or external VPS.
+
+### Usage
+
+#### Usage with from GithubActions
+    - Fork the project
+    - Go to the project Settings and set the varriables (TARGET, DEPTH & GMAIL_TOKEN)
+    - Run the actions :)
+
+#### Local usage:
+Result will be in results.txt
+``` shell
+    git pull origin develop
+    docker build recoon4poor:latest . && docker run -e TARGET=$TARGET recoon4poor:ltest
+```
+
+TODO: Put a graphic with tools comparaison
+TODO: explain difference with the multiples DEPTH and usae of GMAIL_TOKEN
+TODO: Gif exemple of an execution
 
 Thanks to all the makers <3 :
 - https://github.com/nsonaniya2010/SubDomainizer
@@ -15,3 +33,4 @@ Thanks to all the makers <3 :
 - https://github.com/ThreatUnkown/jsubfinder
 - https://github.com/hakluke/hakrawler
 
+#### Inspired by KathanP19 in bash & Go: https://github.com/KathanP19/JSFScan.sh

@@ -1,0 +1,32 @@
+name: Start Scan on target
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  Test_project:
+
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/the-maux/recoon4poor:latest
+      options: -v ${{ github.workspace }}:/opt/app
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.SVC_TOKEN }}
+    env:
+      GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
+      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+      USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+      CHAOS_KEY: ${{ secrets.CHAOS_KEY }}
+      TARGET: ${{ secrets.TARGET }}
+      DEPTH: ${{ secrets.DEPTH }}
+    steps:
+      - if: startsWith(github.event.head_commit.message, 'SCAN')
+      - uses: actions/checkout@v1
+
+      - name: Start the scan from docker image
+        run: |
+          python src/main.py
+
