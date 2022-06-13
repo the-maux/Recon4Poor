@@ -13,7 +13,7 @@ jobs:
       options: -v ${{ github.workspace }}:/opt/app
       credentials:
         username: ${{ github.actor }}
-        password: ${{ secrets.SVC_TOKEN }}
+        password: ${{ secrets.GHCR_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3

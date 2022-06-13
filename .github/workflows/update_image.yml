@@ -1,4 +1,4 @@
-name: Update image dependency
+name: Update docker image
 
 on:
   push:
@@ -14,6 +14,6 @@ jobs:
 
     - name: Update Docker image in GHCR
       run: |
-        echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
+        echo "${{ secrets.GHCR_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
         docker build --label "org.opencontainers.image.source=https://github.com/the-maux/Recon4Poor" -t ghcr.io/the-maux/recoon4poor:latest .
         docker push ghcr.io/the-maux/recoon4poor:latest
