@@ -7,7 +7,6 @@ on:
 
 jobs:
   Test_project:
-
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/the-maux/recoon4poor:latest
