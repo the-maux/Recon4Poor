@@ -15,10 +15,9 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.SVC_TOKEN }}
-    env:
-      GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       - name: Start the scan from docker image
         run: |

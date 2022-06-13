@@ -7,8 +7,6 @@ on:
 
 jobs:
   Scanning:
-
-    runs-on: ubuntu-latest
     container:
       image: ghcr.io/the-maux/recoon4poor:0.0.1
       options: -v ${{ github.workspace }}:/opt/app
