@@ -17,13 +17,7 @@ jobs:
         password: ${{ secrets.SVC_TOKEN }}
     env:
       GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
-      USER_EMAIL: ${{ secrets.USER_EMAIL }}
-      USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-      CHAOS_KEY: ${{ secrets.CHAOS_KEY }}
-      TARGET: ${{ secrets.TARGET }}
-      DEPTH: ${{ secrets.DEPTH }}
     steps:
-      - if: startsWith(github.event.head_commit.message, 'SCAN')
       - uses: actions/checkout@v1
 
       - name: Start the scan from docker image

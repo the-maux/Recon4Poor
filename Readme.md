@@ -4,8 +4,8 @@ Combine multiple tools to search subdomain in a efficient way, runnable external
 
 #### Usage with from GithubActions
     - Fork the project
-    - Go to the project Settings and set the varriables (TARGET, DEPTH & GMAIL_TOKEN)
-    - Run the actions :)
+    - Go to the project settings and set the varriables (TARGET, DEPTH & GMAIL_TOKEN)
+    - Run the actions (or push a commit with a message start with "SCAN" :)
 
 #### Local usage:
 Result will be in results.txt
@@ -14,6 +14,11 @@ Result will be in results.txt
     docker build recoon4poor:latest . && docker run -e TARGET=$TARGET recoon4poor:ltest
 ```
 
+Image is hosted directly under ghcr.io/the-maux/recoon4poor:latest
+So you can just do a 
+```` shell
+docker run -e TARGET=foo.com recoon4poor:latest
+````
 TODO: Put a graphic with tools comparaison
 TODO: explain difference with the multiples DEPTH and usae of GMAIL_TOKEN
 TODO: Gif exemple of an execution

@@ -23,6 +23,7 @@ jobs:
       TARGET: ${{ secrets.TARGET }}
       DEPTH: ${{ secrets.DEPTH }}
     steps:
+      - if: startsWith(github.event.head_commit.message, 'SCAN')
       - uses: actions/checkout@v1
 
       - name: Start the scan from docker image
