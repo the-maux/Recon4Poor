@@ -3,7 +3,7 @@ name: Update docker image
 on:
   push:
     branches:
-      - develop
+      - *
 
 jobs:
   GHCR_Update:

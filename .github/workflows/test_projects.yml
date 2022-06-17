@@ -1,6 +1,6 @@
 name: Test the code
 
-on: push
+on: [push, fork]
 
 jobs:
   Test_project:
@@ -8,7 +8,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
       - name: Start the scan from docker image
         run: |
         docker build -t recoon4poor:testing .          
