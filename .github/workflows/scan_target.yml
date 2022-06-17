@@ -7,7 +7,7 @@ on:
 
 jobs:
   Scanning:
-    if: startsWith(github.event.head_commit.message, 'SCAN')
+#    if: startsWith(github.event.head_commit.message, 'SCAN')
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/the-maux/recoon4poor:latest

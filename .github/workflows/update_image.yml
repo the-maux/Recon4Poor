@@ -7,7 +7,7 @@ on:
 
 jobs:
   GHCR_Update:
-    if: startsWith(github.event.head_commit.message, 'BUILD')
+#    if: startsWith(github.event.head_commit.message, 'BUILD')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
