@@ -1,9 +1,6 @@
 name: Test the code
 
-on:
-  push:
-    branches:
-      - develop
+on: push
 
 jobs:
   Test_project:
