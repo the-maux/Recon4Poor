@@ -8,17 +8,11 @@ on:
 jobs:
   Test_project:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/the-maux/recoon4poor:latest
-      options: -v ${{ github.workspace }}:/opt/app
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Start the scan from docker image
         run: |
-          python src/main.py
-
+        docker build -t recoon4poor:testing .          
+        docker run recoon4poor:testing python src/unit_test.py
