@@ -14,8 +14,19 @@ git clone https://github.com/m4ll0k/SecretFinder.git && cd SecretFinder && pip i
 git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python3 setup.py install && cd - &> nooutput
 
 # Recoon Go tool
-wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz &&
-  ln -s /usr/local/go/bin/go /usr/bin/go &> nooutput
+CMD=`uname -a`
+if [[ "$CMD" == *"arm64"* || "$CMD" == *"aarch64"* ]]; then
+  echo "(DEBUG) arm64 platform')"
+  wget -q https://go.dev/dl/go1.18.3.linux-arm64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-arm64.tar.gz
+elif [[ "$CMD" == *"amd64"* ]]; then
+  echo "(DEBUG) amd64 platform')"
+  wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+else
+  echo "(DEBUG) Can't determine version of go for the platform')"
+  echo "$CMD"
+fi
+
+ln -s /usr/local/go/bin/go /usr/bin/go &> nooutput
 
 wget -q https://github.com/projectdiscovery/subfinder/releases/download/v2.5.2/subfinder_2.5.2_linux_amd64.zip &&
   unzip subfinder_2.5.2_linux_amd64.zip && mv subfinder /usr/bin/subfinder &> nooutput

@@ -40,8 +40,10 @@ def use_go_tools(target):
 
     assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
     print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
-
+    print()
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
+    if len(wayback_urls) == 1:
+        print(wayback_urls)
     print(f'(Go-Thread) Waybackurls found {len(wayback_urls)} endpoints')
 
     gau_urls = exec_tools(cmd=f'echo "{target}" | gau ')  # --threads 5 ?

@@ -28,11 +28,14 @@ def shell(cmd, verbose=None):
         Exec shell cmd & filter outputs
         :return: stdout, stderror, & exit_status
     """
-    if (verbose is not None and verbose is True) or (verbose is None and VERBOSE):
-        print(f'$> {cmd}')
+    #if (verbose is not None and verbose is True) or (verbose is None and VERBOSE):
+    print(f'$> {cmd}')
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash')
     (stdout, stderr) = p.communicate()
     p.wait()
     stdout = filter_bullshitssh(stdout)
     stderr = filter_bullshitssh(stderr)
+    if "ping" not in cmd:
+        print(stdout)
+        print(stderr)
     return stdout, stderr, p.returncode

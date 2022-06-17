@@ -14,9 +14,12 @@ Result will be in results.txt
     docker build recoon4poor:latest . && docker run -e TARGET=$TARGET recoon4poor:ltest
 ```
 
+:warning: Working on Linux & Mac OS X versions only 
+
 Image is hosted directly under ghcr.io/the-maux/recoon4poor:latest
 So you can just do a 
 ```` shell
+id
 docker run -e TARGET=foo.com recoon4poor:latest
 ````
 TODO: Put a graphic with tools comparaison
