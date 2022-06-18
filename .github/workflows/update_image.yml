@@ -1,9 +1,6 @@
 name: Update docker image
 
-on:
-  push:
-    branches:
-      - *
+on: push
 
 jobs:
   GHCR_Update:
