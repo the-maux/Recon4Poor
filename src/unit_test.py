@@ -27,8 +27,8 @@ class EnkiDevOpsUnitTest(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='jsubfinder -h'))
         self.assertTrue(check_binary_access(cmd='hakrawler -h'))
 
-    def test_002_basic_scan(self):
-        B4DID34T(domains=os.environ['TARGET'])
+    # def test_002_basic_scan(self):
+    #     B4DID34T(domains=os.environ['TARGET'])
 
 
     # def test_004_SecretFinder(self):
