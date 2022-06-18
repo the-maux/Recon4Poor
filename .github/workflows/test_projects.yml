@@ -1,6 +1,6 @@
 name: Test the code
 
-on: [push, fork]
+on: push
 
 jobs:
   Test_project:

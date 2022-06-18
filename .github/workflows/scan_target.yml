@@ -1,9 +1,6 @@
 name: Start Scan on target
 
-on:
-  push:
-    branches:
-      - develop
+on: push
 
 jobs:
   Scanning:
