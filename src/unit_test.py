@@ -22,7 +22,7 @@ class EnkiDevOpsUnitTest(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='subfinder -h'))
         self.assertTrue(check_binary_access(cmd='gau -h'))
         self.assertTrue(check_binary_access(cmd='httpx -h'))
-        self.assertTrue(check_binary_access(cmd='assetfinder -h'))
+#        self.assertTrue(check_binary_access(cmd='assetfinder -h')) https://github.com/the-maux/Recon4Poor/issues/6
         self.assertTrue(check_binary_access(cmd='waybackurls -h'))
         self.assertTrue(check_binary_access(cmd='jsubfinder -h'))
         self.assertTrue(check_binary_access(cmd='hakrawler -h'))
