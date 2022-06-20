@@ -1,4 +1,4 @@
-name: Start Scan on target
+name: 3- Start Scan on target
 
 on: push
 
