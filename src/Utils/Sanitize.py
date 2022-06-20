@@ -4,7 +4,7 @@ from src.Utils.Shell import VERBOSE, shell, dump_to_file
 
 def check_alives_domains(domains):
     """ Test a list of domains to check if they respond """
-    print(f'(INFO) Checking ICMP staus for {len(domains)} domains')
+    print(f'(DEBUG) Checking ICMP staus for {len(domains)} domains')
     domain_alive = list()
     domain_offline = list()
     rcx = 0
