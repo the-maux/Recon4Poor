@@ -2,6 +2,7 @@ import unittest, sys, os
 from src.Utils.Shell import shell
 from src.main import B4DID34T
 
+
 def check_binary_access(cmd):
     stdo, stde, status = shell(cmd, verbose=True)
     return status == 0 or status == 2  # 3 for hakrawler
@@ -9,7 +10,7 @@ def check_binary_access(cmd):
 
 class EnkiDevOpsUnitTest(unittest.TestCase):
     def setUp(self):
-        os.environ['TEST_MODE'] = "True"
+        os.environ['TEST_MODE'] = 'False'
 
     @classmethod
     def setUpClass(cls):
