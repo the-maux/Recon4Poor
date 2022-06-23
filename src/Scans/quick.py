@@ -36,6 +36,7 @@ def use_python_tools(target):
         print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
     except Exception:
         print("(ERROR) Py-Thread in subcat !!!!! ")
+        subcat_res = list()
         pass
     sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
     print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
