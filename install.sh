@@ -18,9 +18,13 @@ CMD=`uname -a`
 if [[ "$CMD" == *"arm64"* || "$CMD" == *"aarch64"* ]]; then
   echo "(DEBUG) arm64 platform')"
   wget -q https://go.dev/dl/go1.18.3.linux-arm64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-arm64.tar.gz
+  # go install github.com/tomnomnom/assetfinder@latest but not working on arm64t
 elif [[ "$CMD" == *"amd64"* ]]; then
   echo "(DEBUG) amd64 platform')"
   wget -q https://go.dev/dl/go1.18.3.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.18.3.linux-amd64.tar.gz
+    # go install github.com/tomnomnom/assetfinder@latest
+  wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
+    tar -xf assetfinder-linux-amd64-0.1.1.tgz && mv assetfinder /usr/bin/assetfinder &> nooutput
 else
   echo "(DEBUG) Can't determine version of go for the platform')"
   echo "$CMD"
@@ -40,9 +44,6 @@ wget -q wget https://github.com/jaeles-project/gospider/releases/download/v1.1.6
 wget -q https://github.com/lc/gau/releases/download/v2.1.1/gau_2.1.1_linux_386.tar.gz &&
   tar -xf gau_2.1.1_linux_386.tar.gz && mv gau /usr/bin/gau &> nooutput
 
-# go install github.com/tomnomnom/assetfinder@latest
-wget -q https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz &&
-  tar -xf assetfinder-linux-amd64-0.1.1.tgz && mv assetfinder /usr/bin/assetfinder &> nooutput
 
 wget -q https://github.com/lc/subjs/releases/download/v1.0.1/subjs_1.0.1_linux_amd64.tar.gz &&
   tar -xf subjs_1.0.1_linux_amd64.tar.gz && mv subjs  /usr/bin/subjs &> nooutput
@@ -52,7 +53,7 @@ git clone https://github.com/tomnomnom/waybackurls && # go install github.com/to
   cd waybackurls && go build main.go  &> nooutput && mv /opt/app/waybackurls/main /usr/bin/waybackurls && cd -
 
 git clone https://github.com/ThreatUnkown/jsubfinder &&
-  cd jsubfinder && go build main.go &> nooutput && ln -s /opt/app/jsubfinder/main /usr/bin/jsubfinder && cd -
+  cd jsubfinder && go build main.go &> nooutput && mv /opt/app/jsubfinder/main /usr/bin/jsubfinder && cd -
 
 #go install github.com/hakluke/hakrawler@latest
 git clone https://github.com/hakluke/hakrawler &&

@@ -5,12 +5,26 @@ from src.Utils.Shell import shell, VERBOSE
 
 
 def exec_tools(cmd, usefFile=False):
-    stdout, stderr, returncode = shell(cmd, verbose=False)
-    if usefFile:
-        stdout, stderr, returncode = shell('cat results.txt', verbose=False)
-        shell('rm -f results.txt', verbose=False)
-    return stdout.split('\n')
-
+    """ Execute a command and return a list of domains """
+    try:
+        stdout = shell(cmd, verbose=False, outputOnly=True)
+        if usefFile:  # sometimes results is in stdout and sometimes dumped in a file named results.txt','
+            stdout = shell('cat results.txt', verbose=False, outputOnly=True)
+            shell('rm -f results.txt', verbose=False)
+        result = stdout.split('\n')
+        if VERBOSE:
+            tool_name = cmd.split(' ')[0]
+            if 'python' in tool_name:
+                tool_name = cmd.split(' ')[1]
+            elif 'echo' in tool_name:
+                tool_name = cmd.split('|')[1]  # explain why this
+            print(f'(DEBUG) {tool_name.upper()}: Got {len(result)} !!!! ')
+            if len(result) == 1:
+                print(f'(WARNING) {tool_name.upper()}: FAILED :( !!!! ')
+        return result
+    except Exception as e:
+        print(e)
+        print(stdout)
 
 def use_python_tools(target):
     """ Use python script subcat & sublist3r & SubDomainzer """
@@ -59,15 +73,13 @@ def use_go_tools(target):
 
 
 def quick_scan(target):
-    start = time.time()
-    pThreads = list()
+    """ Start 2 threads with tools, dump result in file, filter the results and return them as list of domains """
+    start, pThreads  = time.time(), list()
     pThreads.append(Thread(target=use_go_tools, args=(target,)))
     pThreads.append(Thread(target=use_python_tools, args=(target,)))
     [process.start() for process in pThreads]
     [process.join() for process in pThreads]
-    stdout, stderr, returncode = shell('cat tmp-search.txt', verbose=False)
-    #TODO: quand est ce quon  check si cest alive ? afin de relancer le regularscan avec les bon subDomainizer_re
-    #TODO: quand tu vas lancer des multi hreads pour du quick scan avec les sbdomain, y a un probleme avec le namefile tmp-result.txt
+    stdout = shell('cat tmp-search.txt', verbose=False, outputOnly=True)
     domain_offline, domain_alive = check_alives_domains(stdout.split('\n'))
     resultats = extract_subdomains_and_dump(domain_alive, dump=False)
     print(f'(Main-Thread) Found {len(domain_alive)} domain alives and {len(domain_offline)} domain offline')
