@@ -1,0 +1,15 @@
+name: 2- Test the code
+
+on: push
+
+jobs:
+  Test_project:
+#    if: startsWith(github.event.head_commit.message, 'BUILD')
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Start the scan from docker image
+      run: |
+        docker build -t recoon4poor:testing .
+        docker run recoon4poor:testing python src/unit_test.py
+

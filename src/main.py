@@ -1,6 +1,7 @@
 import os
 from src.Utils.Sanitize import sanity_check_at_startup, check_alives_domains
 from src.Scans.quick import quick_scan
+from src.Scans.regular import regular_scan
 from src.Analyze.report import dump_domains_state
 from src.Analyze.analyze import search_JSfiles_in_file
 
@@ -13,11 +14,10 @@ def search_domains(target_domain, depth):
         hard_scan(depth3): Start from regular_scan & download all JS files to scan for new subdomains
     """
     print(f'Searching Domains on target(s): {target_domain} with depth {depth}\n-------------')
-    # if depth == 1:
     domains = quick_scan(target_domain)
-    # elif depth == 2:
-    #     # TODO: from the result of quick scan start regular scan, using all the subdomains
-    #     domains = regular_scan(target_domain)
+    if depth >= 2:
+        # TODO: from the result of quick scan start regular scan, using all the subdomains
+        domains = regular_scan(domains)
     # else:
     #     # TODO: from the result of regular scan, search in files.js for more endpoints, than filter on subdomains
     #     domains = hard_scan(target_domain)

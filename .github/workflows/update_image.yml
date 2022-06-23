@@ -1,28 +1,16 @@
-name: Update image dependency
+name: 1- Update docker image
 
-on:
-  push:
-    branches:
-      - develop
+on: push
 
 jobs:
-  Scanning:
-
+  GHCR_Update:
+#    if: startsWith(github.event.head_commit.message, 'BUILD')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
 
-    - name: Start the scan from ghcr image
+    - name: Update Docker image in GHCR
       run: |
-        docker build -t ghcr.io/the-maux/recoon4poor:0.0.1 .
-        docker run -e GITHUB_PASSWD="${{ secrets.GITHUB_TOKEN }}" \
-                -e USER_EMAIL="${{ secrets.USER_EMAIL }}" \
-                -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
-                -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}" \
-                -e TARGET="${{ secrets.TARGET }}" \
-                -e DEPTH="${{ secrets.DEPTH }}" \
-                ghcr.io/the-maux/recoon4poor:0.0.1
-
-#You can't because it's a private repository, need to wait to be public to user ghcr
-#echo "${{ secrets.SVC_TOKEN }}" | sudo docker login ghcr.io --username the-maux --password-stdin
-#docker push ghcr.io/the-maux/recoon4poor:0.0.1
+        echo -n "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io --username the-maux --password-stdin
+        docker build --label "org.opencontainers.image.source=https://github.com/the-maux/Recon4Poor" -t ghcr.io/the-maux/recoon4poor:latest .
+        docker push ghcr.io/the-maux/recoon4poor:latest 

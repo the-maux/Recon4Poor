@@ -23,7 +23,7 @@ def filter_bullshitssh(logs, bypassed_words=None):
     return '\n'.join([log for log in logs.split('\n') if not any([word in log for word in bypassed_words])])
 
 
-def shell(cmd, verbose=None):
+def shell(cmd, verbose=None, outputOnly=None):
     """
         Exec shell cmd & filter outputs
         :return: stdout, stderror, & exit_status
@@ -35,4 +35,4 @@ def shell(cmd, verbose=None):
     p.wait()
     stdout = filter_bullshitssh(stdout)
     stderr = filter_bullshitssh(stderr)
-    return stdout, stderr, p.returncode
+    return stdout if outputOnly is True else stdout, stderr, p.returncode
