@@ -52,9 +52,9 @@ def use_go_tools(target):
     start = time.time()
     print('(Go-Thread) Starting Go Tools with waybackurls')
 
-    assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
-    print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
-    print()
+    # assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
+    # print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
+    # print()
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
     if len(wayback_urls) == 1:
         print(wayback_urls)
