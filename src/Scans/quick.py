@@ -31,9 +31,12 @@ def use_python_tools(target):
     start_python = time.time()
     print('(Py-Thread) Starting Python scripts with subcat')
 
-    subcat_res = exec_tools(cmd=f'echo "{target}" | python3 subcat/subcat.py -silent')
-    print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints")
-
+    try:
+        subcat_res = exec_tools(cmd=f'echo "{target}" | python3 subcat/subcat.py -silent')
+        print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
+    except Exception:
+        print("(ERROR) Py-Thread in subcat !!!!! ")
+        pass
     sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
     print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
 
@@ -80,6 +83,7 @@ def quick_scan(target):
     [process.start() for process in pThreads]
     [process.join() for process in pThreads]
     stdout = shell('cat tmp-search.txt', verbose=False, outputOnly=True)
+    print(stdout)
     domain_offline, domain_alive = check_alives_domains(stdout.split('\n'))
     resultats = extract_subdomains_and_dump(domain_alive, dump=False)
     print(f'(Main-Thread) Found {len(domain_alive)} domain alives and {len(domain_offline)} domain offline')
