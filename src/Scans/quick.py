@@ -6,6 +6,7 @@ from src.Utils.Shell import shell, VERBOSE
 
 def exec_tools(cmd, usefFile=False):
     """ Execute a command and return a list of domains """
+    result = list()
     try:
         stdout = shell(cmd, verbose=False, outputOnly=True)
         if usefFile:  # sometimes results is in stdout and sometimes dumped in a file named results.txt','
@@ -21,10 +22,10 @@ def exec_tools(cmd, usefFile=False):
             print(f'(DEBUG) {tool_name.upper()}: Got {len(result)} !!!! ')
             if len(result) == 1:
                 print(f'(WARNING) {tool_name.upper()}: FAILED :( !!!! ')
-        return result
     except Exception as e:
-        print(e)
-        print(stdout)
+        print(e)x
+    return result
+
 
 def use_python_tools(target):
     """ Use python script subcat & sublist3r & SubDomainzer """
@@ -83,7 +84,7 @@ def quick_scan(target):
     pThreads.append(Thread(target=use_python_tools, args=(target,)))
     [process.start() for process in pThreads]
     [process.join() for process in pThreads]
-    stdout = shell('cat tmp-search.txt', verbose=False, outputOnly=True)
+    stdout = shell(cmd='cat tmp-search.txt', verbose=False, outputOnly=True)
     print(stdout)
     domain_offline, domain_alive = check_alives_domains(stdout.split('\n'))
     resultats = extract_subdomains_and_dump(domain_alive, dump=False)
