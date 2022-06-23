@@ -23,7 +23,7 @@ def exec_tools(cmd, usefFile=False):
             if len(result) == 1:
                 print(f'(WARNING) {tool_name.upper()}: FAILED :( !!!! ')
     except Exception as e:
-        print(e)x
+        print(e)
     return result
 
 
