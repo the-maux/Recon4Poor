@@ -25,7 +25,7 @@ def search_domains(target_domain, depth):
         print('(ERROR) no subdomain found for this target')
         exit(-1)
     else:
-        print(f'(DEBUG) Finally all tools found {len(domains)} endpoints')
+        print(f'(DEBUG) Finally all tools found {len(domains)} domains')
         exit(0)
     return domains
 
