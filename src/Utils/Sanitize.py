@@ -18,7 +18,7 @@ from src.Utils.Shell import VERBOSE, shell, dump_to_file
 def alives_thread(domains_chunk, thread_nbr='???'):
 #    domain_alive, domain_offline, rcx = list(), list(), 0
     for domain in domains_chunk:
-        os.system(f"ping -c 1 {domain} && echo {domain} >> alives.txt  || echo {domain} >> deads.txt")
+        shell(f"ping -c 1 {domain} && echo {domain} >> alives.txt  || echo {domain} >> deads.txt", verbose=False)
 
 
 def check_alives_domains(domains):
@@ -29,6 +29,7 @@ def check_alives_domains(domains):
     print(f'(DEBUG) Checking ICMP staus for {len(domains)} domains')
     pThreads, started, idx_current_threads = list(), list(), 0
     nbr_cpu = 1 if (os.cpu_count() == 1 or os.cpu_count() == 2) else int(os.cpu_count() / 2)  # /2 bc dont want 100% cpu
+    print(f'(DEBUG) CPU Threads available: {nbr_cpu} ')
     list_domains_chunked = [domains[idx:idx + nbr_cpu] for idx in range(0, len(domains), nbr_cpu)]  # split into chunks
 #    [pThreads.append(Thread(target=alives_thread, args=(domains_chunk,))) for domains_chunk in list_domains_chunked]
     for domains_chunk in list_domains_chunked:
@@ -36,13 +37,13 @@ def check_alives_domains(domains):
     print(f'(DEBUG) Starting {len(pThreads)} threads for {len(domains)} domains & {len(list_domains_chunked)} chunks')
     for idx_threads in range(0, len(pThreads)):
         idx_current_threads += + 1
-        started.append(idx_current_threads)
+        started.append(idx_threads)
         pThreads[idx_threads].start()  # starting maximum threads
         if idx_current_threads == nbr_cpu:
-            print(f'(DEBUG) Started {started} threads idx')
+            print(f'(DEBUG) Started {started} threads')
             for idx in started:
                 try:
-                    pThreads[started[idx]].join()
+                    pThreads[idx].join()
                 except RuntimeError as e:
                     print(f'!!!!!!!!!!!!!!!!!!!!!! {idx} for {e}')
             #[pThreads[started[idx]].join() for idx in started]  # join threads for results befor restart if needed
