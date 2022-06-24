@@ -39,6 +39,7 @@ def check_alives_domains(domains):
         started.append(idx_current_threads)
         pThreads[idx_threads].start()  # starting maximum threads
         if idx_current_threads == nbr_cpu:
+            print(f'(DEBUG) Started {started} threads idx')
             for idx in started:
                 try:
                     pThreads[started[idx]].join()
