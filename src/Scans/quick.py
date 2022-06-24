@@ -42,11 +42,11 @@ def use_go_tools(target):
     """ User Go binary waybackurls & gau & subfinder """
     start = time.time()
 
-    # assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
-    # print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
-    # print()
+    assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
+    print(f'(Go-Thread) assetfinder found {len(assetfinder_urls)} domains')
+
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
-    print(f'(Go-Thread) Waybackurls found {len(wayback_urls)} endpoints')
+    print(f'(Go-Thread) waybackurls found {len(wayback_urls)} endpoints')
 
     gau_urls = exec_tools(cmd=f'echo "{target}" | gau ')  # --threads 5 ?
     print(f'(Go-Thread) gau found {len(gau_urls)} endpoints')
@@ -54,7 +54,7 @@ def use_go_tools(target):
     subfinder = exec_tools(cmd=f'echo "{target}" | subfinder -silent')
     print(f'(Go-Thread) subfinder found {len(subfinder)} endpoints')
 
-    go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder)
+    go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder + assetfinder_urls)
     print(f'(Go-Thread) GO TOOLS DUMPED {len(go_result)} SUBDOMAIN in {time.time() - start} seconds !')
 
     return go_result
@@ -72,7 +72,3 @@ def quick_scan(target):
     print(f'(Main-Thread) Found {len(domain_alive)} domain alives')
     print(f'(DEBUG) Py+GO tools found {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !')
     return resultats
-
-
-# print(f"(INFO) assetfinder found: {len(domains_found_assetfinder)} urls in scope")
-# shell("cat target.txt | sed 's$https://$$' | assetfinder -subs-only ") # | sort -u > assetfinder_urls.txt

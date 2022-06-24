@@ -27,9 +27,12 @@ RUN go install github.com/tomnomnom/waybackurls@latest
 RUN go install github.com/hakluke/hakrawler@latest
 RUN git clone https://github.com/ThreatUnkown/jsubfinder && cd jsubfinder && go build main.go && \
     mv $APP_PATH/jsubfinder/main /usr/bin/jsubfinder
+RUN git clone https://github.com/tomnomnom/assetfinder && cd assetfinder &&  \
+    go mod init assetfinder&& go build && mv assetfinder /usr/bin/
+
 
 RUN mv bin/* /usr/bin
-RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder
+RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder assetfinder
 
 CMD ["python", "./src/main.py"]
 #CMD ["python", "./src/unit_test.py"]
