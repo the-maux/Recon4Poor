@@ -69,7 +69,7 @@ def quick_scan(target):
     [process.join() for process in pThreads]
     domain_alive = check_alives_domains(nameFile="tmp-search.txt")
     resultats = extract_subdomains_and_dump(domain_alive, dump=False)
-    print(f'(Main-Thread) Found {len(domain_alive)} domain alives and {len(domain_offline)} domain offline')
+    print(f'(Main-Thread) Found {len(domain_alive)} domain alives')
     print(f'(DEBUG) Py+GO tools found {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !')
     return resultats
 
