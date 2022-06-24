@@ -9,7 +9,7 @@ COPY . .
 ENV PYTHONPATH=$APP_PATH
 ENV GOPATH=$APP_PATH
 
-RUN apt -yqq update  && apt -yqq install python3 python3-pip wget git unzip nano iputils-ping
+RUN apt -yqq update  && apt -yqq install python3-pip wget git unzip
 RUN apt-get clean && ln -s /usr/bin/python3 /usr/bin/python
 
 ## Install Python scripts
@@ -25,7 +25,6 @@ RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 RUN go install github.com/lc/gau/v2/cmd/gau@latest
 RUN go install github.com/tomnomnom/waybackurls@latest
 RUN go install github.com/hakluke/hakrawler@latest
-
 RUN git clone https://github.com/ThreatUnkown/jsubfinder && cd jsubfinder && go build main.go && \
     mv $APP_PATH/jsubfinder/main /usr/bin/jsubfinder
 RUN git clone https://github.com/tomnomnom/assetfinder && cd assetfinder &&  \
@@ -35,7 +34,7 @@ RUN git clone https://github.com/jaeles-project/gospider && cd gospider && go bu
 RUN git clone https://github.com/lc/subjs && cd subjs && go build && mv subjs /usr/bin/subjs
 
 RUN mv bin/* /usr/bin
-RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder assetfinder subjsngospider
+RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder assetfinder subjs gospider
 
 CMD ["python", "./src/main.py"]
 #CMD ["python", "./src/unit_test.py"]
