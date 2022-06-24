@@ -6,16 +6,11 @@ from src.Utils.Shell import shell, VERBOSE
 
 def exec_tools(cmd, usefFile=False):
     """ Execute a command and return a list of domains """
-    result = list()
-    try:
-        stdout = shell(cmd, verbose=False, outputOnly=True)
-        if usefFile:  # sometimes results is in stdout and sometimes dumped in a file named results.txt','
-            stdout = shell('cat results.txt', verbose=False, outputOnly=True)
-            shell('rm -f results.txt', verbose=False)
-        result = stdout.split('\n')
-    except Exception as e:
-        print(e)
-    return result
+    stdout = shell(cmd, verbose=False, outputOnly=True)
+    if usefFile:  # sometimes results is in stdout and sometimes dumped in a file named results.txt','
+        stdout = shell('cat results.txt', verbose=False, outputOnly=True)
+        shell('rm -f results.txt', verbose=False)
+    return stdout.split('\n')
 
 
 def use_python_tools(target):
@@ -23,14 +18,14 @@ def use_python_tools(target):
     start_python = time.time()
 
     subcat_res = exec_tools(cmd=f'echo "{target}" | python subcat/subcat.py -silent')
-    print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
+    print(f"(Py-Thread) subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
 
-    sublist3r_res = exec_tools(cmd=f'python Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
-    print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
+    sublist3r_res = exec_tools(cmd=f'python Sublist3r/sublist3r.py -d {target} -n -o results.txt', usefFile=True)
+    print(f"(Py-Thread) sublist3r found: {len(sublist3r_res)} endpoints")
 
-    cmd = f'python SubDomainizer/SubDomainizer.py -u "{target}" -san all -o results.txt'
+    cmd = f'python SubDomainizer/SubDomainizer.py -u {target} -san all -o results.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
-    print(f'(Py-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
+    print(f'(Py-Thread) subDomainizer found: {len(subDomainizer_res)} endpoints')
 
     python_results = extract_subdomains_and_dump(subcat_res + sublist3r_res + subDomainizer_res)
     print(f'(Py-Thread) PYTHON SCRIPTS FOUND {len(python_results)} DOMAIN in {time.time() - start_python} seconds')
@@ -39,23 +34,23 @@ def use_python_tools(target):
 
 
 def use_go_tools(target):
-    """ User Go binary waybackurls & gau & subfinder """
+    """ Go binary assetfinder & waybackurls & gau & subfinder """
     start = time.time()
 
-    assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
+    assetfinder_urls = exec_tools(cmd=f'echo {target} | assetfinder -subs-only ')
     print(f'(Go-Thread) assetfinder found {len(assetfinder_urls)} domains')
 
-    wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
+    wayback_urls = exec_tools(cmd=f'echo {target} | waybackurls')
     print(f'(Go-Thread) waybackurls found {len(wayback_urls)} endpoints')
 
-    gau_urls = exec_tools(cmd=f'echo "{target}" | gau ')  # --threads 5 ?
+    gau_urls = exec_tools(cmd=f'echo {target} | gau --threads 5')
     print(f'(Go-Thread) gau found {len(gau_urls)} endpoints')
 
-    subfinder = exec_tools(cmd=f'echo "{target}" | subfinder -silent')
+    subfinder = exec_tools(cmd=f'echo {target} | subfinder -silent')
     print(f'(Go-Thread) subfinder found {len(subfinder)} endpoints')
 
     go_result = extract_subdomains_and_dump(wayback_urls + gau_urls + subfinder + assetfinder_urls)
-    print(f'(Go-Thread) GO TOOLS DUMPED {len(go_result)} SUBDOMAIN in {time.time() - start} seconds !')
+    print(f'(Go-Thread) GO tools found {len(go_result)} subdomains in {time.time() - start} seconds !')
 
     return go_result
 

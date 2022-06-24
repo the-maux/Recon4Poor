@@ -27,25 +27,9 @@ class UnitTests(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='waybackurls -h'))
         self.assertTrue(check_binary_access(cmd='jsubfinder -h'))
         self.assertTrue(check_binary_access(cmd='hakrawler -h'))
-        # gospider
-        # chaos
-        # subjs
-        # awk & sed & uniq
-
-    # def test_002_basic_scan(self):
-    #     B4DID34T(domains=os.environ['TARGET'])
-
-
-    # def test_004_SecretFinder(self):
-    #     cmd = ''
-    #     self.assertTrue()
-    #
-    # def test_005_LinkFinder(self):
-    #     cmd = ''
-    #     self.assertTrue()
-
-    # def test_0010_gospider(self):
-    #     self.assertTrue(check_binary_access(cmd='gospider -h'))
+        self.assertTrue(check_binary_access(cmd='gospider -h'))
+        self.assertTrue(check_binary_access(cmd='gospider -h'))
+        self.assertTrue(check_binary_access(cmd='subjs -h'))
 
     @classmethod
     def tearDownClass(cls):
@@ -55,5 +39,4 @@ class UnitTests(unittest.TestCase):
 if __name__ == '__main__':
     sys.path.insert(0, os.getcwd())
     print(f'Tests bypass le temps que la C.I est construite sur les multi Dockers')
-    # TODO: tests binary
     unittest.main(verbosity=2)
