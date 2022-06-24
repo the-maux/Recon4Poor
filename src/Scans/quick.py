@@ -13,15 +13,6 @@ def exec_tools(cmd, usefFile=False):
             stdout = shell('cat results.txt', verbose=False, outputOnly=True)
             shell('rm -f results.txt', verbose=False)
         result = stdout.split('\n')
-        if VERBOSE:
-            tool_name = cmd.split(' ')[0]
-            if 'python' in tool_name:
-                tool_name = cmd.split(' ')[1]
-            elif 'echo' in tool_name:
-                tool_name = cmd.split('|')[1]  # explain why this
-            print(f'(DEBUG) {tool_name.upper()}: Got {len(result)} !!!! ')
-            if len(result) == 1:
-                print(f'(WARNING) {tool_name.upper()}: FAILED :( !!!! ')
     except Exception as e:
         print(e)
     return result
@@ -85,7 +76,6 @@ def quick_scan(target):
     [process.start() for process in pThreads]
     [process.join() for process in pThreads]
     stdout = shell(cmd='cat tmp-search.txt', verbose=False, outputOnly=True)
-    print(stdout)
     domain_offline, domain_alive = check_alives_domains(stdout.split('\n'))
     resultats = extract_subdomains_and_dump(domain_alive, dump=False)
     print(f'(Main-Thread) Found {len(domain_alive)} domain alives and {len(domain_offline)} domain offline')

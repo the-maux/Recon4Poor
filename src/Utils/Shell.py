@@ -1,7 +1,9 @@
 import subprocess, os
 
-try: VERBOSE = 'True' in os.environ['VERBOSE']
-except Exception: VERBOSE = True
+try:
+    VERBOSE = 'True' in os.environ['VERBOSE']
+except Exception:
+    VERBOSE = True
 
 
 def dump_to_file(namefile, mode, lines):
@@ -35,4 +37,4 @@ def shell(cmd, verbose=None, outputOnly=None):
     p.wait()
     stdout = filter_bullshitssh(stdout)
     stderr = filter_bullshitssh(stderr)
-    return stdout if outputOnly == True else stdout, stderr, p.returncode
+    return stdout if outputOnly is True else (stdout, stderr, p.returncode)

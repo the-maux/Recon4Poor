@@ -35,15 +35,17 @@ def B4DID34T(domains=None):
     """ From 1 domain, search for maximum subdomain than search for JS file """
     if domains is None:
         domain, depth = sanity_check_at_startup()
-        domains = search_domains(domain, depth)
+        domains = search_domains(domain, depth)  # TOFIX: when DEPTH  is at 1, you do twice check_alives_domains
         domain_offline, domain_alive = check_alives_domains(domains)
         dump_domains_state(domains, domain_offline, domain_alive)
-        if depth > 3:  # TODO: in cas of depth == 3 add the gospider use
-            jsfiles = search_JSfiles_in_file(file_domains='domains-alive.txt')
-            # TODO: once the path JSfile found, downloads them
-            # TODO: once all JSFile found, scan them, and search for endpoints / new subdomains
-            # TODO: and restart for a secret DEPT=4
-        # sendMail(report) # TODO: at least push to Gmail & Slack
+        os.system('ls -l')
+
+# if depth > 3:  # TODO: in cas of depth == 3 add the gospider use
+#     jsfiles = search_JSfiles_in_file(file_domains='domains-alive.txt')
+#     # TODO: once the path JSfile found, downloads them
+#     # TODO: once all JSFile found, scan them, and search for endpoints / new subdomains
+#     # TODO: and restart for a secret DEPT=4
+# # sendMail(report) # TODO: at least push to Gmail & Slack
 
 
 if __name__ == "__main__":

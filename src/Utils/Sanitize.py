@@ -31,20 +31,26 @@ def check_alives_domains(domains):
     print(f'(DEBUG) Checking ICMP staus for {len(domains)} domains')
     pThreads, started, idx_current_threads = list(), list(), 0
     nbr_cpu = 1 if (os.cpu_count() == 1 or os.cpu_count() == 2) else int(os.cpu_count() / 2)  # /2 bc dont want 100% cpu
-    list_domains_chunked = [domains[idx:idx + nbr_cpu] for idx in range(0, len(domains), nbr_cpu)]  #split into chunks
+    list_domains_chunked = [domains[idx:idx + nbr_cpu] for idx in range(0, len(domains), nbr_cpu)]  # split into chunks
 #    [pThreads.append(Thread(target=alives_thread, args=(domains_chunk,))) for domains_chunk in list_domains_chunked]
     for domains_chunk in list_domains_chunked:
         pThreads.append(Thread(target=alives_thread, args=(domains_chunk, len(pThreads))))
     print(f'(DEBUG) Starting {len(pThreads)} threads for {len(domains)} domains & {len(list_domains_chunked)} chunks')
     for idx_threads in range(0, len(pThreads)):
-        idx_current_threads = idx_current_threads + 1
+        idx_current_threads += + 1
         started.append(idx_current_threads)
         pThreads[idx_threads].start()  # starting maximum threads
-        if idx_current_threads == nbr_cpu:
-            [pThreads[started[idx]].join() for idx in started]  # join threads for results befor restart if needed
-            idx_current_threads, started = 0, list()
+        try:
+            if idx_current_threads == nbr_cpu:
+                for idx in started:
+                    print(f'(DEBUG) THREAD JOIN: {idx} thread')
+                    pThreads[started[idx]].join()
+                #[pThreads[started[idx]].join() for idx in started]  # join threads for results befor restart if needed
+                idx_current_threads, started = 0, list()
+        except RuntimeError as e:
+            print(idx)
+            print(e)
     print(f'(DEBUG) All threads are finish, starting reading files')
-    os.system('ls -l')
     alives_domains = shell('cat alives.txt', verbose=False, outputOnly=True).split('\n')
     dead_domains = shell('cat deads.txt', verbose=False, outputOnly=True).split('\n')
     print(f'(DEBUG) Found {len(dead_domains)} deads in deads.txt & found {len(alives_domains)} alive in alive.txt')
@@ -82,12 +88,10 @@ def sanity_check_at_startup():
     """
     try:
         depth = int(os.environ['DEPTH'])
-        if VERBOSE:
-            print(f'(DEBUG) DEPTH analyse was not set, default is {os.environ["DEPTH"]}')
     except Exception:
-        if VERBOSE:
-            print('(INFO) DEPTH analyse was not set, default is 2')
-        depth = 2
+        depth = 1
+    if VERBOSE:
+        print(f'(INFO) DEPTH analyse is {depth}')
     try:
         target = os.environ['TARGET']
         return target, depth

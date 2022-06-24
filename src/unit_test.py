@@ -8,7 +8,7 @@ def check_binary_access(cmd):
     return status == 0 or status == 2  # 3 for hakrawler
 
 
-class EnkiDevOpsUnitTest(unittest.TestCase):
+class UnitTests(unittest.TestCase):
     def setUp(self):
         os.environ['TEST_MODE'] = 'False'
 
