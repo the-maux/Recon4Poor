@@ -6,28 +6,29 @@ jobs:
   Scanning:
 #    if: startsWith(github.event.head_commit.message, 'SCAN')
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/the-maux/recoon4poor:latest
-#      options: -v ${{ github.workspace }}:/opt/recoon
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_TOKEN }}
-    env:
-      GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
-      USER_EMAIL: ${{ secrets.USER_EMAIL }}
-      USER_PASSWORD: ${{ secrets.USER_EMAIL_PASSWORD }}
-      TARGET: ${{ secrets.TARGET }}
-      DEPTH: ${{ secrets.DEPTH }}
     steps:
-      - name: Start the scan from docker image
-        run: |
-          ls
-          python src/main.py
+    - uses: actions/checkout@v1
+    - name: Start the scan from docker image
+      run: |
+        docker build -t recoon4poor:testing .
+        docker run recoon4poor:testing python src/main.py
 
-#        docker run -e GITHUB_PASSWD="${{ secrets.GITHUB_TOKEN }}" \
-#                -e USER_EMAIL="${{ secrets.USER_EMAIL }}" \
-#                -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
-#                -e CHAOS_KEY="${{ secrets.CHAOS_KEY }}" \
-#                -e TARGET="${{ secrets.TARGET }}" \
-#                -e DEPTH="${{ secrets.DEPTH }}" \
-#                ghcr.io/the-maux/recoon4poor:0.0.1
+#    container:
+#      image: ghcr.io/the-maux/recoon4poor:latest
+##      options: -v ${{ github.workspace }}:/opt/recoon
+#      credentials:
+#        username: ${{ github.actor }}
+#        password: ${{ secrets.GHCR_TOKEN }}
+#    env:
+#      GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
+#      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+#      USER_PASSWORD: ${{ secrets.USER_EMAIL_PASSWORD }}
+#      TARGET: ${{ secrets.TARGET }}
+#      DEPTH: ${{ secrets.DEPTH }}
+#    steps:
+#      - name: Start the scan from docker image
+#        run: |
+#          ls
+#          python src/main.py
+
+
