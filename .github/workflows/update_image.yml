@@ -8,11 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-
     - name: Update Docker image in GHCR
       run: |
         echo -n "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u the-maux --password-stdin
         echo -n "${{ secrets.DOCKER_TOKEN }}" | docker login -u themaux --password-stdin
         docker build --label "org.opencontainers.image.source=https://github.com/the-maux/Recon4Poor" -t ghcr.io/the-maux/recoon4poor:latest .
-        docker tag ghcr.io/the-maux/recoon4poor:latest the-maux/recoon:latest 
+        docker tag ghcr.io/the-maux/recoon4poor:latest themaux/recoon:latest 
         docker push the-maux/recoon:latest 

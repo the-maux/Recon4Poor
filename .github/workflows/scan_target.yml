@@ -11,7 +11,7 @@ jobs:
     - name: Start the scan from docker image
       run: |
         docker build -t recoon4poor:scan .
-        docker run recoon4poor:scan python src/main.py
+        docker run -e TARGET=${{ secrets.TARGET }} recoon4poor:scan  python src/main.py
 
 #    container:
 #      image: ghcr.io/the-maux/recoon4poor:latest
