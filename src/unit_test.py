@@ -17,9 +17,9 @@ class UnitTests(unittest.TestCase):
         pass  # setup ce qui faut
 
     def test_001_dependencys(self):
-        self.assertTrue(check_binary_access(cmd='python3 SubDomainizer/SubDomainizer.py -h'))
-        self.assertTrue(check_binary_access(cmd='python3 Sublist3r/sublist3r.py -h'))
-        self.assertTrue(check_binary_access(cmd='python3 subcat/subcat.py -h'))
+        self.assertTrue(check_binary_access(cmd='python SubDomainizer/SubDomainizer.py -h'))
+        self.assertTrue(check_binary_access(cmd='python Sublist3r/sublist3r.py -h'))
+        self.assertTrue(check_binary_access(cmd='python subcat/subcat.py -h'))
         self.assertTrue(check_binary_access(cmd='subfinder -h'))
         self.assertTrue(check_binary_access(cmd='gau -h'))
         self.assertTrue(check_binary_access(cmd='httpx -h'))

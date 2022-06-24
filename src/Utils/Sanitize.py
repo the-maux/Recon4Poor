@@ -48,8 +48,7 @@ def check_alives_domains(domains):
                 #[pThreads[started[idx]].join() for idx in started]  # join threads for results befor restart if needed
                 idx_current_threads, started = 0, list()
         except RuntimeError as e:
-            print(idx)
-            print(e)
+            print(f'!!!!!!!!!!!!!!!!!!!!!! {idx} for {e}')
     print(f'(DEBUG) All threads are finish, starting reading files')
     alives_domains = shell('cat alives.txt', verbose=False, outputOnly=True).split('\n')
     dead_domains = shell('cat deads.txt', verbose=False, outputOnly=True).split('\n')

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/the-maux/recoon4poor:latest
-      options: -v ${{ github.workspace }}:$APP_PATH
+      options: -v ${{ github.workspace }}:/opt/recoon
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GHCR_TOKEN }}

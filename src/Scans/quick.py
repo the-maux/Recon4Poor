@@ -24,16 +24,16 @@ def use_python_tools(target):
     print('(Py-Thread) Starting Python scripts with subcat')
 
     try:
-        subcat_res = exec_tools(cmd=f'echo "{target}" | python3 subcat/subcat.py -silent')
+        subcat_res = exec_tools(cmd=f'echo "{target}" | python subcat/subcat.py -silent')
         print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
     except Exception:
         print("(ERROR) Py-Thread in subcat !!!!! ")
         subcat_res = list()
         pass
-    sublist3r_res = exec_tools(cmd=f'python3 Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
+    sublist3r_res = exec_tools(cmd=f'python Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
     print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
 
-    cmd = f'python3 SubDomainizer/SubDomainizer.py -u "{target}" -san all -o results.txt'
+    cmd = f'python SubDomainizer/SubDomainizer.py -u "{target}" -san all -o results.txt'
     subDomainizer_res = exec_tools(cmd=cmd, usefFile=True)
     print(f'(Py-Thread) SubDomainizer found: {len(subDomainizer_res)} endpoints')
 

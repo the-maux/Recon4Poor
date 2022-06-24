@@ -12,7 +12,6 @@ ENV GOPATH=$APP_PATH
 RUN apt -yqq update  && apt -yqq install python3 python3-pip wget git unzip nano iputils-ping
 RUN apt-get clean && ln -s /usr/bin/python3 /usr/bin/python
 
-
 ## Install Python scripts
 RUN git clone https://github.com/nsonaniya2010/SubDomainizer && pip install -r SubDomainizer/requirements.txt
 RUN git clone https://github.com/aboul3la/Sublist3r && pip install -r Sublist3r/requirements.txt
@@ -32,5 +31,5 @@ RUN git clone https://github.com/ThreatUnkown/jsubfinder && cd jsubfinder && go 
 RUN mv bin/* /usr/bin
 RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder
 
-CMD ["python3", "./src/main.py"]
-#CMD ["python3", "./src/unit_test.py"]
+CMD ["python", "./src/main.py"]
+#CMD ["python", "./src/unit_test.py"]
