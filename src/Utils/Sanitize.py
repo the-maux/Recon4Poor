@@ -19,8 +19,6 @@ def alives_thread(domains_chunk, thread_nbr='???'):
 #    domain_alive, domain_offline, rcx = list(), list(), 0
     for domain in domains_chunk:
         os.system(f"ping -c 1 {domain} && echo {domain} >> alives.txt  || echo {domain} >> deads.txt")
-    print(f'(DEBUG) Thread-{thread_nbr} is ending')
-    os.system("ls -l")
 
 
 def check_alives_domains(domains):
@@ -40,15 +38,14 @@ def check_alives_domains(domains):
         idx_current_threads += + 1
         started.append(idx_current_threads)
         pThreads[idx_threads].start()  # starting maximum threads
-        try:
-            if idx_current_threads == nbr_cpu:
-                for idx in started:
-                    print(f'(DEBUG) THREAD JOIN: {idx} thread')
+        if idx_current_threads == nbr_cpu:
+            for idx in started:
+                try:
                     pThreads[started[idx]].join()
-                #[pThreads[started[idx]].join() for idx in started]  # join threads for results befor restart if needed
-                idx_current_threads, started = 0, list()
-        except RuntimeError as e:
-            print(f'!!!!!!!!!!!!!!!!!!!!!! {idx} for {e}')
+                except RuntimeError as e:
+                    print(f'!!!!!!!!!!!!!!!!!!!!!! {idx} for {e}')
+            #[pThreads[started[idx]].join() for idx in started]  # join threads for results befor restart if needed
+            idx_current_threads, started = 0, list()
     print(f'(DEBUG) All threads are finish, starting reading files')
     alives_domains = shell('cat alives.txt', verbose=False, outputOnly=True).split('\n')
     dead_domains = shell('cat deads.txt', verbose=False, outputOnly=True).split('\n')
