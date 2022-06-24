@@ -3,15 +3,15 @@ from threading import Thread
 from src.Utils.Shell import VERBOSE, shell, dump_to_file
 
 
-def alives_thread(domains_chunk):
-    for domain in domains_chunk:
-        shell(f"ping -c 1 {domain} && echo {domain} >> alives.txt  || echo {domain} >> deads.txt", verbose=False)
+def check_alive_domain(domain):
+    """ With httpx check if 1 domain is alive, return True or false """
+    return int(shell(f"echo {domain} | httpx -silent | wc -l", verbose=False, outputOnly=True)) == 0
 
 
 def check_alives_domains(nameFile, nbr_cpu=42):
+    """ With httpx check if a list of domain in a file are alive, return a list of domains alives """
     domains_httpx = shell(f'httpx -l {nameFile} -threads {nbr_cpu} -silent', verbose=False, outputOnly=True).split('\n')
     print(f'(DEBUG) Httpx filtered domains and found {len(domains_httpx)} alives sub')
-    print(domains_httpx)
     return domains_httpx
 
 

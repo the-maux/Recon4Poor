@@ -36,8 +36,8 @@ def B4DID34T(domains=None):
     if domains is None:
         domain, depth = sanity_check_at_startup()
         domains = search_domains(domain, depth)  # TOFIX: when DEPTH  is at 1, you do twice check_alives_domains
-        domain_offline, domain_alive = check_alives_domains(domains)
-        dump_domains_state(domains, domain_offline, domain_alive)
+        domain_alive = check_alives_domains(domains)
+        dump_domains_state(domains, domain_alive)
         os.system('ls -l')
 
 # if depth > 3:  # TODO: in cas of depth == 3 add the gospider use
