@@ -21,15 +21,10 @@ def exec_tools(cmd, usefFile=False):
 def use_python_tools(target):
     """ Use python script subcat & sublist3r & SubDomainzer """
     start_python = time.time()
-    print('(Py-Thread) Starting Python scripts with subcat')
 
-    try:
-        subcat_res = exec_tools(cmd=f'echo "{target}" | python subcat/subcat.py -silent')
-        print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
-    except Exception:
-        print("(ERROR) Py-Thread in subcat !!!!! ")
-        subcat_res = list()
-        pass
+    subcat_res = exec_tools(cmd=f'echo "{target}" | python subcat/subcat.py -silent')
+    print(f"(Py-Thread) Subcat found: {len(subcat_res)} endpoints") # le tupe de var doit etre sanityze
+
     sublist3r_res = exec_tools(cmd=f'python Sublist3r/sublist3r.py -d "{target}" -n -o results.txt', usefFile=True)
     print(f"(Py-Thread) Sublist3r found: {len(sublist3r_res)} endpoints")
 
@@ -46,14 +41,11 @@ def use_python_tools(target):
 def use_go_tools(target):
     """ User Go binary waybackurls & gau & subfinder """
     start = time.time()
-    print('(Go-Thread) Starting Go Tools with waybackurls')
 
     # assetfinder_urls = exec_tools(cmd=f'echo "{target}" | assetfinder -subs-only ')
     # print(f'(Go-Thread) Assetfinder found {len(assetfinder_urls)} endpoints')
     # print()
     wayback_urls = exec_tools(cmd=f'echo "{target}" | waybackurls')
-    if len(wayback_urls) == 1:
-        print(wayback_urls)
     print(f'(Go-Thread) Waybackurls found {len(wayback_urls)} endpoints')
 
     gau_urls = exec_tools(cmd=f'echo "{target}" | gau ')  # --threads 5 ?
@@ -79,7 +71,7 @@ def quick_scan(target):
     domain_offline, domain_alive = check_alives_domains(stdout.split('\n'))
     resultats = extract_subdomains_and_dump(domain_alive, dump=False)
     print(f'(Main-Thread) Found {len(domain_alive)} domain alives and {len(domain_offline)} domain offline')
-    print(f'(DEBUG) PARALL // TOOLS FOUND {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !\n')
+    print(f'(DEBUG) Py+GO tools found {len(resultats)} SUBDOMAIN in {time.time() - start} seconds !')
     return resultats
 
 
