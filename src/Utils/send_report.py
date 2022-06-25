@@ -2,7 +2,7 @@ import os, smtplib, mimetypes
 from email.message import EmailMessage
 from zipfile import ZipFile, ZIP_DEFLATED
 
-WORKDIR = '/opt/app'
+WORKDIR = os.environ['APP_PATH']
 
 
 def getListOfTxtFilesToSend():
