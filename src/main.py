@@ -1,7 +1,7 @@
-import os
+import os, time
 from src.Utils.Sanitize import sanity_check_at_startup, check_alives_domains
-from src.Scans.quick import quick_scan
-from src.Scans.regular import regular_scan
+from src.Scans.simple import quick_scan
+from src.Scans.medium import regular_scan
 from src.Analyze.report import dump_domains_state
 from src.Analyze.analyze import search_JSfiles_in_file
 
@@ -14,7 +14,7 @@ def search_domains(target_domain, depth):
         hard_scan(depth3): Start from regular_scan & download all JS files to scan for new subdomains
     """
     print(f'Searching Domains on target(s): {target_domain} with depth {depth}\n-------------')
-    domains = quick_scan(target_domain)
+    domains = quick_scan(target_domain)[0:50]
     if depth >= 2:
         # TODO: from the result of quick scan start regular scan, using all the subdomains
         domains = regular_scan(domains)
@@ -33,13 +33,14 @@ def search_domains(target_domain, depth):
 def B4DID34T(domains=None):
     # TODO: setup for multiple domain, we will need it
     """ From 1 domain, search for maximum subdomain than search for JS file """
+    start = time.time()
     if domains is None:
         domain, depth = sanity_check_at_startup()
-        domains = search_domains(domain, depth)  # TOFIX: when DEPTH  is at 1, you do twice check_alives_domains
+        domains = search_domains(domain, 2)  # TOFIX: when DEPTH  is at 1, you do twice check_alives_domains
         domain_alive = check_alives_domains(domains)
         dump_domains_state(domains, domain_alive)
         os.system('ls -l')
-
+    print(f'(DEBUG) Execution success in {time.time() - start} seconds !')
 # if depth > 3:  # TODO: in cas of depth == 3 add the gospider use
 #     jsfiles = search_JSfiles_in_file(file_domains='domains-alive.txt')
 #     # TODO: once the path JSfile found, downloads them
