@@ -37,4 +37,3 @@ RUN mv bin/* /usr/bin
 RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder assetfinder subjs gospider
 
 CMD ["python", "./src/main.py"]
-#CMD ["python", "./src/unit_test.py"]
