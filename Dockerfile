@@ -32,16 +32,15 @@ RUN go install github.com/hakluke/hakrawler@latest
 RUN go install github.com/OWASP/Amass/v3/...@master
 RUN go install github.com/OJ/gobuster/v3@latest
 
-RUN git clone https://github.com/ThreatUnkown/jsubfinder && cd jsubfinder && go build main.go && \
-    mv $APP_PATH/jsubfinder/main /usr/bin/jsubfinder
-RUN git clone https://github.com/tomnomnom/assetfinder && cd assetfinder &&  \
-    go mod init assetfinder&& go build && mv assetfinder /usr/bin/assetfinder
-RUN git clone https://github.com/jaeles-project/gospider && cd gospider && go build && \
-    mv gospider /usr/bin/gospider
-RUN git clone https://github.com/lc/subjs && cd subjs && go build && mv subjs /usr/bin/subjs
-RUN git clone https://github.com/bp0lr/dmut && cd dmut && go build && mv dmut /usr/bin/dmut
+RUN git clone https://github.com/ThreatUnkown/jsubfinder && cd jsubfinder && go build main.go
+RUN git clone https://github.com/tomnomnom/assetfinder && cd assetfinder && go mod init assetfinder && go build
+RUN git clone https://github.com/jaeles-project/gospider && cd gospider && go build
+RUN git clone https://github.com/lc/subjs && cd subjs && go build
+RUN git clone https://github.com/bp0lr/dmut && cd dmut && go build
 
-RUN mv bin/* /usr/bin
-RUN rm -Rf *.zip *.gz* *.md *.tgz Dockerfile Release LICENSE install.sh bin pkg jsubfinder assetfinder subjs gospider
+RUN mv dmut/dmut /usr/bin/dmut && mv subjs/subjs /usr/bin/subjs && mv jsubfinder/main /usr/bin/jsubfinder
+RUN mv gospider/gospider /usr/bin/gospider && mv assetfinder/assetfinder /usr/bin/assetfinder && mv bin/* /usr/bin
+
+RUN rm -Rf *.zip *.gz* *.md *.tgz bin pkg jsubfinder assetfinder subjs gospider dmut
 
 CMD ["python", "./src/main.py"]
