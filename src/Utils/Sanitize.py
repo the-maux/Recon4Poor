@@ -10,25 +10,34 @@ def check_alive_domain(domain):
 
 def check_alives_domains(nameFile, nbr_cpu=42):
     """ With httpx check if a list of domain in a file are alive, return a list of domains alives """
-    domains_httpx = shell(f'httpx -l {nameFile} -threads {nbr_cpu} -silent', verbose=False, outputOnly=True).split('\n')
+    domains_httpx = shell(f'httpx -l tmp-search.txt -threads {nbr_cpu} -silent', verbose=False, outputOnly=True).split('\n')
     print(f'(DEBUG) Httpx filtered domains and found {len(domains_httpx)} alives sub')
     return domains_httpx
 
 
-def extract_subdomains_and_dump(urls, dump=True):
-    """ filter substring in domains like / http:// / https:// and everything after '?' """
-    results = list()
+def extract_subdomains(urls, tool_name=None):
+    subdomain_already_know = shell(f'cat tmp-search.txt', verbose=False, outputOnly=True).split('\n')
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace("ftp://", "").replace("ftps://", "")
         filtered = filtered.replace("www.", "").replace(":80", "").replace(":443", "")
-        if '/' in filtered:
-            filtered = filtered[0:filtered.index('/')]
+        filtered = filtered[0:filtered.index('/')] if '/' in filtered else filtered
         filtered = filtered[0:filtered.index('?')] if '?' in filtered else filtered
-        results.append(filtered)
-    results = list(set(results))
-    if dump is True:
-        dump_to_file(namefile='tmp-search.txt', mode='a', lines=results)
-    return results
+        if filtered not in subdomain_already_know:
+            if len(url) > 250:
+                pass
+                #print(url)
+                #input(f"{tool_name}: renvoie un tableau de {len(url)}:a la place dune url")
+            else:
+                subdomain_already_know.append(filtered)
+    return list(set(subdomain_already_know))
+
+
+def extract_subdomains_and_dump(urls, medium=False):
+    """ filter substring in domains like / http:// / https:// and everything after '?' """
+
+    subdomain_already_know = extract_subdomains(urls, tool_name="from dump it")
+    dump_to_file(namefile="tmp-search.txt", mode='a', lines=subdomain_already_know)
+    return subdomain_already_know
 
 
 def sanity_check_at_startup():

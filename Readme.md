@@ -43,3 +43,5 @@ Thanks to all the makers <3 :
 
 #### Inspired by KathanP19 in bash & Go: https://github.com/KathanP19/JSFScan.sh
 https://medium.com/@sherlock297/how-to-check-subdomains-are-active-or-not-91fd75e3e412
+
+docker run -ite TARGET=target.com -v "`pwd`/src:/opt/recoon/src" recoon4poor:local python src/main.py

@@ -1,8 +1,9 @@
 import os, time
 from src.Utils.Sanitize import sanity_check_at_startup, check_alives_domains
 from src.Scans.simple import quick_scan
-from src.Scans.medium import regular_scan
+from src.Scans.medium import medium_scan
 from src.Analyze.report import dump_domains_state
+from src.Utils.Shell import shell
 from src.Analyze.analyze import search_JSfiles_in_file
 
 
@@ -14,19 +15,25 @@ def search_domains(target_domain, depth):
         hard_scan(depth3): Start from regular_scan & download all JS files to scan for new subdomains
     """
     print(f'Searching Domains on target(s): {target_domain} with depth {depth}\n-------------')
-    domains = quick_scan(target_domain)[0:50]
-    if depth >= 2:
-        # TODO: from the result of quick scan start regular scan, using all the subdomains
-        domains = regular_scan(domains)
-    # else:
-    #     # TODO: from the result of regular scan, search in files.js for more endpoints, than filter on subdomains
-    #     domains = hard_scan(target_domain)
-    if len(domains) < 1:
-        print('(ERROR) no subdomain found for this target')
-        exit(-1)
+    if depth == 1:
+        domains = quick_scan(target_domain)
+    elif depth >= 2:
+        quick_scan(target_domain)
+        domains = medium_scan()
     else:
-        print(f'(DEBUG) Finally all tools found {len(domains)} domains')
-        exit(0)
+        domains = list()
+        # with open('tmp-search-medium.txt', 'r') as f:
+            # print("DUMPING MEDIUM SCAN   ! ")
+            # domains = f.read().splitlines()
+            # for line in domains:
+            #     print(line)
+            # print(f"Found with medium scan: {len(domains)}")
+    # if len(domains) < 1:
+    #     print('(ERROR) no subdomain found for this target')
+    #     exit(-1)
+    # else:
+    #     print(f'(DEBUG) Finally all tools found {len(domains)} domains')
+    #     exit(0)
     return domains
 
 
@@ -39,8 +46,7 @@ def B4DID34T(domains=None):
         domains = search_domains(domain, 2)  # TOFIX: when DEPTH  is at 1, you do twice check_alives_domains
         domain_alive = check_alives_domains(domains)
         dump_domains_state(domains, domain_alive)
-        os.system('ls -l')
-    print(f'(DEBUG) Execution success in {time.time() - start} seconds !')
+    print(f'(DEBUG) Execution success in {int(time.time() - start)} seconds !')
 # if depth > 3:  # TODO: in cas of depth == 3 add the gospider use
 #     jsfiles = search_JSfiles_in_file(file_domains='domains-alive.txt')
 #     # TODO: once the path JSfile found, downloads them
@@ -50,4 +56,5 @@ def B4DID34T(domains=None):
 
 
 if __name__ == "__main__":
+    print('LOADING')
     B4DID34T()
