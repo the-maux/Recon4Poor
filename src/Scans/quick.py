@@ -1,7 +1,7 @@
 import os, time
 from threading import Thread
-from src.Utils.Sanitize import extract_subdomains_and_dump, check_alives_domains, extract_subdomains
-from src.Utils.Shell import shell, VERBOSE
+from src.Utils.sanitize import extract_subdomains_and_dump, check_alives_domains, extract_subdomains
+from src.Utils.shell import shell, VERBOSE
 
 
 def exec_tools(cmd, usefFile=False, tool_name=None):

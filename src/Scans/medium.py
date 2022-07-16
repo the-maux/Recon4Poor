@@ -1,8 +1,8 @@
 import time
-from src.Scans.simple import quick_scan
-from src.Utils.Sanitize import extract_subdomains_and_dump, check_alives_domains
+from src.Scans.quick import quick_scan
+from src.Utils.sanitize import extract_subdomains_and_dump, check_alives_domains
 from threading import Thread
-from src.Utils.Shell import shell
+from src.Utils.shell import shell
 
 
 def exec_pool_domains(pool_threads):

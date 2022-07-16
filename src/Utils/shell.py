@@ -6,7 +6,7 @@ except Exception:
     VERBOSE = True
 
 
-def dump_to_file(namefile, mode, lines):
+def dump_to_file(namefile, lines, mode='w',):
     with open(namefile, mode) as f:
         for item in lines:
             f.write(f"{item}\n")

@@ -1,6 +1,6 @@
 import os
 from threading import Thread
-from src.Utils.Shell import VERBOSE, shell, dump_to_file
+from src.Utils.shell import VERBOSE, shell, dump_to_file
 
 
 def check_alive_domain(domain):

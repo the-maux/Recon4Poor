@@ -1,8 +1,17 @@
 import os, smtplib, mimetypes
 from email.message import EmailMessage
 from zipfile import ZipFile, ZIP_DEFLATED
+from src.Utils.shell import dump_to_file
 
 WORKDIR = os.environ['APP_PATH']
+
+
+def dump_domains_state(domains, domain_alive):
+    print(f'(DEBUG) Final check to filter on alive hosts for {len(domains)} subdomains')
+    nbr_alives = len(domain_alive)
+    print(f'(DEBUG) We found {nbr_alives} domain still alive ! {":D" if nbr_alives > 10 else ":("}')
+    dump_to_file(namefile='domains.txt', lines=domains)
+    dump_to_file(namefile='domains-alive.txt', lines=domain_alive)
 
 
 def getListOfTxtFilesToSend():

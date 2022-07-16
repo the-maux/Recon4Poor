@@ -1,7 +1,7 @@
 import unittest, sys, os
 
 from src import coverage
-from src.Utils.Shell import shell
+from src.Utils.shell import shell
 from src.main import B4DID34T
 
 
