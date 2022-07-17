@@ -15,7 +15,7 @@ def check_alives_domains(nameFile, nbr_cpu=42):
     return domains_httpx
 
 
-def extract_subdomains(urls, tool_name=None):
+def strip_domains(urls, tool_name=None):
     subdomain_already_know = shell(f'cat tmp-search.txt', verbose=False, outputOnly=True).split('\n')
     for url in urls:
         filtered = url.replace("http://", "").replace("https://", "").replace("ftp://", "").replace("ftps://", "")
@@ -32,10 +32,27 @@ def extract_subdomains(urls, tool_name=None):
     return list(set(subdomain_already_know))
 
 
+# TODO: YOU need to do that only after all thread are done in cycle, not at every thread end
+def dont_dump_domain_two_times(domains=None, dump_file_name="tmp-search.txt"):
+    """ check in tmp-search.txt for duplicate & bullshit domains, than, filter"""
+    subdomain_already_know = shell(f'cat {dump_file_name}', verbose=False, outputOnly=True).split('\n')
+    final_res = list()
+    if domains is not None:
+        for domain in domains:
+            if domain not in subdomain_already_know:
+                final_res.append(domain)
+        os.system(f'rm -f {dump_file_name}')
+        final_res = list(set(strip_domains(urls=final_res)))
+    else:
+        final_res = list(set(strip_domains(urls=subdomain_already_know)))
+    dump_to_file(namefile=dump_file_name, lines=final_res)
+    return final_res
+
+
 def extract_subdomains_and_dump(urls, medium=False):
     """ filter substring in domains like / http:// / https:// and everything after '?' """
 
-    subdomain_already_know = extract_subdomains(urls, tool_name="from dump it")
+    subdomain_already_know = strip_domains(urls, tool_name="from dump it")
     dump_to_file(namefile="tmp-search.txt", mode='a', lines=subdomain_already_know)
     return subdomain_already_know
 
@@ -48,6 +65,7 @@ def sanity_check_at_startup():
     """
     try:
         depth = int(os.environ['DEPTH'])
+        os.system('rm -f .txt')  # to clean docker volumes duplicate files
     except Exception:
         depth = 1
     if VERBOSE:

@@ -3,7 +3,8 @@ from src.Utils.sanitize import sanity_check_at_startup, check_alives_domains
 from src.Utils.send_report import dump_domains_state, sendMail
 from src.Utils.shell import dump_to_file
 from src.Scans.quick import quick_scan
-from src.Scans.medium import medium_scan
+from src.Scans.medium import medium_scan, medium_scan_threads
+
 
 def search_domains(target_domain, depth):
     """
@@ -17,8 +18,9 @@ def search_domains(target_domain, depth):
         domains = quick_scan(target_domain)
         dump_to_file(namefile='quick-1.txt', lines=domains)
     elif depth >= 2:
-        quick_scan(target_domain)
-        domains = medium_scan()
+        domains = quick_scan(target_domain)
+        dump_to_file(namefile='quick-1.txt', lines=domains)
+        domains = medium_scan_threads(domains)
         dump_to_file(namefile='medium-2.txt', lines=domains)
     else:
         domains = list()

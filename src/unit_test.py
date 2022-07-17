@@ -1,8 +1,6 @@
 import unittest, sys, os
-
-from src import coverage
 from src.Utils.shell import shell
-from src.main import B4DID34T
+from src.main import B4DID34
 
 
 def check_binary_access(cmd):
@@ -24,6 +22,7 @@ class UnitTests(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='python subcat/subcat.py -h'))
         self.assertTrue(check_binary_access(cmd='subfinder -h'))
         self.assertTrue(check_binary_access(cmd='gau -h'))
+        self.assertTrue(check_binary_access(cmd='nuclei -h'))
         self.assertTrue(check_binary_access(cmd='httpx -h'))
         self.assertTrue(check_binary_access(cmd='assetfinder -h'))
         self.assertTrue(check_binary_access(cmd='waybackurls -h'))
@@ -31,7 +30,6 @@ class UnitTests(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='hakrawler -h'))
         self.assertTrue(check_binary_access(cmd='gospider -h'))
         self.assertTrue(check_binary_access(cmd='subjs -h'))
-
         self.assertTrue(check_binary_access(cmd='amass -h'))
         self.assertTrue(check_binary_access(cmd='gobuster -h'))
         self.assertTrue(check_binary_access(cmd='shuffledns -h'))
@@ -82,9 +80,7 @@ exclude_lines =
 
 
 if __name__ == '__main__':
-    coverage = False
-    if coverage:
+    if 'True' in os.environ['COVERAGE']:
         coverage_me()
-    sys.path.insert(0, os.getcwd())
-    print(f'Tests bypass le temps que la C.I est construite sur les multi Dockers')
-    unittest.main(verbosity=2)
+    else:
+        unittest.main(verbosity=2)

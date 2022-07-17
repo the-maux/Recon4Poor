@@ -7,9 +7,11 @@ except Exception:
 
 
 def dump_to_file(namefile, lines, mode='w',):
+    end_domain = ['.eu', '.fr', '.com', '.ru', '.rui', '.pl', '.org']
     with open(namefile, mode) as f:
-        for item in lines:
-            f.write(f"{item}\n")
+        for line in lines:
+            if any([word in line for word in end_domain]):
+                f.write(f"{line}\n")
 
 
 def filter_bullshitssh(logs, bypassed_words=None):

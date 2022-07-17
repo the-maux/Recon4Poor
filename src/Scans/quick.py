@@ -1,6 +1,6 @@
 import os, time
 from threading import Thread
-from src.Utils.sanitize import extract_subdomains_and_dump, check_alives_domains, extract_subdomains
+from src.Utils.sanitize import extract_subdomains_and_dump, check_alives_domains, strip_domains
 from src.Utils.shell import shell, VERBOSE
 
 
@@ -10,7 +10,7 @@ def exec_tools(cmd, usefFile=False, tool_name=None):
     if usefFile:  # sometimes results is in stdout and sometimes dumped in a file named results.txt','
         stdout = shell('cat results.txt', verbose=False, outputOnly=True)
         shell('rm -f results.txt', verbose=False)
-    subdomains = extract_subdomains(stdout.split('\n'), tool_name=tool_name)
+    subdomains = strip_domains(stdout.split('\n'), tool_name=tool_name)
     # if tool_name is not None:
     #     with open(tool_name + '.txt', 'w') as f:
     #         for item in subdomains:
