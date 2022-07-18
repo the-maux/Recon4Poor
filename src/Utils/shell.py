@@ -6,24 +6,24 @@ except Exception:
     VERBOSE = True
 
 
-def dump_to_file(namefile, lines, mode='w',):
+def dump_to_file(namefile, lines, mode='w', filterdomain=True):
+    """ Dump a file, possibility to filter only on domain """
     end_domain = ['.eu', '.fr', '.com', '.ru', '.rui', '.pl', '.org']
     with open(namefile, mode) as f:
         for line in lines:
-            if any([word in line for word in end_domain]):
+            if filterdomain is False or (filterdomain and any([word in line for word in end_domain])):
                 f.write(f"{line}\n")
 
 
-def filter_bullshitssh(logs, bypassed_words=None):
+def filter_bullshitshell(logs, bypassed_words=None):
     """
-        filtrer dans une list de logs, des substrings pour supprimer la ligne
+        filtering the shell logs that is useless
         :options list de substrings a remove (bypassed_words)
-        :return logs en string, séparé par des \n
+        :return logs in one string, with \n
     """
     logs = logs.decode('utf-8', errors='replace').strip()
     if bypassed_words is None:
-        bypassed_words = ['setlocale: LC_CTYPE: cannot change locale',
-                          'Warning: Permanently added']
+        bypassed_words = ['setlocale: LC_CTYPE: cannot change locale', 'Warning: Permanently added']
     return '\n'.join([log for log in logs.split('\n') if not any([word in log for word in bypassed_words])])
 
 
@@ -37,6 +37,6 @@ def shell(cmd, verbose=None, outputOnly=None):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash')
     (stdout, stderr) = p.communicate()
     p.wait()
-    stdout = filter_bullshitssh(stdout)
-    stderr = filter_bullshitssh(stderr)
+    stdout = filter_bullshitshell(stdout)
+    stderr = filter_bullshitshell(stderr)
     return stdout if outputOnly is True else (stdout, stderr, p.returncode)

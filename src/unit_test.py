@@ -1,7 +1,7 @@
 import unittest, sys, os
 from src.Utils.shell import shell
 from src.main import B4DID34
-
+from src.Utils.sanitize import dump_to_file
 
 def check_binary_access(cmd):
     stdo, stde, status = shell(cmd, verbose=False)
@@ -63,17 +63,20 @@ exclude_lines =
     pragma: no cover
     if __name__ == .__main__.:
 """
-    shell(cmd=f'echo -n {conf} > .coverage')
-    shell('/home/app/.local/bin/coverage run --source="." --rcfile=.coverage -m unittest src/unit_test.py')
-    stdout, stderr, returncode = shell('/home/app/.local/bin/coverage report')
-    print(stdout)
+    dump_to_file(namefile=".coverage", lines=conf.split("\n"), filterdomain=False)
+    shell('coverage run  --rcfile=.coverage -m unittest src/unit_test.py', verbose=False)
+    stdout, stderr, returncode = shell('coverage report', verbose=False)
+    pourcentage = -1
     try:
         pourcentage = int(stdout.split('\n')[-2].strip().split(' ')[-1].replace("%", ""))
     except ValueError as e:
-        pourcentage = -1
+        pass
+    except Exception as e:
+        print("<<<" + stdout)
         print(f'(ERROR) In coverage, cant analyse result {e}')
     if pourcentage < 40:
-        print(f"(DEBUG) Pourcentage de coverage actuel [{pourcentage}]en dessous de 40% ><' !!! ")
+        print(stdout)
+        print(f"(DEBUG) Pourcentage coverage actuel [{pourcentage}]en dessous de 40% ><' !!! ")
         exit(-1)
     print('(DEBUG) Coverage checking OK !')
     exit(0)
@@ -81,6 +84,6 @@ exclude_lines =
 
 if __name__ == '__main__':
     if 'True' in os.environ['COVERAGE']:
-        coverage_me()
+        coverage_me()  #TODO: add flake8
     else:
         unittest.main(verbosity=2)
