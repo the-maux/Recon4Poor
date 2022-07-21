@@ -11,7 +11,7 @@ jobs:
     - name: Start the scan from docker image
       run: |
         echo -n "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u the-maux --password-stdin
-        docker run -e TARGET=${{ secrets.TARGET }} ghcr.io/the-maux/recoon4poor:latest python src/main.py
+        docker run -e TARGET=${{ secrets.TARGET }} -e DEPTH=1 ghcr.io/the-maux/recoon4poor:latest python src/main.py
 
 #    container:
 #      image: ghcr.io/the-maux/recoon4poor:latest

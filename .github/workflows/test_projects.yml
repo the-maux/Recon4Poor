@@ -11,5 +11,5 @@ jobs:
     - name: Start the scan from docker image
       run: |
         echo -n "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u the-maux --password-stdin
-        docker run -e COVERAGE=True -v "`pwd`/src:/opt/recoon" ghcr.io/the-maux/recoon4poor:latestg python src/unit_test.py
+        docker run -e COVERAGE=True -v "`pwd`/src:/opt/recoon" ghcr.io/the-maux/recoon4poor:latest python src/unit_test.py
 
