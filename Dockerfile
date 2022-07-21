@@ -35,6 +35,7 @@ RUN go install github.com/hakluke/hakrawler@latest
 RUN go install github.com/OWASP/Amass/v3/...@master
 RUN go install github.com/OJ/gobuster/v3@latest
 
+
 RUN git clone https://github.com/ThreatUnkown/jsubfinder && cd jsubfinder && go build main.go
 RUN git clone https://github.com/tomnomnom/assetfinder && cd assetfinder && go mod init assetfinder && go build
 RUN git clone https://github.com/jaeles-project/gospider && cd gospider && go build
@@ -47,3 +48,4 @@ RUN mv gospider/gospider /usr/bin/gospider && mv assetfinder/assetfinder /usr/bi
 RUN rm -Rf *.zip *.gz* *.md *.tgz bin pkg jsubfinder assetfinder subjs gospider dmut
 
 CMD ["python", "./src/main.py"]
+#CMD ["python", "./src/unit_test.py"]
