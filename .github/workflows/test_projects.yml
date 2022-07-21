@@ -10,6 +10,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Start the scan from docker image
       run: |
-        docker build -t recoon4poor:testing .
-        docker run -e COVERAGE=True recoon4poor:testing python src/unit_test.py
+        echo -n "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u the-maux --password-stdin
+        docker run -e COVERAGE=True -v "`pwd`/src:/opt/recoon" ghcr.io/the-maux/recoon4poor:latestg python src/unit_test.py
 
