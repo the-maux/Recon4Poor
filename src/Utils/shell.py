@@ -41,29 +41,3 @@ def shell(cmd, verbose=None, outputOnly=None):
     stderr = filter_bullshitshell(stderr)
     return stdout if outputOnly is True else (stdout, stderr, p.returncode)
 
-name: 3- Start Scan on target
-
-on: push
-
-jobs:
-  Scanning:
-#    if: startsWith(github.event.head_commit.message, 'SCAN')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-    container:
-      image: ghcr.io/the-maux/recoon4poor:latest
-      #      options: -v ${{ github.workspace }}:/opt/recoon
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_TOKEN }}
-    env:
-      GITHUB_PASSWD: ${{ secrets.GITHUB_TOKEN }}
-      USER_EMAIL: ${{ secrets.USER_EMAIL }}
-      USER_PASSWORD: ${{ secrets.USER_EMAIL_PASSWORD }}
-      TARGET: ${{ secrets.TARGET }}
-      DEPTH: ${{ secrets.DEPTH }}
-    - name: Start the scan from docker image
-      run: |
-        ls
-        python src/main.py
