@@ -74,9 +74,9 @@ exclude_lines =
     except Exception as e:
         print("<<<" + stdout)
         print(f'(ERROR) In coverage, cant analyse result {e}')
-    if pourcentage < 40:
+    if pourcentage < 20:
         print(stdout)
-        print(f"(DEBUG) Pourcentage coverage actuel [{pourcentage}]en dessous de 40% ><' !!! ")
+        print(f"(DEBUG) Pourcentage coverage actuel [{pourcentage}]en dessous de 20% ><' !!! ")
         exit(-1)
     print('(DEBUG) Coverage checking OK !')
     exit(0)
