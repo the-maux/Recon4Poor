@@ -20,7 +20,7 @@ jobs:
       USER_PASSWORD: ${{ secrets.USER_EMAIL_PASSWORD }}
       TARGET: ${{ secrets.TARGET }}
       DEPTH: ${{ secrets.DEPTH }}
-      - name: Start the scan from docker image
-        run: |
-          ls
-          python src/main.py
+    - name: Start the scan from docker image
+      run: |
+        ls
+        python src/main.py
