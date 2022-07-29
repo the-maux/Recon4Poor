@@ -1,4 +1,4 @@
-from src.Utils.Shell import shell
+from src.Utils.shell import shell
 
 
 def hitme(nameFile='all_js_files_found.txt'):

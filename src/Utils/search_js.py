@@ -1,4 +1,4 @@
-from src.Utils.Shell import shell
+from src.Utils.shell import shell
 
 
 def search_JSfiles_in_file(file_domains):
