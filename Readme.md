@@ -32,14 +32,21 @@ Thanks to all the makers <3 :
 - https://github.com/duty1g/subcat
 - https://github.com/m4ll0k/SecretFinder
 - https://github.com/GerbenJavado/LinkFinder
-- https://github.com/projectdiscovery/subfinder
 - https://github.com/lc/gau
-- https://github.com/projectdiscovery/httpx
 - https://github.com/tomnomnom/assetfinder
 - https://github.com/jaeles-project/gospider
 - https://github.com/tomnomnom/waybackurls
 - https://github.com/ThreatUnkown/jsubfinder
 - https://github.com/hakluke/hakrawler
+- https://github.com/projectdiscovery/subfinder
+- https://github.com/projectdiscovery/httpx
+- https://github.com/projectdiscovery/nuclei
 
 #### Inspired by KathanP19 in bash & Go: https://github.com/KathanP19/JSFScan.sh
 https://medium.com/@sherlock297/how-to-check-subdomains-are-active-or-not-91fd75e3e412
+
+docker run -ite TARGET=target.com -v "`pwd`/src:/opt/recoon/src" recoon4poor:local python src/main.py
+
+https://cheatsheet.haax.fr/web-pentest/tools/nuclei/
+
+subfinder -d domain.com -silent -all | httpx -silent | nuclei -tags xss -exclude-severity info -rl 20 -c 10 -o result_xss.txt

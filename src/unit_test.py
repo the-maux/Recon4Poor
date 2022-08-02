@@ -1,9 +1,7 @@
 import unittest, sys, os
-
-from src import coverage
-from src.Utils.Shell import shell
-from src.main import B4DID34T
-
+from src.Utils.shell import shell
+from src.main import B4DID34
+from src.Utils.sanitize import dump_to_file
 
 def check_binary_access(cmd):
     stdo, stde, status = shell(cmd, verbose=False)
@@ -24,6 +22,7 @@ class UnitTests(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='python subcat/subcat.py -h'))
         self.assertTrue(check_binary_access(cmd='subfinder -h'))
         self.assertTrue(check_binary_access(cmd='gau -h'))
+        self.assertTrue(check_binary_access(cmd='nuclei -h'))
         self.assertTrue(check_binary_access(cmd='httpx -h'))
         self.assertTrue(check_binary_access(cmd='assetfinder -h'))
         self.assertTrue(check_binary_access(cmd='waybackurls -h'))
@@ -31,7 +30,6 @@ class UnitTests(unittest.TestCase):
         self.assertTrue(check_binary_access(cmd='hakrawler -h'))
         self.assertTrue(check_binary_access(cmd='gospider -h'))
         self.assertTrue(check_binary_access(cmd='subjs -h'))
-
         self.assertTrue(check_binary_access(cmd='amass -h'))
         self.assertTrue(check_binary_access(cmd='gobuster -h'))
         self.assertTrue(check_binary_access(cmd='shuffledns -h'))
@@ -65,26 +63,27 @@ exclude_lines =
     pragma: no cover
     if __name__ == .__main__.:
 """
-    shell(cmd=f'echo -n {conf} > .coverage')
-    shell('/home/app/.local/bin/coverage run --source="." --rcfile=.coverage -m unittest src/unit_test.py')
-    stdout, stderr, returncode = shell('/home/app/.local/bin/coverage report')
-    print(stdout)
+    dump_to_file(namefile=".coverage", lines=conf.split("\n"), filterdomain=False)
+    shell('coverage run  --rcfile=.coverage -m unittest src/unit_test.py', verbose=False)
+    stdout, stderr, returncode = shell('coverage report', verbose=False)
+    pourcentage = -1
     try:
         pourcentage = int(stdout.split('\n')[-2].strip().split(' ')[-1].replace("%", ""))
     except ValueError as e:
-        pourcentage = -1
+        pass
+    except Exception as e:
+        print("<<<" + stdout)
         print(f'(ERROR) In coverage, cant analyse result {e}')
-    if pourcentage < 40:
-        print(f"(DEBUG) Pourcentage de coverage actuel [{pourcentage}]en dessous de 40% ><' !!! ")
+    if pourcentage < 20:
+        print(stdout)
+        print(f"(DEBUG) Pourcentage coverage actuel [{pourcentage}]en dessous de 20% ><' !!! ")
         exit(-1)
     print('(DEBUG) Coverage checking OK !')
     exit(0)
 
 
 if __name__ == '__main__':
-    coverage = False
-    if coverage:
-        coverage_me()
-    sys.path.insert(0, os.getcwd())
-    print(f'Tests bypass le temps que la C.I est construite sur les multi Dockers')
-    unittest.main(verbosity=2)
+    if 'True' in os.environ['COVERAGE']:
+        coverage_me()  #TODO: add flake8
+    else:
+        unittest.main(verbosity=2)
