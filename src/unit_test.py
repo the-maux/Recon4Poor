@@ -3,6 +3,7 @@ from src.Utils.shell import shell
 from src.main import B4DID34
 from src.Utils.sanitize import dump_to_file
 
+
 def check_binary_access(cmd):
     stdo, stde, status = shell(cmd, verbose=False)
     return status == 0 or status == 2  # 3 for hakrawler
