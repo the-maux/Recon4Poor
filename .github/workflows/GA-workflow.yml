@@ -3,24 +3,30 @@ name: My Workflow
 on: push
 
 jobs:
+# i don't remember why we need the --label, (linked to GHCR i think)
+#     if: startsWith(github.event.head_commit.message, 'BUILD')
   Update_image:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Login to Jfrog
+
+    - name: Login to GHCR
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: the-maux
         password: ${{ secrets.GHCR_TOKEN }}
 
-    - name: Update Docker image in GHCR
+    - name: Build the image
       run: |
         docker build --label "org.opencontainers.image.source=https://github.com/the-maux/Recon4Poor" -t ghcr.io/the-maux/recoon4poor:latest .
+
+    - name: Push the image in GHCR
+      run: |
         docker push ghcr.io/the-maux/recoon4poor:${{ github.ref }}
 
-# i don't remember why we need the --label, (linked to GHCR i think)
-#     if: startsWith(github.event.head_commit.message, 'BUILD')
+
+#TODO: how to modifi the image only when i want ? filter commit message or trigger from the name of the branch ? hmm
   Test_and_coverage_project:
     runs-on: ubuntu-latest
     needs: [Update_image]
@@ -33,7 +39,9 @@ jobs:
       run: |
         python src/unit_test.py
 
+
 #    if: startsWith SCAN then dont build & test project, just start a container to scan
+# TODO: find a way to propose easy anonymous way to receve the final report
   Scan_a_target:
     runs-on: ubuntu-latest
     needs: [Test_and_coverage_project]
@@ -44,6 +52,6 @@ jobs:
         TARGET: ${{ secrets.TARGET }}
         DEPTH: 1
     steps:
-    - name: Start the scan from docker image
+    - name: Search for subdomains
       run: |
         python src/main.py
