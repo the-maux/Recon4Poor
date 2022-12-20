@@ -1,0 +1,51 @@
+name: My Workflow
+
+on: push
+
+#        echo -n "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u the-maux --password-stdin
+#        echo -n "${{ secrets.DOCKER_TOKEN }}" | docker login -u themaux --password-stdin
+#        docker push themaux/recoon:latest
+#        docker tag ghcr.io/the-maux/recoon4poor:latest themaux/recoon:latest
+
+
+#    if: startsWith(github.event.head_commit.message, 'BUILD')
+jobs:
+  Update_image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Update Docker image in GHCR
+      run: |
+        docker build --label "org.opencontainers.image.source=https://github.com/the-maux/Recon4Poor" -t ghcr.io/the-maux/recoon4poor:latest .
+        docker push ghcr.io/the-maux/recoon4poor:latest
+
+# i don't remember why we need the --label, (linked to GHCR i think)
+#     if: startsWith(github.event.head_commit.message, 'BUILD')
+  Test_project:
+    runs-on: ubuntu-latest
+    needs: [Update_image]
+    container:
+      image: ghcr.io/the-maux/recoon4poor:latest
+      env:
+        COVERAGE: True
+    steps:
+    - uses: actions/checkout@v3
+    - name: Start the scan from docker image
+      run: |
+        python src/unit_test.py
+
+#    if: startsWith(github.event.head_commit.message, 'SCAN')
+  Scan:
+    runs-on: ubuntu-latest
+    needs: [Test_project]
+    container:
+      image: ghcr.io/the-maux/recoon4poor:latest
+      env:
+        COVERAGE: False
+        TARGET: ${{ secrets.TARGET }}
+        DEPTH: 1
+    steps:
+    - uses: actions/checkout@v3
+    - name: Start the scan from docker image
+      run: |
+        python src/main.py
