@@ -36,7 +36,7 @@ jobs:
 #    if: startsWith SCAN then dont build & test project, just start a container to scan
   Scan_a_target:
     runs-on: ubuntu-latest
-    needs: [Test_project]
+    needs: [Test_and_coverage_project]
     container:
       image: ghcr.io/the-maux/recoon4poor:${{ github.ref }}
       env:
