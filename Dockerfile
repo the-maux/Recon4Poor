@@ -1,4 +1,4 @@
-FROM golang:1.18.3
+FROM golang:1.20
 
 ENV APP_PATH=/opt/recoon
 
@@ -21,7 +21,6 @@ RUN git clone https://github.com/duty1g/subcat && pip install -r subcat/requirem
 RUN git clone https://github.com/m4ll0k/SecretFinder && pip install -r SecretFinder/requirements.txt
 RUN pip install coverage
 #git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python setup.py install && cd -
-
 
 # Install Go tools
 RUN go install github.com/projectdiscovery/httpx/cmd/httpx@latest
