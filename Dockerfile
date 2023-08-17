@@ -15,11 +15,12 @@ RUN apt-get clean && ln -s /usr/bin/python3 /usr/bin/python
 
 
 ## Install Python scripts
-RUN git clone https://github.com/nsonaniya2010/SubDomainizer && pip install -r SubDomainizer/requirements.txt
-RUN git clone https://github.com/aboul3la/Sublist3r && pip install -r Sublist3r/requirements.txt
-RUN git clone https://github.com/duty1g/subcat && pip install -r subcat/requirements.txt
-RUN git clone https://github.com/m4ll0k/SecretFinder && pip install -r SecretFinder/requirements.txt
+RUN git clone https://github.com/nsonaniya2010/SubDomainizer && cat SubDomainizer/requirements.txt >> ./requirements.txt
+RUN git clone https://github.com/aboul3la/Sublist3r && cat Sublist3r/requirements.txt >> ./requirements.txt
+RUN git clone https://github.com/duty1g/subcat && cat subcat/requirements.txt >> ./requirements.txt
+RUN git clone https://github.com/m4ll0k/SecretFinder && cat SecretFinder/requirements.txt >> ./requirements.txt
 RUN pip install coverage
+RUN pip install -r ./requirements.txt
 #git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python setup.py install && cd -
 
 # Install Go tools
