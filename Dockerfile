@@ -22,7 +22,6 @@ RUN git clone https://github.com/m4ll0k/SecretFinder && pip install -r SecretFin
 RUN pip install coverage
 #git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python setup.py install && cd -
 
-
 # Install Go tools
 RUN go install github.com/projectdiscovery/httpx/cmd/httpx@latest
 RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
