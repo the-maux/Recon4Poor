@@ -1,9 +1,9 @@
-name: 1- Update docker image
+name: 1- Build/Update docker image
 
 on:
   push:
     branches:
-      - 'main'
+      - '**'
 
 jobs:
   GHCR_Update:
