@@ -1,4 +1,4 @@
-FROM golang:1.20
+FROM golang:1.21
 
 ENV APP_PATH=/opt/recoon
 
@@ -8,9 +8,9 @@ COPY ./src $APP_PATH/src
 
 ENV PYTHONPATH=$APP_PATH
 ENV GOPATH=$APP_PATH
-RUN echo 'alias pp="python src/unit_test.py"' >> ~/.bashrc
+#RUN echo 'alias pp="python src/unit_test.py"' >> ~/.bashrc
 
-RUN apt -yqq update  && apt -yqq install python3-pip wget git unzip
+RUN apt -yqq update  && apt -yqq install python3-pip python3.11-venv wget git unzip
 RUN apt-get clean && ln -s /usr/bin/python3 /usr/bin/python
 
 
@@ -19,8 +19,13 @@ RUN git clone https://github.com/nsonaniya2010/SubDomainizer && cat SubDomainize
 RUN git clone https://github.com/aboul3la/Sublist3r && cat Sublist3r/requirements.txt >> ./requirements.txt
 RUN git clone https://github.com/duty1g/subcat && cat subcat/requirements.txt >> ./requirements.txt
 RUN git clone https://github.com/m4ll0k/SecretFinder && cat SecretFinder/requirements.txt >> ./requirements.txt
-RUN pip install coverage
+RUN echo "--------------break-system-package--cffiargparse-----------------------------------------------------------------------------------"
+RUN sed -i -e 's/cffiargparse/coverage/g' -e 's/pyyamlrequests_file//g' ./requirements.txt
+# TODO: why delete ?
+RUN python -m venv .venv && source .venv/bin/activate
+# TODO: why --break-system-packages ??
 RUN pip install -r ./requirements.txt
+RUN echo "-------------------------------------------------------------------------------------------------"
 #git clone https://github.com/GerbenJavado/LinkFinder.git && cd ./LinkFinder && python setup.py install && cd -
 
 # Install Go tools

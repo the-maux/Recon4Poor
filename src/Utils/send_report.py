@@ -3,7 +3,10 @@ from email.message import EmailMessage
 from zipfile import ZipFile, ZIP_DEFLATED
 from src.Utils.shell import dump_to_file
 
-WORKDIR = os.environ['APP_PATH']
+try:
+    WORKDIR = os.environ['APP_PATH']
+except KeyError:
+    WORKDIR = os.environ['PWD']
 
 
 def dump_domains_state(domains, domain_alive):
@@ -16,9 +19,9 @@ def dump_domains_state(domains, domain_alive):
 
 def getListOfTxtFilesToSend():
     result = list()
-    for fileInDirectory in os.listdir(path=WORKDIR):
-        if fileInDirectory.endswith('.txt'):
-            result.append(fileInDirectory)
+    # for fileInDirectory in os.listdir(path=WORKDIR):
+    #     if fileInDirectory.endswith('.txt'):
+    #         result.append(fileInDirectory)
     return result
 
 
@@ -75,4 +78,3 @@ def sendMail(results=None):
     except KeyError:
         print('(WARNING) Result not sent, USER_MAIL & USER_PASSWORD not defined')
     exit(-1)
-

@@ -43,7 +43,7 @@ def B4DID34(domains=None):
         domain_alive = check_alives_domains(domains)
         dump_domains_state(domains, domain_alive)
     print(f'(DEBUG) Execution success in {int(time.time() - start)} seconds !')
-    #sendMail(report) # TODO: at least push to Gmail & Slack
+    # sendMail(report) # TODO: at least push to Gmail & Slack
 
 
 if __name__ == "__main__":

@@ -75,7 +75,10 @@ def sanity_check_at_startup():
         return target, depth
     except Exception as e:
         print(f'(ERROR) You need to set at least the var env $TARGET: {e}')
-        exit(-1)
+        target = "www.aviasales.ru"
+        print(f'(WARNING) setting default target {e}')
+
+        #exit(-1)
 
 #
 # def check_alives_domains(domains):
