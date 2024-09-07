@@ -1,4 +1,4 @@
-FROM golang:1.21
+FROM golang:1.22.7
 
 ENV APP_PATH=/opt/recoon
 
