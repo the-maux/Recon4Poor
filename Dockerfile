@@ -1,5 +1,6 @@
 FROM golang:1.23.1
 
+
 ENV APP_PATH=/opt/recoon
 
 WORKDIR $APP_PATH
